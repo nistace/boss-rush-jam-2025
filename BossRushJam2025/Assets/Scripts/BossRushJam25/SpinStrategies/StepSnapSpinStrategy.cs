@@ -4,6 +4,7 @@ using UnityEngine.InputSystem;
 namespace BossRushJam25.SpinStrategies {
    public class StepSnapSpinStrategy : MonoBehaviour, ISpinStrategy {
       [SerializeField] protected float snapDelay = .2f;
+      [SerializeField] protected float snapAnimationDuration = .1f;
 
       private Camera Camera { get; set; }
       private bool IsInteracting { get; set; }
@@ -32,7 +33,7 @@ namespace BossRushJam25.SpinStrategies {
             if (IsHoveringOverTile) {
                DelayBeforeNextSnap -= Time.deltaTime;
                if (DelayBeforeNextSnap < 0) {
-                  Debug.Log("Snap");
+                  HexGridController.Instance.RotateRingAround(InteractionHexCoordinates, snapAnimationDuration);
                   DelayBeforeNextSnap = snapDelay;
                }
             }

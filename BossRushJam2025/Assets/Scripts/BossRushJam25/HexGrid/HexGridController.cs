@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -11,6 +12,7 @@ namespace BossRushJam25 {
       [SerializeField] protected float hexRadius = 1;
       [SerializeField] protected GridHex hexTilePrefab;
       [SerializeField] protected GridHexContentPattern[] patterns;
+      [SerializeField] protected AnimationCurve normalRotationCurve = AnimationCurve.EaseInOut(0, 0, 1, 1);
 
       private Dictionary<Vector2Int, GridHex> Hexes { get; } = new Dictionary<Vector2Int, GridHex>();
 
@@ -30,7 +32,7 @@ namespace BossRushJam25 {
       private Vector3 CoordinatesToWorldPosition(Vector2Int coordinates) {
          var x = coordinates.x;
          var z = coordinates.y;
-         return new Vector3((2 * x + z % 2) * InnerRadius, 0, 1.5f * z * hexRadius);
+         return new Vector3((2 * x + Mathf.Abs(z % 2)) * InnerRadius, 0, 1.5f * z * hexRadius);
       }
 
       public Vector2Int WorldToCoordinates(Vector3 worldPosition) {
@@ -86,6 +88,36 @@ namespace BossRushJam25 {
          new Vector2Int(center.x - 1, center.y)
       };
 
+      public void RotateRingAround(Vector2Int center, float duration) {
+         var rotatingHexesCoordinates = GetRingClockwiseCoordinates(center);
+         var rotatingHexesDestinations = rotatingHexesCoordinates
+            .Select((originCoordinates, originIndex) => (coordinates: originCoordinates, defined: TryGetHex(originCoordinates, out var hex), hex, originIndex))
+            .Where(t => t.defined)
+            .ToDictionary(t => t.hex, t => rotatingHexesCoordinates[(t.originIndex + 1) % rotatingHexesCoordinates.Count]);
+
+         StartCoroutine(DoMoveHexes(rotatingHexesDestinations, duration));
+      }
+
+      private IEnumerator DoMoveHexes(IReadOnlyDictionary<GridHex, Vector2Int> hexDestinationCoordinates, float duration) {
+         foreach (var hex in hexDestinationCoordinates) {
+            Hexes.Remove(hex.Key.Coordinates);
+            hex.Key.SetCoordinates(hex.Value);
+         }
+
+         var hexMovements = hexDestinationCoordinates.ToDictionary(t => t.Key, t => (origin: t.Key.transform.position, destination: CoordinatesToWorldPosition(t.Value)));
+         for (var time = 0f; time < duration; time += Time.deltaTime) {
+            foreach (var hexMovement in hexMovements) {
+               hexMovement.Key.transform.position = Vector3.Lerp(hexMovement.Value.origin, hexMovement.Value.destination, normalRotationCurve.Evaluate(time / duration));
+            }
+            yield return null;
+         }
+
+         foreach (var hexMovement in hexMovements) {
+            hexMovement.Key.transform.position = hexMovement.Value.destination;
+            Hexes[hexDestinationCoordinates[hexMovement.Key]] = hexMovement.Key;
+         }
+      }
+
       public HashSet<GridHex> GetNeighbours(Vector2Int hexCoordinates) =>
          GetRingClockwiseCoordinates(hexCoordinates).Where(t => Hexes.ContainsKey(t)).Select(t => Hexes[t]).ToHashSet();
 
@@ -100,8 +132,8 @@ namespace BossRushJam25 {
                var hex = Instantiate(hexTilePrefab, CoordinatesToWorldPosition(coordinates), Quaternion.identity, transform);
                hex.Setup(patterns[Random.Range(0, patterns.Length)]);
                Hexes[coordinates] = hex;
-               hex.Coordinates = coordinates;
-               hex.name = $"Hex{x:00}{z:00}";
+               hex.InitialName = $"Hex{x:00}{z:00}";
+               hex.SetCoordinates(coordinates);
             }
          }
       }
