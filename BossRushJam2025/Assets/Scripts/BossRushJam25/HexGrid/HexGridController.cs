@@ -1,20 +1,30 @@
+using System.Collections.Generic;
 using System.Linq;
-using UnityEditor;
 using UnityEngine;
 
 namespace BossRushJam25 {
    public class HexGridController : MonoBehaviour {
+
+      public static HexGridController Instance { get; private set; }
+
       [SerializeField] protected Vector2Int gridSize = new(10, 10);
       [SerializeField] protected float hexRadius = 1;
-      [SerializeField] protected GameObject hexTilePrefab;
-      [SerializeField] protected Transform cursor;
+      [SerializeField] protected GridHex hexTilePrefab;
+      [SerializeField] protected GridHexContentPattern[] patterns;
+
+      private Dictionary<Vector2Int, GridHex> Hexes { get; } = new Dictionary<Vector2Int, GridHex>();
 
       private float InnerRadius { get; set; }
 
       private void RefreshInnerRadius() => InnerRadius = Mathf.Sqrt(hexRadius * hexRadius * 3 / 4);
 
+      private void Awake() {
+         Instance = this;
+      }
+
       private void Start() {
          RefreshInnerRadius();
+         Build();
       }
 
       private Vector3 CoordinatesToWorldPosition(Vector2Int coordinates) {
@@ -23,7 +33,7 @@ namespace BossRushJam25 {
          return new Vector3((2 * x + z % 2) * InnerRadius, 0, 1.5f * z * hexRadius);
       }
 
-      private Vector2Int WorldToCoordinates(Vector3 worldPosition) {
+      public Vector2Int WorldToCoordinates(Vector3 worldPosition) {
          var x = Mathf.FloorToInt((worldPosition.x / InnerRadius - .5f) / 2);
          var y = Mathf.FloorToInt(worldPosition.z / hexRadius / 1.5f);
 
@@ -32,12 +42,17 @@ namespace BossRushJam25 {
          return surroundingHexesCoordinates.OrderBy(t => Vector3.SqrMagnitude(CoordinatesToWorldPosition(t) - worldPosition)).First();
       }
 
-      private bool IsHexInGrid(Vector2Int coordinates) {
-         if (coordinates.x < 0) return false;
-         if (coordinates.y < 0) return false;
-         if (coordinates.x >= gridSize.x) return false;
-         if (coordinates.y >= gridSize.y) return false;
-         return true;
+      public bool TryGetHex(Vector2Int coordinates, out GridHex hex) => Hexes.TryGetValue(coordinates, out hex);
+
+      public void SetHighlightedHexAt(Vector2Int coordinates, bool highlighted) {
+         if (!TryGetHex(coordinates, out var hex)) return;
+         hex.SetHighlighted(highlighted);
+      }
+
+      public void UnHighlightAllHexes() {
+         foreach (var hex in Hexes.Values) {
+            hex.SetHighlighted(false);
+         }
       }
 
       private void OnDrawGizmosSelected() {
@@ -62,34 +77,33 @@ namespace BossRushJam25 {
          Gizmos.matrix = Matrix4x4.identity;
       }
 
-      private void OnDrawGizmos() {
-         if (!cursor) return;
-         var cursorWorldCoordinates = WorldToCoordinates(cursor.position);
-         var hexInGrid = IsHexInGrid(cursorWorldCoordinates);
-         Gizmos.color = Color.yellow * (hexInGrid ? 1 : .5f);
-         Gizmos.DrawCube(CoordinatesToWorldPosition(cursorWorldCoordinates), new Vector3(.5f, .5f, .5f));
-         Gizmos.color = Color.green * (hexInGrid ? 1 : .5f);
-         Gizmos.DrawCube(cursor.position, new Vector3(.1f, .7f, .1f));
-      }
+      public static IReadOnlyList<Vector2Int> GetRingClockwiseCoordinates(Vector2Int center) => new[] {
+         new Vector2Int(center.x + center.y % 2 - 1, center.y + 1),
+         new Vector2Int(center.x + center.y % 2, center.y + 1),
+         new Vector2Int(center.x + 1, center.y),
+         new Vector2Int(center.x + center.y % 2, center.y - 1),
+         new Vector2Int(center.x + center.y % 2 - 1, center.y - 1),
+         new Vector2Int(center.x - 1, center.y)
+      };
 
-#if UNITY_EDITOR
-      [ContextMenu("Build")]
+      public HashSet<GridHex> GetNeighbours(Vector2Int hexCoordinates) =>
+         GetRingClockwiseCoordinates(hexCoordinates).Where(t => Hexes.ContainsKey(t)).Select(t => Hexes[t]).ToHashSet();
+
+      public HashSet<GridHex> GetNeighbours(GridHex hex) => GetNeighbours(hex.Coordinates);
+
       private void Build() {
-         if (Application.isPlaying) return;
-
-         while (transform.childCount > 0) {
-            DestroyImmediate(transform.GetChild(0).gameObject);
-         }
+         Hexes.Clear();
 
          for (var x = 0; x < gridSize.x; x++) {
             for (var z = 0; z < gridSize.y; z++) {
-               var hex = PrefabUtility.InstantiatePrefab(hexTilePrefab, transform) as GameObject;
-               hex.name = $"Hex_{x}_{z}";
-               hex.transform.position = CoordinatesToWorldPosition(new Vector2Int(x, z));
-               hex.transform.rotation = Quaternion.identity;
+               var coordinates = new Vector2Int(x, z);
+               var hex = Instantiate(hexTilePrefab, CoordinatesToWorldPosition(coordinates), Quaternion.identity, transform);
+               hex.Setup(patterns[Random.Range(0, patterns.Length)]);
+               Hexes[coordinates] = hex;
+               hex.Coordinates = coordinates;
+               hex.name = $"Hex{x:00}{z:00}";
             }
          }
       }
-#endif
    }
 }
