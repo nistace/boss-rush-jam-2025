@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
-namespace BossRushJam25 {
+
+namespace BossRushJam25.HexGrid {
    [CreateAssetMenu]
    public class GridHexContentPattern : ScriptableObject {
       [SerializeField] protected GridHexContent[] contents;

@@ -3,9 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-namespace BossRushJam25 {
+namespace BossRushJam25.HexGrid {
    public class HexGridController : MonoBehaviour {
-
       public static HexGridController Instance { get; private set; }
 
       [SerializeField] protected Vector2Int gridSize = new(10, 10);
@@ -22,11 +21,6 @@ namespace BossRushJam25 {
 
       private void Awake() {
          Instance = this;
-      }
-
-      private void Start() {
-         RefreshInnerRadius();
-         Build();
       }
 
       private Vector3 CoordinatesToWorldPosition(Vector2Int coordinates) {
@@ -79,21 +73,26 @@ namespace BossRushJam25 {
          Gizmos.matrix = Matrix4x4.identity;
       }
 
-      public static IReadOnlyList<Vector2Int> GetRingClockwiseCoordinates(Vector2Int center) => new[] {
-         new Vector2Int(center.x + center.y % 2 - 1, center.y + 1),
-         new Vector2Int(center.x + center.y % 2, center.y + 1),
-         new Vector2Int(center.x + 1, center.y),
-         new Vector2Int(center.x + center.y % 2, center.y - 1),
-         new Vector2Int(center.x + center.y % 2 - 1, center.y - 1),
-         new Vector2Int(center.x - 1, center.y)
-      };
+      public static IReadOnlyList<Vector2Int> GetRingClockwiseCoordinates(Vector2Int center, int ringRadius) {
+         var result = new List<Vector2Int>();
+         var hex = center.Left(ringRadius);
+         var direction = HexCoordinates.EDirection.UpRight;
+         do {
+            for (var i = 0; i < ringRadius; ++i) {
+               result.Add(hex);
+               hex = hex.Neighbour(direction);
+            }
+            direction = direction.RotateClockwise();
+         } while (direction != HexCoordinates.EDirection.UpRight);
 
-      public void RotateRingAround(Vector2Int center, float duration) {
-         var rotatingHexesCoordinates = GetRingClockwiseCoordinates(center);
+         return result;
+      }
+
+      public void TranslateRingAround(Vector2Int center, float duration, int ringRadius = 1, int translationsSteps = 1) {
+         var rotatingHexesCoordinates = GetRingClockwiseCoordinates(center, ringRadius);
          var rotatingHexesDestinations = rotatingHexesCoordinates
-            .Select((originCoordinates, originIndex) => (coordinates: originCoordinates, defined: TryGetHex(originCoordinates, out var hex), hex, originIndex))
-            .Where(t => t.defined)
-            .ToDictionary(t => t.hex, t => rotatingHexesCoordinates[(t.originIndex + 1) % rotatingHexesCoordinates.Count]);
+            .Select((originCoordinates, originIndex) => (coordinates: originCoordinates, defined: TryGetHex(originCoordinates, out var hex), hex, originIndex)).Where(t => t.defined)
+            .ToDictionary(t => t.hex, t => rotatingHexesCoordinates[(t.originIndex + translationsSteps) % rotatingHexesCoordinates.Count]);
 
          StartCoroutine(DoMoveHexes(rotatingHexesDestinations, duration));
       }
@@ -118,12 +117,15 @@ namespace BossRushJam25 {
          }
       }
 
-      public HashSet<GridHex> GetNeighbours(Vector2Int hexCoordinates) =>
-         GetRingClockwiseCoordinates(hexCoordinates).Where(t => Hexes.ContainsKey(t)).Select(t => Hexes[t]).ToHashSet();
+      public HashSet<GridHex> GetNeighbours(Vector2Int hexCoordinates, int steps = 1) =>
+         GetRingClockwiseCoordinates(hexCoordinates, steps).Where(t => Hexes.ContainsKey(t)).Select(t => Hexes[t]).ToHashSet();
 
-      public HashSet<GridHex> GetNeighbours(GridHex hex) => GetNeighbours(hex.Coordinates);
+      public HashSet<GridHex> GetNeighbours(GridHex hex, int steps = 1) => GetNeighbours(hex.Coordinates, steps);
 
-      private void Build() {
+      public Vector3 GetCenterOfGridPosition() => new Vector3(gridSize.x * InnerRadius, 0, .75f * gridSize.y * hexRadius);
+
+      public void Build() {
+         RefreshInnerRadius();
          Hexes.Clear();
 
          for (var x = 0; x < gridSize.x; x++) {

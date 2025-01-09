@@ -1,8 +1,7 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace BossRushJam25 {
+namespace BossRushJam25.HexGrid {
    public class GridHex : MonoBehaviour {
       [SerializeField] protected MeshRenderer hexRenderer;
       [SerializeField] protected Material defaultMaterial;

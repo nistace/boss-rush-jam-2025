@@ -1,10 +1,13 @@
+using BossRushJam25.HexGrid;
 using BossRushJam25.Inputs;
 using UnityEngine;
 using UnityEngine.InputSystem;
+
 namespace BossRushJam25.SpinStrategies {
    public class StepSnapSpinStrategy : MonoBehaviour, ISpinStrategy {
       [SerializeField] protected float snapDelay = .2f;
       [SerializeField] protected float snapAnimationDuration = .1f;
+      [SerializeField] protected int ringRadius = 2;
 
       private Camera Camera { get; set; }
       private bool IsInteracting { get; set; }
@@ -20,7 +23,6 @@ namespace BossRushJam25.SpinStrategies {
 
       private void HandleInteractCancelled(InputAction.CallbackContext obj) {
          IsInteracting = false;
-
       }
 
       private void HandleInteractPerformed(InputAction.CallbackContext obj) {
@@ -33,7 +35,7 @@ namespace BossRushJam25.SpinStrategies {
             if (IsHoveringOverTile) {
                DelayBeforeNextSnap -= Time.deltaTime;
                if (DelayBeforeNextSnap < 0) {
-                  HexGridController.Instance.RotateRingAround(InteractionHexCoordinates, snapAnimationDuration);
+                  HexGridController.Instance.TranslateRingAround(InteractionHexCoordinates, snapAnimationDuration, ringRadius);
                   DelayBeforeNextSnap = snapDelay;
                }
             }
@@ -46,7 +48,7 @@ namespace BossRushJam25.SpinStrategies {
                   HexGridController.Instance.UnHighlightAllHexes();
                   InteractionHexCoordinates = newHexCoordinates;
                   HexGridController.Instance.SetHighlightedHexAt(InteractionHexCoordinates, true);
-                  foreach (var neighbour in HexGridController.Instance.GetNeighbours(InteractionHexCoordinates)) {
+                  foreach (var neighbour in HexGridController.Instance.GetNeighbours(InteractionHexCoordinates, ringRadius)) {
                      neighbour.SetHighlighted(true);
                   }
                }
