@@ -9,14 +9,12 @@ namespace BossRushJam25.SpinStrategies {
       [SerializeField] protected float snapAnimationDuration = .1f;
       [SerializeField] protected int ringRadius = 2;
 
-      private Camera Camera { get; set; }
       private bool IsInteracting { get; set; }
       private bool IsHoveringOverTile { get; set; }
       private Vector2Int InteractionHexCoordinates { get; set; }
       private float DelayBeforeNextSnap { get; set; }
 
       public void Initialize() {
-         Camera = Camera.main;
          GameInputs.Controls.Player.Interact.performed += HandleInteractPerformed;
          GameInputs.Controls.Player.Interact.canceled += HandleInteractCancelled;
       }
@@ -41,9 +39,8 @@ namespace BossRushJam25.SpinStrategies {
             }
          }
          else {
-            IsHoveringOverTile = Physics.Raycast(new Ray(Camera.ScreenToWorldPoint(GameInputs.Controls.Player.Aim.ReadValue<Vector2>()), Camera.transform.forward), out var hit);
+            IsHoveringOverTile = GameStrategyUtils.IsHoveringOverTile(out var newHexCoordinates);
             if (IsHoveringOverTile) {
-               var newHexCoordinates = HexGridController.Instance.WorldToCoordinates(hit.point);
                if (newHexCoordinates != InteractionHexCoordinates) {
                   HexGridController.Instance.UnHighlightAllHexes();
                   InteractionHexCoordinates = newHexCoordinates;

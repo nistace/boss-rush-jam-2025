@@ -1,7 +1,10 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Events;
+using Random = UnityEngine.Random;
 
 namespace BossRushJam25.HexGrid {
    public class HexGridController : MonoBehaviour {
@@ -17,7 +20,7 @@ namespace BossRushJam25.HexGrid {
 
       private float InnerRadius { get; set; }
 
-      private void RefreshInnerRadius() => InnerRadius = Mathf.Sqrt(hexRadius * hexRadius * 3 / 4);
+      private void RefreshInnerRadius() => InnerRadius = hexRadius * .5f * Mathf.Sqrt(3);
 
       private void Awake() {
          Instance = this;
@@ -73,28 +76,45 @@ namespace BossRushJam25.HexGrid {
          Gizmos.matrix = Matrix4x4.identity;
       }
 
-      public static IReadOnlyList<Vector2Int> GetRingClockwiseCoordinates(Vector2Int center, int ringRadius) {
+      public static IReadOnlyList<Vector2Int> GetRingClockwiseCoordinates(Vector2Int center, int radius) => GetRingCoordinates(center, radius, t => t.RotateClockwise());
+      public static IReadOnlyList<Vector2Int> GetRingAntiClockwiseCoordinates(Vector2Int center, int radius) => GetRingCoordinates(center, radius, t => t.RotateAntiClockwise());
+
+      public static IReadOnlyList<Vector2Int> GetRingCoordinates(Vector2Int center, int ringRadius, Func<HexCoordinates.EDirection, HexCoordinates.EDirection> rotateDirectionFunc) {
          var result = new List<Vector2Int>();
          var hex = center.Left(ringRadius);
-         var direction = HexCoordinates.EDirection.UpRight;
+         var initialDirection = rotateDirectionFunc(rotateDirectionFunc(HexCoordinates.EDirection.Left));
+         var direction = initialDirection;
          do {
             for (var i = 0; i < ringRadius; ++i) {
                result.Add(hex);
                hex = hex.Neighbour(direction);
             }
-            direction = direction.RotateClockwise();
-         } while (direction != HexCoordinates.EDirection.UpRight);
+            direction = rotateDirectionFunc(direction);
+         } while (direction != initialDirection);
 
          return result;
       }
 
-      public void TranslateRingAround(Vector2Int center, float duration, int ringRadius = 1, int translationsSteps = 1) {
-         var rotatingHexesCoordinates = GetRingClockwiseCoordinates(center, ringRadius);
-         var rotatingHexesDestinations = rotatingHexesCoordinates
-            .Select((originCoordinates, originIndex) => (coordinates: originCoordinates, defined: TryGetHex(originCoordinates, out var hex), hex, originIndex)).Where(t => t.defined)
-            .ToDictionary(t => t.hex, t => rotatingHexesCoordinates[(t.originIndex + translationsSteps) % rotatingHexesCoordinates.Count]);
+      public void TranslateRingAround(Vector2Int center, float duration, int ringRadius = 1, int translationsSteps = 1, UnityAction callback = null) =>
+         StartCoroutine(DoTranslateRingAround(center, duration, ringRadius, translationsSteps, callback));
 
-         StartCoroutine(DoMoveHexes(rotatingHexesDestinations, duration));
+      private IEnumerator DoTranslateRingAround(Vector2Int center, float duration, int ringRadius = 1, int translationsSteps = 1, UnityAction callback = null) {
+         if (translationsSteps == 0) {
+            yield return null;
+         }
+         else {
+            var getRingFunc = translationsSteps > 0 ? (Func<Vector2Int, int, IReadOnlyList<Vector2Int>>)GetRingClockwiseCoordinates : GetRingAntiClockwiseCoordinates;
+            for (var i = 0; i < Mathf.Abs(translationsSteps); ++i) {
+               var rotatingHexesCoordinates = getRingFunc(center, ringRadius);
+               var rotatingHexesDestinations = rotatingHexesCoordinates
+                  .Select((originCoordinates, originIndex) => (coordinates: originCoordinates, defined: TryGetHex(originCoordinates, out var hex), hex, originIndex)).Where(t => t.defined)
+                  .ToDictionary(t => t.hex, t => rotatingHexesCoordinates[(t.originIndex + 1) % rotatingHexesCoordinates.Count]);
+
+               yield return StartCoroutine(DoMoveHexes(rotatingHexesDestinations, duration));
+            }
+         }
+
+         callback?.Invoke();
       }
 
       private IEnumerator DoMoveHexes(IReadOnlyDictionary<GridHex, Vector2Int> hexDestinationCoordinates, float duration) {
@@ -122,7 +142,7 @@ namespace BossRushJam25.HexGrid {
 
       public HashSet<GridHex> GetNeighbours(GridHex hex, int steps = 1) => GetNeighbours(hex.Coordinates, steps);
 
-      public Vector3 GetCenterOfGridPosition() => new Vector3(gridSize.x * InnerRadius, 0, .75f * gridSize.y * hexRadius);
+      public Vector3 GetCenterOfGridPosition() => Vector3.Lerp(CoordinatesToWorldPosition(Vector2Int.zero), CoordinatesToWorldPosition(gridSize), .5f);
 
       public void Build() {
          RefreshInnerRadius();

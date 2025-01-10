@@ -48,5 +48,18 @@ namespace BossRushJam25.HexGrid {
       public static Vector2Int UpRight(this Vector2Int coordinates, int steps = 1) => new Vector2Int(coordinates.x + Mathf.Abs(coordinates.y % 2) + steps / 2, coordinates.y + steps);
       public static Vector2Int DownLeft(this Vector2Int coordinates, int steps = 1) => new Vector2Int(coordinates.x + Mathf.Abs(coordinates.y % 2) - (steps + 1) / 2, coordinates.y - steps);
       public static Vector2Int DownRight(this Vector2Int coordinates, int steps = 1) => new Vector2Int(coordinates.x + Mathf.Abs(coordinates.y % 2) + steps / 2, coordinates.y - steps);
+
+      public static int HexDistance(Vector2Int origin, Vector2Int center) {
+         var cubeOrigin = OffsetCoordinatesToCubeCoordinates(origin);
+         var cubeCenter = OffsetCoordinatesToCubeCoordinates(center);
+
+         var cubeDistance = cubeOrigin - cubeCenter;
+
+         return (Mathf.Abs(cubeDistance.x) + Mathf.Abs(cubeDistance.y) + Mathf.Abs(cubeDistance.z)) / 2;
+      }
+
+      private static Vector2Int OffsetCoordinatesToAxialCoordinates(Vector2Int o) => new Vector2Int(o.x + (o.y + (o.y & 1)) / 2, -o.y);
+      private static Vector3Int AxialCoordinatesToCubeCoordinates(Vector2Int a) => new Vector3Int(a.x, a.y, -a.x - a.y);
+      private static Vector3Int OffsetCoordinatesToCubeCoordinates(Vector2Int o) => AxialCoordinatesToCubeCoordinates(OffsetCoordinatesToAxialCoordinates(o));
    }
 }

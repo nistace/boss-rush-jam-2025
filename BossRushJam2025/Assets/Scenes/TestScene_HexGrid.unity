@@ -165,7 +165,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   snapDelay: 0.5
   snapAnimationDuration: 0.1
-  ringRadius: 2
+  ringRadius: 1
 --- !u!1 &225464274
 GameObject:
   m_ObjectHideFlags: 0
@@ -228,7 +228,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 9
+  orthographic size: 14
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -253,7 +253,7 @@ Transform:
   m_GameObject: {fileID: 225464274}
   serializedVersion: 2
   m_LocalRotation: {x: 0.38268343, y: -0, z: -0, w: 0.92387956}
-  m_LocalPosition: {x: 0, y: 7, z: -7}
+  m_LocalPosition: {x: 0, y: 100, z: -100}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -424,6 +424,52 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 51.78, y: -30, z: 0}
+--- !u!1 &1399165077
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1399165078}
+  - component: {fileID: 1399165079}
+  m_Layer: 0
+  m_Name: ThreeClickSpinStrategy
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1399165078
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1399165077}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1565030202}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1399165079
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1399165077}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 64e572f512e2477c95104457a45c1881, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spinDuration: 0.2
+  delayBetweenSpins: 0.5
 --- !u!1 &1449822547
 GameObject:
   m_ObjectHideFlags: 0
@@ -603,7 +649,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: de6e826bd3139b341a2b254d729bf8a3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spinStrategyHandler: {fileID: 208753021}
+  spinStrategyHandler: {fileID: 1399165077}
   cameraTransform: {fileID: 2023441308}
 --- !u!4 &1565030202
 Transform:
@@ -619,6 +665,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 208753022}
+  - {fileID: 1399165078}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2023441307
@@ -791,7 +838,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a82e0035923e0945ba55ef844a02598, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gridSize: {x: 10, y: 10}
+  gridSize: {x: 20, y: 20}
   hexRadius: 1
   hexTilePrefab: {fileID: 501464341734285578, guid: e952fc5b3b026234c9e736305db12c46, type: 3}
   patterns:
