@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Unity.AI.Navigation;
 using UnityEngine;
 using UnityEngine.Events;
 using Random = UnityEngine.Random;
@@ -15,6 +16,7 @@ namespace BossRushJam25.HexGrid {
       [SerializeField] protected GridHex hexTilePrefab;
       [SerializeField] protected GridHexContentPattern[] patterns;
       [SerializeField] protected AnimationCurve normalRotationCurve = AnimationCurve.EaseInOut(0, 0, 1, 1);
+      [SerializeField] protected NavMeshSurface navMeshSurface;
 
       private Dictionary<Vector2Int, GridHex> Hexes { get; } = new Dictionary<Vector2Int, GridHex>();
 
@@ -158,6 +160,8 @@ namespace BossRushJam25.HexGrid {
                hex.SetCoordinates(coordinates);
             }
          }
+
+         navMeshSurface.BuildNavMesh();
       }
    }
 }
