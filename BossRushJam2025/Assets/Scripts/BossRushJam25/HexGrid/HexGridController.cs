@@ -43,14 +43,14 @@ namespace BossRushJam25.HexGrid {
 
       public bool TryGetHex(Vector2Int coordinates, out GridHex hex) => Hexes.TryGetValue(coordinates, out hex);
 
-      public void SetHighlightedHexAt(Vector2Int coordinates, bool highlighted) {
+      public void SetHighlightedHexAt(Vector2Int coordinates, HexHighlightType highlightType) {
          if (!TryGetHex(coordinates, out var hex)) return;
-         hex.SetHighlighted(highlighted);
+         hex.SetHighlighted(highlightType);
       }
 
       public void UnHighlightAllHexes() {
          foreach (var hex in Hexes.Values) {
-            hex.SetHighlighted(false);
+            hex.SetNoHighlight();
          }
       }
 

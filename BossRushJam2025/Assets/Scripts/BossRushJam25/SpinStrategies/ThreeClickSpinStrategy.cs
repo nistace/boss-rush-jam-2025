@@ -10,6 +10,10 @@ namespace BossRushJam25.SpinStrategies {
    public class ThreeClickSpinStrategy : MonoBehaviour, ISpinStrategy {
       [SerializeField] protected float spinDuration = .5f;
       [SerializeField] protected float delayBetweenSpins = .5f;
+      [SerializeField] protected HexHighlightType hoverHighlight;
+      [SerializeField] protected HexHighlightType originHighlight;
+      [SerializeField] protected HexHighlightType centerHighlight;
+      [SerializeField] protected HexHighlightType ringHighlight;
 
       private enum EStep {
          SelectOrigin = 0,
@@ -33,11 +37,13 @@ namespace BossRushJam25.SpinStrategies {
          if (!HoveringOverHex) return;
          if (CurrentStep == EStep.SelectOrigin) {
             Origin = HoveringCoordinates;
+            HexGridController.Instance.SetHighlightedHexAt(Origin, originHighlight);
             CurrentStep = EStep.SelectCenter;
          }
          else if (CurrentStep == EStep.SelectCenter) {
             if (HoveringCoordinates == Origin) return;
             Center = HoveringCoordinates;
+            HexGridController.Instance.SetHighlightedHexAt(Center, centerHighlight);
             CurrentStep = EStep.SelectDestination;
          }
          else if (CurrentStep == EStep.SelectDestination) {
@@ -69,22 +75,25 @@ namespace BossRushJam25.SpinStrategies {
 
          if (CurrentStep == EStep.SelectOrigin) {
             HexGridController.Instance.UnHighlightAllHexes();
-            HexGridController.Instance.SetHighlightedHexAt(HoveringCoordinates, true);
+            HexGridController.Instance.SetHighlightedHexAt(HoveringCoordinates, hoverHighlight);
          }
          else if (CurrentStep == EStep.SelectCenter) {
             HexGridController.Instance.UnHighlightAllHexes();
-            HexGridController.Instance.SetHighlightedHexAt(HoveringCoordinates, true);
+            HexGridController.Instance.SetHighlightedHexAt(HoveringCoordinates, hoverHighlight);
             RingCoordinates = HexGridController.GetRingClockwiseCoordinates(HoveringCoordinates, HexCoordinates.HexDistance(Origin, HoveringCoordinates));
             foreach (var ringCoordinate in RingCoordinates) {
-               HexGridController.Instance.SetHighlightedHexAt(ringCoordinate, true);
+               HexGridController.Instance.SetHighlightedHexAt(ringCoordinate, ringHighlight);
             }
+            HexGridController.Instance.SetHighlightedHexAt(Origin, originHighlight);
          }
          else if (CurrentStep == EStep.SelectDestination) {
             HexGridController.Instance.UnHighlightAllHexes();
-            HexGridController.Instance.SetHighlightedHexAt(Center, true);
             foreach (var ringCoordinate in RingCoordinates) {
-               HexGridController.Instance.SetHighlightedHexAt(ringCoordinate, true);
+               HexGridController.Instance.SetHighlightedHexAt(ringCoordinate, ringHighlight);
             }
+            HexGridController.Instance.SetHighlightedHexAt(HoveringCoordinates, hoverHighlight);
+            HexGridController.Instance.SetHighlightedHexAt(Origin, originHighlight);
+            HexGridController.Instance.SetHighlightedHexAt(Center, centerHighlight);
          }
       }
    }

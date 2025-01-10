@@ -4,8 +4,7 @@ using UnityEngine;
 namespace BossRushJam25.HexGrid {
    public class GridHex : MonoBehaviour {
       [SerializeField] protected MeshRenderer hexRenderer;
-      [SerializeField] protected Material defaultMaterial;
-      [SerializeField] protected Material highlightMaterial;
+      [SerializeField] protected HexHighlightType noHighlight;
 
       private List<GridHexContent> Contents { get; } = new List<GridHexContent>();
 
@@ -14,12 +13,14 @@ namespace BossRushJam25.HexGrid {
       public string InitialName { get; set; }
 
       private void Start() {
-         SetHighlighted(false);
+         SetNoHighlight();
       }
 
-      public void SetHighlighted(bool highlighted) {
-         Highlighted = highlighted;
-         hexRenderer.material = Highlighted ? highlightMaterial : defaultMaterial;
+      public void SetNoHighlight() => SetHighlighted(null);
+
+      public void SetHighlighted(HexHighlightType highlightType) {
+         Highlighted = highlightType;
+         hexRenderer.material = (Highlighted ? highlightType : noHighlight).HexMaterial;
       }
 
       public void SetCoordinates(Vector2Int coordinates) {

@@ -8,6 +8,7 @@ namespace BossRushJam25.SpinStrategies {
       [SerializeField] protected float snapDelay = .2f;
       [SerializeField] protected float snapAnimationDuration = .1f;
       [SerializeField] protected int ringRadius = 2;
+      [SerializeField] protected HexHighlightType highlightType;
 
       private bool IsInteracting { get; set; }
       private bool IsHoveringOverTile { get; set; }
@@ -44,9 +45,9 @@ namespace BossRushJam25.SpinStrategies {
                if (newHexCoordinates != InteractionHexCoordinates) {
                   HexGridController.Instance.UnHighlightAllHexes();
                   InteractionHexCoordinates = newHexCoordinates;
-                  HexGridController.Instance.SetHighlightedHexAt(InteractionHexCoordinates, true);
+                  HexGridController.Instance.SetHighlightedHexAt(InteractionHexCoordinates, highlightType);
                   foreach (var neighbour in HexGridController.Instance.GetNeighbours(InteractionHexCoordinates, ringRadius)) {
-                     neighbour.SetHighlighted(true);
+                     neighbour.SetHighlighted(highlightType);
                   }
                }
             }
