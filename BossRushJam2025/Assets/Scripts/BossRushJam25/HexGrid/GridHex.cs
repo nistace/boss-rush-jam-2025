@@ -6,14 +6,15 @@ using UnityEngine.Events;
 
 namespace BossRushJam25.HexGrid {
    public class GridHex : MonoBehaviour {
+      [SerializeField] protected GridHexType type;
       [SerializeField] protected Transform hexContentParent;
 
-      [SerializeField] protected MeshRenderer hexRenderer;
+      [SerializeField] protected MeshRenderer highlightRenderer;
       [SerializeField] protected NavMeshObstacle navMeshObstacle;
-      [SerializeField] protected HexHighlightType noHighlight;
 
       private List<GridHexContent> Contents { get; } = new List<GridHexContent>();
 
+      public GridHexType Type => type;
       public bool Highlighted { get; private set; }
       public Vector2Int Coordinates { get; private set; }
       public string InitialName { get; set; }
@@ -22,18 +23,21 @@ namespace BossRushJam25.HexGrid {
       public UnityEvent<bool> OnMovingChanged { get; } = new UnityEvent<bool>();
 
       private void Awake() {
-         navMeshObstacle.enabled = false;
+         navMeshObstacle.enabled = type.AlwaysAnObstacle;
       }
 
       private void Start() {
          SetNoHighlight();
+         SetupContent();
       }
 
       public void SetNoHighlight() => SetHighlighted(null);
 
       public void SetHighlighted(HexHighlightType highlightType) {
          Highlighted = highlightType;
-         hexRenderer.material = (Highlighted ? highlightType : noHighlight).HexMaterial;
+
+         highlightRenderer.enabled = highlightType;
+         if (highlightType) highlightRenderer.material = highlightType.HexMaterial;
       }
 
       public void SetCoordinates(Vector2Int coordinates) {
@@ -41,19 +45,20 @@ namespace BossRushJam25.HexGrid {
          name = $"{InitialName}@{coordinates.x:00}{coordinates.y:00}";
       }
 
-      public void Setup(GridHexContentPattern pattern) {
+      public void SetupContent() {
          foreach (var content in Contents) {
             Destroy(content.gameObject);
          }
          Contents.Clear();
-         foreach (var contentPrefab in pattern.Contents) {
-            var rotationOptionsCount = Mathf.Max(contentPrefab.Type.RotationStepsInHex, 1);
-            var rotationPerStep = 360f / rotationOptionsCount;
-            foreach (var rotationStep in Enumerable.Range(0, rotationOptionsCount).OrderBy(_ => Random.value).Take(contentPrefab.Type.MaxToSpawn)) {
-               var newContent = Instantiate(contentPrefab, hexContentParent);
-               newContent.transform.localRotation = Quaternion.Euler(0, rotationPerStep * rotationStep, 0);
-               Contents.Add(newContent);
-            }
+         var contentPrefab = type.RollContentPrefab();
+         if (!contentPrefab) return;
+
+         var rotationOptionsCount = Mathf.Max(contentPrefab.Type.RotationStepsInHex, 1);
+         var rotationPerStep = 360f / rotationOptionsCount;
+         foreach (var rotationStep in Enumerable.Range(0, rotationOptionsCount).OrderBy(_ => Random.value).Take(contentPrefab.Type.MaxToSpawn)) {
+            var newContent = Instantiate(contentPrefab, hexContentParent);
+            newContent.transform.localRotation = Quaternion.Euler(0, rotationPerStep * rotationStep, 0);
+            Contents.Add(newContent);
          }
       }
 
@@ -63,7 +68,7 @@ namespace BossRushJam25.HexGrid {
          }
 
          IsMoving = isMoving;
-         navMeshObstacle.enabled = IsMoving;
+         navMeshObstacle.enabled = IsMoving || type.AlwaysAnObstacle;
 
          OnMovingChanged.Invoke(IsMoving);
       }
