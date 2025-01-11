@@ -12,14 +12,11 @@ namespace BossRushJam25.Character
         {
             this.character = character;
         }
+
         private void Update()
         {
-            //could be found with hero coordinates instead
-            if(Physics.Raycast(transform.position + Vector3.up, Vector3.down, out RaycastHit hit, 10)
-                && hit.collider.gameObject.layer == LayerMask.NameToLayer("Ground")
-                )
+            if (HexGridController.Instance.TryGetHex(HexGridController.Instance.WorldToCoordinates(transform.position), out var hex))
             {
-                GridHex hex = hit.collider.GetComponentInParent<GridHex>();
                 character.NavMeshAgent.obstacleAvoidanceType = hex.IsMoving ? ObstacleAvoidanceType.NoObstacleAvoidance : ObstacleAvoidanceType.HighQualityObstacleAvoidance;
             }
         }
