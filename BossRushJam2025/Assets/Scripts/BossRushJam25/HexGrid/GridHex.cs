@@ -7,9 +7,6 @@ using UnityEngine.Events;
 namespace BossRushJam25.HexGrid {
    public class GridHex : MonoBehaviour {
       [SerializeField] protected Transform hexContentParent;
-      [SerializeField] protected Transform hexOffsetTransform;
-      [SerializeField] protected Vector3 defaultOffset = Vector3.zero;
-      [SerializeField] protected Vector3 movingOffset = new Vector3(0, .1f, 0);
 
       [SerializeField] protected MeshRenderer hexRenderer;
       [SerializeField] protected NavMeshObstacle navMeshObstacle;
@@ -66,7 +63,6 @@ namespace BossRushJam25.HexGrid {
          }
 
          IsMoving = isMoving;
-         hexOffsetTransform.localPosition = IsMoving ? movingOffset : defaultOffset;
          navMeshObstacle.enabled = IsMoving;
 
          OnMovingChanged.Invoke(IsMoving);

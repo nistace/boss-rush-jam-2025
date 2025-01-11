@@ -632,7 +632,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a82e0035923e0945ba55ef844a02598, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gridSize: {x: 20, y: 20}
+  gridRadius: 12
   hexRadius: 1
   hexTilePrefab: {fileID: 501464341734285578, guid: e952fc5b3b026234c9e736305db12c46, type: 3}
   patterns:
