@@ -22,6 +22,7 @@ namespace BossRushJam25.SpinStrategies {
       private EStep CurrentStep { get; set; } = EStep.SelectOrigin;
       private Vector2Int Origin { get; set; }
       private Vector2Int Center { get; set; }
+      private bool CurrentCenterIsSolution { get; set; }
       private int RingRadius { get; set; }
       private Vector2Int HoveringCoordinates { get; set; }
       private bool HoveringOverHex { get; set; }
@@ -39,7 +40,9 @@ namespace BossRushJam25.SpinStrategies {
          }
          else if (CurrentStep == EStep.SelectDestination) {
             if (HoveringCoordinates == Origin) return;
+            if (!CurrentCenterIsSolution) return;
             var steps = HexCoordinates.HexDistance(Origin, HoveringCoordinates);
+            HexGridController.Instance.SetHighlightedHexAt(HoveringCoordinates, ringHighlight);
             HexGridController.Instance.TranslateRingAround(Center, spinDuration, RingRadius, steps, HandleTranslationDone);
             CurrentStep = EStep.Rotation;
          }
@@ -78,12 +81,16 @@ namespace BossRushJam25.SpinStrategies {
                   var centersForDestination = HexGridController.GetRingClockwiseCoordinates(HoveringCoordinates, RingRadius);
 
                   var candidateRingsPerCenter = centersForOrigin.Intersect(centersForDestination).ToDictionary(t => t, t => HexGridController.GetRingClockwiseCoordinates(t, RingRadius));
-                  Center = candidateRingsPerCenter.OrderBy(t => (t.Value.IndexOf(HoveringCoordinates) + t.Value.Count - t.Value.IndexOf(Origin)) % t.Value.Count).First().Key;
+                  CurrentCenterIsSolution = candidateRingsPerCenter.Count > 0;
+                  if (CurrentCenterIsSolution) {
+                     Center = candidateRingsPerCenter.OrderBy(t => (t.Value.IndexOf(HoveringCoordinates) + t.Value.Count - t.Value.IndexOf(Origin)) % t.Value.Count).First().Key;
 
-                  foreach (var ringCoordinate in candidateRingsPerCenter[Center]) {
-                     HexGridController.Instance.SetHighlightedHexAt(ringCoordinate, ringHighlight);
+                     foreach (var ringCoordinate in candidateRingsPerCenter[Center]) {
+                        HexGridController.Instance.SetHighlightedHexAt(ringCoordinate, ringHighlight);
+                     }
+                     HexGridController.Instance.SetHighlightedHexAt(Origin, originHighlight);
+                     HexGridController.Instance.SetHighlightedHexAt(HoveringCoordinates, hoverHighlight);
                   }
-                  HexGridController.Instance.SetHighlightedHexAt(Origin, originHighlight);
                }
             }
          }

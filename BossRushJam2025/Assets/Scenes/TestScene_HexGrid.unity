@@ -523,37 +523,6 @@ MonoBehaviour:
   originHighlight: {fileID: 11400000, guid: 73a4d12ec82fc004699eb18182c8b915, type: 2}
   centerHighlight: {fileID: 11400000, guid: b39bb908f50c76f449d57de6c995e321, type: 2}
   ringHighlight: {fileID: 11400000, guid: bb4613aba31864445a43a085af9c5f71, type: 2}
---- !u!1 &1450531825
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1450531826}
-  m_Layer: 0
-  m_Name: Cursor
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1450531826
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1450531825}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 5.18, y: 0, z: -0.38}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1565030200
 GameObject:
   m_ObjectHideFlags: 0
@@ -672,6 +641,7 @@ MonoBehaviour:
   patterns:
   - {fileID: 11400000, guid: e25d6e92beb592d4fb7102a7e26a4883, type: 2}
   - {fileID: 11400000, guid: e25d6e92beb592d4fb7102a7e26a4883, type: 2}
+  - {fileID: 11400000, guid: cfa67ba22911cfe4bb669d0725a6c594, type: 2}
   normalRotationCurve:
     serializedVersion: 2
     m_Curve:
@@ -752,4 +722,3 @@ SceneRoots:
   - {fileID: 2023441308}
   - {fileID: 824274562}
   - {fileID: 2137533219}
-  - {fileID: 1450531826}
