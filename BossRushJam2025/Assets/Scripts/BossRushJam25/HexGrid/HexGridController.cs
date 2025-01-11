@@ -123,6 +123,7 @@ namespace BossRushJam25.HexGrid {
          foreach (var hex in hexDestinationCoordinates) {
             Hexes.Remove(hex.Key.Coordinates);
             hex.Key.SetCoordinates(hex.Value);
+            hex.Key.SetAsObstacle(true);
          }
 
          var hexMovements = hexDestinationCoordinates.ToDictionary(t => t.Key, t => (origin: t.Key.transform.position, destination: CoordinatesToWorldPosition(t.Value)));
@@ -136,6 +137,7 @@ namespace BossRushJam25.HexGrid {
          foreach (var hexMovement in hexMovements) {
             hexMovement.Key.transform.position = hexMovement.Value.destination;
             Hexes[hexDestinationCoordinates[hexMovement.Key]] = hexMovement.Key;
+            hexMovement.Key.SetAsObstacle(false);
          }
       }
 
