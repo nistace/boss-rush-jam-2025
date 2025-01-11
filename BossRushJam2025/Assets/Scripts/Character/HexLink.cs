@@ -15,9 +15,11 @@ namespace BossRushJam25.Character
 
         private void Update()
         {
-            if (HexGridController.Instance.TryGetHex(HexGridController.Instance.WorldToCoordinates(transform.position), out var hex))
+            if(HexGridController.Instance.TryGetHex(HexGridController.Instance.WorldToCoordinates(transform.position), out var hex))
             {
                 character.NavMeshAgent.obstacleAvoidanceType = hex.IsMoving ? ObstacleAvoidanceType.NoObstacleAvoidance : ObstacleAvoidanceType.HighQualityObstacleAvoidance;
+                character.NavMeshAgent.isStopped = hex.IsMoving;
+                character.transform.SetParent(hex.transform);
             }
         }
     }
