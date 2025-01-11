@@ -58,8 +58,8 @@ namespace BossRushJam25.HexGrid {
          return (Mathf.Abs(cubeDistance.x) + Mathf.Abs(cubeDistance.y) + Mathf.Abs(cubeDistance.z)) / 2;
       }
 
-      private static Vector2Int OffsetCoordinatesToAxialCoordinates(Vector2Int o) => new Vector2Int(o.x + (o.y + (o.y & 1)) / 2, -o.y);
-      private static Vector3Int AxialCoordinatesToCubeCoordinates(Vector2Int a) => new Vector3Int(a.x, a.y, -a.x - a.y);
-      private static Vector3Int OffsetCoordinatesToCubeCoordinates(Vector2Int o) => AxialCoordinatesToCubeCoordinates(OffsetCoordinatesToAxialCoordinates(o));
+      public static Vector2Int OffsetCoordinatesToAxialCoordinates(Vector2Int o) => new Vector2Int(o.x + (o.y + (o.y & 1)) / 2, -o.y);
+      public static Vector3Int AxialCoordinatesToCubeCoordinates(Vector2Int a) => new Vector3Int(a.x, a.y, -a.x - a.y);
+      public static Vector3Int OffsetCoordinatesToCubeCoordinates(Vector2Int o) => AxialCoordinatesToCubeCoordinates(OffsetCoordinatesToAxialCoordinates(o));
    }
 }

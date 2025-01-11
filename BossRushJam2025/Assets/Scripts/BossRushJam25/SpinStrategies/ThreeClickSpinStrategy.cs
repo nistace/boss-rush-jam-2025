@@ -9,7 +9,6 @@ using Utils;
 namespace BossRushJam25.SpinStrategies {
    public class ThreeClickSpinStrategy : MonoBehaviour, ISpinStrategy {
       [SerializeField] protected float spinDuration = .5f;
-      [SerializeField] protected float delayBetweenSpins = .5f;
       [SerializeField] protected HexHighlightType hoverHighlight;
       [SerializeField] protected HexHighlightType originHighlight;
       [SerializeField] protected HexHighlightType centerHighlight;

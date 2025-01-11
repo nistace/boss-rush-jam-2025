@@ -26,7 +26,7 @@ namespace BossRushJam25.HexGrid {
          Instance = this;
       }
 
-      private Vector3 CoordinatesToWorldPosition(Vector2Int coordinates) {
+      public Vector3 CoordinatesToWorldPosition(Vector2Int coordinates) {
          var x = coordinates.x;
          var z = coordinates.y;
          return new Vector3((2 * x + Mathf.Abs(z % 2)) * InnerRadius, 0, 1.5f * z * hexRadius);
