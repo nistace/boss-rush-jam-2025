@@ -22,5 +22,10 @@ namespace BossRushJam25.Character.AI
         {
             Character.NavMeshAgent.isStopped = true;
         }
+
+        public override string ToString()
+        {
+            return $"Move to: {destination}";
+        }
     }
 }

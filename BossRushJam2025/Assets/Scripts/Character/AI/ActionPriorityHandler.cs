@@ -1,9 +1,14 @@
+using System;
+using System.Text;
+using NUnit.Framework.Constraints;
 using UnityEngine;
 
 namespace BossRushJam25.Character.AI
 {
     public class ActionPriorityHandler : MonoBehaviour
     {
+        [SerializeField] private bool displayDebugGUI;
+
         protected CharacterCore character;
         protected AAction currentAction;
 
@@ -40,6 +45,19 @@ namespace BossRushJam25.Character.AI
         {
             //TODO: empty queue
             CancelCurrentAction();
+        }
+
+        private void OnGUI()
+        {
+            if(!displayDebugGUI)
+            {
+                return;
+            }
+
+            StringBuilder builder = new();
+            builder.Append(currentAction);
+
+            GUI.Box(new Rect(10, 10, 400, 200), builder.ToString(), new GUIStyle(GUI.skin.box) { fontSize = 25, alignment = TextAnchor.UpperLeft });
         }
     }
 }
