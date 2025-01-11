@@ -35,6 +35,7 @@ namespace BossRushJam25.SpinStrategies {
       private void HandleInteractPerformed(InputAction.CallbackContext obj) {
          if (!HoveringOverHex) return;
          if (CurrentStep == EStep.SelectOrigin) {
+            if (!HexGridController.Instance.IsCellInGrid(HoveringCoordinates)) return;
             Origin = HoveringCoordinates;
             HexGridController.Instance.SetHighlightedHexAt(Origin, originHighlight);
             CurrentStep = EStep.SelectDestination;
