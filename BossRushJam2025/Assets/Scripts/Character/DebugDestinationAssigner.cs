@@ -18,11 +18,12 @@ namespace BossRushJam25.Character
             {
                 if(Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out RaycastHit hit, 500) && hit.collider.gameObject.layer == LayerMask.NameToLayer("Ground"))
                 {
-                    character.ActionPriorityHandler.AddActionToQueue(new MoveAction(hit.point));
+                    character.ActionPriorityHandler.PlanAction(new MoveAction(hit.point));
                 }
             }
         }
 
+        //:TODO: draw all queued destinations (maybe in MoveAction instead?)
         private void OnDrawGizmos()
         {
             if(character.NavMeshAgent.hasPath)

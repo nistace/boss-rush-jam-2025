@@ -10,17 +10,20 @@ namespace BossRushJam25.Character
         [SerializeField] protected HexLink hexLink;
         [SerializeField] protected ActionPriorityHandler actionPriorityHandler;
         [SerializeField] protected DebugDestinationAssigner destinationAssigner;
+        [SerializeField] protected DebugDodgeSimulation dodgeSimulation;
 
         public NavMeshAgent NavMeshAgent => navMeshAgent;
         public HexLink HexLink => hexLink;
         public ActionPriorityHandler ActionPriorityHandler => actionPriorityHandler;
         public DebugDestinationAssigner DestinationAssigner => destinationAssigner;
+        public DebugDodgeSimulation DodgeSimulation => dodgeSimulation;
 
         private void Awake()
         {
             hexLink.Initialize(this);
             actionPriorityHandler.Initialize(this);
             destinationAssigner.Initialize(this);
+            dodgeSimulation.Initialize(this);
         }
     }
 }
