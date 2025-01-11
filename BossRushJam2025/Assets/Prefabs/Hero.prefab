@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 470945499014949782}
   - component: {fileID: 4036202868100558749}
   - component: {fileID: 2398727888956531791}
+  - component: {fileID: 3018287139037387015}
   m_Layer: 0
   m_Name: Hero
   m_TagString: Untagged
@@ -121,6 +122,19 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 65a3ebc00d975a74698f866f719262ac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  navMeshAgent: {fileID: 4036202868100558749}
+--- !u!114 &3018287139037387015
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4300564425374020743}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7b2fded93a5a1324f8cd97d5bc0ac146, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   navMeshAgent: {fileID: 4036202868100558749}

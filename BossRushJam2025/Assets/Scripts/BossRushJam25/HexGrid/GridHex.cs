@@ -13,6 +13,7 @@ namespace BossRushJam25.HexGrid {
       public bool Highlighted { get; private set; }
       public Vector2Int Coordinates { get; private set; }
       public string InitialName { get; set; }
+      public bool IsMoving { get; private set; }
 
       private void Awake() {
          navMeshObstacle.enabled = false;
@@ -44,8 +45,14 @@ namespace BossRushJam25.HexGrid {
          }
       }
 
-      public void SetAsObstacle(bool isObstacle) {
-         navMeshObstacle.enabled = isObstacle;
+      public void SetAsMoving(bool isMoving) {
+         if(isMoving == IsMoving)
+         {
+            return;
+         }
+
+         IsMoving = isMoving;
+         navMeshObstacle.enabled = IsMoving;
       }
    }
 }
