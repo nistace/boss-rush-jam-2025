@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8c3e3644673f42298540f4b746601f46, type: 3}
   m_Name: CenterHighlight
   m_EditorClassIdentifier: 
-  hexMaterial: {fileID: 2100000, guid: 58ace3006aac7664db34776251a0c0f6, type: 2}
+  hexMaterial: {fileID: 2100000, guid: da2e6ba3167decc4e8a53f389205a22f, type: 2}

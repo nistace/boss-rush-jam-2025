@@ -8,7 +8,6 @@ using Utils;
 
 namespace BossRushJam25.SpinStrategies {
    public class TwoClickSpinStrategy : MonoBehaviour, ISpinStrategy {
-      [SerializeField] protected float spinDuration = .5f;
       [SerializeField] protected HexHighlightType hoverHighlight;
       [SerializeField] protected HexHighlightType originHighlight;
       [SerializeField] protected HexHighlightType centerHighlight;
@@ -45,7 +44,7 @@ namespace BossRushJam25.SpinStrategies {
             if (!CurrentCenterIsSolution) return;
 
             HexGridController.Instance.SetHighlightedHexAt(HoveringCoordinates, ringHighlight);
-            HexGridController.Instance.TranslateRingAround(Center, spinDuration, RingRadius, Steps, HandleTranslationDone);
+            HexGridController.Instance.TranslateRingAround(Center, RingRadius, Steps, HandleTranslationDone);
             CurrentStep = EStep.Rotation;
          }
       }
@@ -68,13 +67,16 @@ namespace BossRushJam25.SpinStrategies {
             HoveringCoordinates = newHoveringCoordinates;
             HoveringOverHex = newHoveringOverHex;
             HexGridController.Instance.UnHighlightAllHexes();
-            HexGridController.Instance.SetHighlightedHexAt(HoveringCoordinates, hoverHighlight);
+            if (HoveringOverHex) {
+               HexGridController.Instance.SetHighlightedHexAt(HoveringCoordinates, hoverHighlight);
+            }
          }
          else if (CurrentStep == EStep.SelectDestination) {
             if (HoveringCoordinates != newHoveringCoordinates || HoveringOverHex != newHoveringOverHex) {
                HexGridController.Instance.UnHighlightAllHexes();
                HoveringCoordinates = newHoveringCoordinates;
                HoveringOverHex = newHoveringOverHex;
+
                if (HoveringOverHex) {
                   CurrentCenterIsSolution = EvaluateBestRingToMoveHex(Origin, HoveringCoordinates, out var center, out var ringRadius, out var steps, out var ring);
                   if (CurrentCenterIsSolution) {
@@ -85,9 +87,13 @@ namespace BossRushJam25.SpinStrategies {
                      foreach (var ringCoordinate in ring) {
                         HexGridController.Instance.SetHighlightedHexAt(ringCoordinate, ringHighlight);
                      }
-                     HexGridController.Instance.SetHighlightedHexAt(Origin, originHighlight);
-                     HexGridController.Instance.SetHighlightedHexAt(HoveringCoordinates, hoverHighlight);
                   }
+               }
+
+               HexGridController.Instance.SetHighlightedHexAt(Origin, originHighlight);
+
+               if (HoveringOverHex) {
+                  HexGridController.Instance.SetHighlightedHexAt(HoveringCoordinates, hoverHighlight);
                }
             }
          }
