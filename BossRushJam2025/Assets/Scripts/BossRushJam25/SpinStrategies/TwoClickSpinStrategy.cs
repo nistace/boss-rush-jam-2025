@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Linq;
 using BossRushJam25.HexGrid;
 using BossRushJam25.Inputs;
@@ -21,9 +22,10 @@ namespace BossRushJam25.SpinStrategies {
 
       private EStep CurrentStep { get; set; } = EStep.SelectOrigin;
       private Vector2Int Origin { get; set; }
-      private Vector2Int Center { get; set; }
-      private bool CurrentCenterIsSolution { get; set; }
       private int RingRadius { get; set; }
+      private Vector2Int Center { get; set; }
+      private int Steps { get; set; }
+      private bool CurrentCenterIsSolution { get; set; }
       private Vector2Int HoveringCoordinates { get; set; }
       private bool HoveringOverHex { get; set; }
 
@@ -41,9 +43,9 @@ namespace BossRushJam25.SpinStrategies {
          else if (CurrentStep == EStep.SelectDestination) {
             if (HoveringCoordinates == Origin) return;
             if (!CurrentCenterIsSolution) return;
-            var steps = HexCoordinates.HexDistance(Origin, HoveringCoordinates);
+
             HexGridController.Instance.SetHighlightedHexAt(HoveringCoordinates, ringHighlight);
-            HexGridController.Instance.TranslateRingAround(Center, spinDuration, RingRadius, steps, HandleTranslationDone);
+            HexGridController.Instance.TranslateRingAround(Center, spinDuration, RingRadius, Steps, HandleTranslationDone);
             CurrentStep = EStep.Rotation;
          }
       }
@@ -74,18 +76,13 @@ namespace BossRushJam25.SpinStrategies {
                HoveringCoordinates = newHoveringCoordinates;
                HoveringOverHex = newHoveringOverHex;
                if (HoveringOverHex) {
-                  var cubeOrigin = HexCoordinates.OffsetCoordinatesToCubeCoordinates(Origin);
-                  var cubeHover = HexCoordinates.OffsetCoordinatesToCubeCoordinates(HoveringCoordinates);
-                  RingRadius = Mathf.Max(Mathf.Abs(cubeOrigin.x - cubeHover.x), Mathf.Abs(cubeOrigin.y - cubeHover.y), Mathf.Abs(cubeOrigin.z - cubeHover.z));
-                  var centersForOrigin = HexGridController.GetRingClockwiseCoordinates(Origin, RingRadius);
-                  var centersForDestination = HexGridController.GetRingClockwiseCoordinates(HoveringCoordinates, RingRadius);
-
-                  var candidateRingsPerCenter = centersForOrigin.Intersect(centersForDestination).ToDictionary(t => t, t => HexGridController.GetRingClockwiseCoordinates(t, RingRadius));
-                  CurrentCenterIsSolution = candidateRingsPerCenter.Count > 0;
+                  CurrentCenterIsSolution = EvaluateBestRingToMoveHex(Origin, HoveringCoordinates, out var center, out var ringRadius, out var steps, out var ring);
                   if (CurrentCenterIsSolution) {
-                     Center = candidateRingsPerCenter.OrderBy(t => (t.Value.IndexOf(HoveringCoordinates) + t.Value.Count - t.Value.IndexOf(Origin)) % t.Value.Count).First().Key;
+                     Center = center;
+                     RingRadius = ringRadius;
+                     Steps = steps;
 
-                     foreach (var ringCoordinate in candidateRingsPerCenter[Center]) {
+                     foreach (var ringCoordinate in ring) {
                         HexGridController.Instance.SetHighlightedHexAt(ringCoordinate, ringHighlight);
                      }
                      HexGridController.Instance.SetHighlightedHexAt(Origin, originHighlight);
@@ -94,6 +91,56 @@ namespace BossRushJam25.SpinStrategies {
                }
             }
          }
+      }
+
+      public static bool EvaluateBestRingToMoveHex(Vector2Int origin, Vector2Int destination, out Vector2Int center, out int ringRadius, out int steps, out IReadOnlyList<Vector2Int> ring) {
+         var cubeOrigin = HexCoordinates.OffsetCoordinatesToCubeCoordinates(origin);
+         var cubeHover = HexCoordinates.OffsetCoordinatesToCubeCoordinates(destination);
+
+         // With radius = distance so that the path between the hexes is the shortest
+         ringRadius = Mathf.Max(Mathf.Abs(cubeOrigin.x - cubeHover.x), Mathf.Abs(cubeOrigin.y - cubeHover.y), Mathf.Abs(cubeOrigin.z - cubeHover.z));
+         if (EvaluateBestRingToMoveHex(origin, destination, ringRadius, out center, out steps, out ring)) {
+            return true;
+         }
+
+         // With radius = half the distance so that the ring radius is the smallest possible
+         ringRadius = Mathf.CeilToInt(ringRadius * .5f);
+         if (EvaluateBestRingToMoveHex(origin, destination, ringRadius, out center, out steps, out ring)) {
+            return true;
+         }
+
+         return false;
+      }
+
+      public static bool EvaluateBestRingToMoveHex(Vector2Int origin, Vector2Int destination, int ringRadius, out Vector2Int center, out int steps, out IReadOnlyList<Vector2Int> ring) {
+         center = default;
+         steps = default;
+         ring = default;
+
+         var centersForOrigin = HexGridController.GetRingClockwiseCoordinates(origin, ringRadius);
+         var centersForDestination = HexGridController.GetRingClockwiseCoordinates(destination, ringRadius);
+
+         var candidateRingsPerCenter = centersForOrigin.Intersect(centersForDestination)
+            .SelectMany(t => new[] {
+               (center: t, ring: HexGridController.GetRingClockwiseCoordinates(t, ringRadius), direction: 1),
+               (center: t, ring: HexGridController.GetRingAntiClockwiseCoordinates(t, ringRadius), direction: -1),
+            })
+            .Where(t => t.ring.All(r => HexGridController.Instance.IsCellInGrid(r)))
+            .Select(t => (t.center, t.ring, t.direction, absoluteStepCount: (t.ring.IndexOf(destination) + t.ring.Count - t.ring.IndexOf(origin)) % t.ring.Count))
+            .OrderBy(t => t.absoluteStepCount)
+            .ThenByDescending(t => t.direction)
+            .ToArray();
+
+         if (candidateRingsPerCenter.Length > 0) {
+            var solution = candidateRingsPerCenter[0];
+            center = solution.center;
+            steps = solution.direction * solution.absoluteStepCount;
+            ring = solution.ring;
+
+            return true;
+         }
+
+         return false;
       }
    }
 }

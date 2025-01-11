@@ -5,6 +5,7 @@ using System.Linq;
 using Unity.AI.Navigation;
 using UnityEngine;
 using UnityEngine.Events;
+using Utils;
 using Random = UnityEngine.Random;
 
 namespace BossRushJam25.HexGrid {
@@ -109,7 +110,8 @@ namespace BossRushJam25.HexGrid {
             for (var i = 0; i < Mathf.Abs(translationsSteps); ++i) {
                var rotatingHexesCoordinates = getRingFunc(center, ringRadius);
                var rotatingHexesDestinations = rotatingHexesCoordinates
-                  .Select((originCoordinates, originIndex) => (coordinates: originCoordinates, defined: TryGetHex(originCoordinates, out var hex), hex, originIndex)).Where(t => t.defined)
+                  .Select((originCoordinates, originIndex) => (coordinates: originCoordinates, defined: TryGetHex(originCoordinates, out var hex), hex, originIndex))
+                  .Where(t => t.defined)
                   .ToDictionary(t => t.hex, t => rotatingHexesCoordinates[(t.originIndex + 1) % rotatingHexesCoordinates.Count]);
 
                yield return StartCoroutine(DoMoveHexes(rotatingHexesDestinations, duration));
@@ -165,5 +167,8 @@ namespace BossRushJam25.HexGrid {
 
          navMeshSurface.BuildNavMesh();
       }
+
+      public bool IsCellInGrid(Vector2Int coordinates) => coordinates.x >= 0 && coordinates.x < gridSize.x && coordinates.y >= 0 && coordinates.y < gridSize.y;
+
    }
 }
