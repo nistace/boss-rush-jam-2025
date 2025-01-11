@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8c3e3644673f42298540f4b746601f46, type: 3}
   m_Name: RingHighlight
   m_EditorClassIdentifier: 
-  hexMaterial: {fileID: 2100000, guid: 2f95975e155728f4ea99b4ba676b8b0c, type: 2}
+  hexMaterial: {fileID: 2100000, guid: 57470350e99374747add7207e24c273d, type: 2}

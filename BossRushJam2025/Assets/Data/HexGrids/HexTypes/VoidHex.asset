@@ -9,7 +9,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8c3e3644673f42298540f4b746601f46, type: 3}
-  m_Name: CenterHighlight
+  m_Script: {fileID: 11500000, guid: c8c165fb50eb4be6ae182ddbf7342891, type: 3}
+  m_Name: VoidHex
   m_EditorClassIdentifier: 
-  hexMaterial: {fileID: 2100000, guid: da2e6ba3167decc4e8a53f389205a22f, type: 2}
+  neighbours:
+  - prefab: {fileID: 6811911467666851820, guid: af1925ec07f0f904694c16f2b291fd77, type: 3}
+    probability: 1
+  noContentProbability: 10
+  contents: []

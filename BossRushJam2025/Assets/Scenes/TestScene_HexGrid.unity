@@ -150,7 +150,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hoverHighlight: {fileID: 11400000, guid: 73a4d12ec82fc004699eb18182c8b915, type: 2}
   originHighlight: {fileID: 11400000, guid: 73a4d12ec82fc004699eb18182c8b915, type: 2}
-  centerHighlight: {fileID: 11400000, guid: b39bb908f50c76f449d57de6c995e321, type: 2}
+  centerHighlight: {fileID: 0}
   ringHighlight: {fileID: 11400000, guid: bb4613aba31864445a43a085af9c5f71, type: 2}
 --- !u!4 &176911250
 Transform:
@@ -351,6 +351,60 @@ MonoBehaviour:
     m_MipBias: 0
     m_VarianceClampScale: 0.9
     m_ContrastAdaptiveSharpening: 0
+--- !u!1 &526378472
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 526378473}
+  - component: {fileID: 526378474}
+  m_Layer: 7
+  m_Name: InputClickLayerPlane
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &526378473
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 526378472}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 100, y: 1, z: 100}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2137533219}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!64 &526378474
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 526378472}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!1 &824274559
 GameObject:
   m_ObjectHideFlags: 0
@@ -518,7 +572,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hoverHighlight: {fileID: 11400000, guid: cf62c08f034bb4041a6ee4a72c3ada52, type: 2}
   originHighlight: {fileID: 11400000, guid: 73a4d12ec82fc004699eb18182c8b915, type: 2}
-  centerHighlight: {fileID: 11400000, guid: b39bb908f50c76f449d57de6c995e321, type: 2}
+  centerHighlight: {fileID: 11400000, guid: 73a4d12ec82fc004699eb18182c8b915, type: 2}
   ringHighlight: {fileID: 11400000, guid: bb4613aba31864445a43a085af9c5f71, type: 2}
 --- !u!1 &1565030200
 GameObject:
@@ -632,13 +686,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a82e0035923e0945ba55ef844a02598, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gridSize: {x: 20, y: 20}
+  gridRadius: 12
   hexRadius: 1
-  hexTilePrefab: {fileID: 501464341734285578, guid: e952fc5b3b026234c9e736305db12c46, type: 3}
-  patterns:
-  - {fileID: 11400000, guid: e25d6e92beb592d4fb7102a7e26a4883, type: 2}
-  - {fileID: 11400000, guid: e25d6e92beb592d4fb7102a7e26a4883, type: 2}
-  - {fileID: 11400000, guid: 5ee1702ff9fb29442af6a58469cca953, type: 2}
+  firstTilesPrefabs:
+  - {fileID: 6811911467666851820, guid: af1925ec07f0f904694c16f2b291fd77, type: 3}
   rotationConfig: {fileID: 11400000, guid: 10f55b3411ccc9e4ca44c85ec9f76056, type: 2}
   navMeshSurface: {fileID: 2137533220}
 --- !u!4 &2137533219
@@ -653,7 +704,8 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 526378473}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &2137533220
