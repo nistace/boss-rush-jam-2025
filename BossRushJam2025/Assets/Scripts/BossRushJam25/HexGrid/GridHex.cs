@@ -1,9 +1,11 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 namespace BossRushJam25.HexGrid {
    public class GridHex : MonoBehaviour {
       [SerializeField] protected MeshRenderer hexRenderer;
+      [SerializeField] protected NavMeshObstacle navMeshObstacle;
       [SerializeField] protected HexHighlightType noHighlight;
 
       private List<GridHexContent> Contents { get; } = new List<GridHexContent>();
@@ -11,6 +13,11 @@ namespace BossRushJam25.HexGrid {
       public bool Highlighted { get; private set; }
       public Vector2Int Coordinates { get; private set; }
       public string InitialName { get; set; }
+      public bool IsMoving { get; private set; }
+
+      private void Awake() {
+         navMeshObstacle.enabled = false;
+      }
 
       private void Start() {
          SetNoHighlight();
@@ -36,6 +43,16 @@ namespace BossRushJam25.HexGrid {
          foreach (var contentPrefab in pattern.Contents) {
             Contents.Add(Instantiate(contentPrefab, transform));
          }
+      }
+
+      public void SetAsMoving(bool isMoving) {
+         if(isMoving == IsMoving)
+         {
+            return;
+         }
+
+         IsMoving = isMoving;
+         navMeshObstacle.enabled = IsMoving;
       }
    }
 }
