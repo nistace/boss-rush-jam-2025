@@ -4,41 +4,45 @@ using UnityEngine;
 
 namespace BossRushJam25.Character.AI
 {
-    //TODO: add queue limit
     public class ActionPriorityHandler : MonoBehaviour
     {
         [SerializeField] private bool displayDebugGUI;
+        [SerializeField] private int queueSize = 3;
 
         protected CharacterCore character;
-        protected AReflexAction activeReflexAction;
-        protected List<APlannedAction> plannedActions = new();
+        protected List<AAction> plannedActions = new();
 
-        protected APlannedAction activePlannedAction => plannedActions.Count > 0 ? plannedActions[^1] : null;
+        protected AAction ActivePlannedAction => plannedActions.Count > 0 ? plannedActions[0] : null;
 
         public void Initialize(CharacterCore character)
         {
             this.character = character;
         }
 
-        public void ExecuteReflexAction(AReflexAction action)
-        {
-            activeReflexAction = action;
-            activeReflexAction.Character = character;
-            activeReflexAction.Execute();
-        }
-
         public void PlanAction(APlannedAction action)
         {
+            if(plannedActions.Count > queueSize)
+            {
+                return;
+            }
+
+            plannedActions.Add(action);
+        }
+
+        public void ForceAction(AAction action)
+        {
+            ActivePlannedAction?.Reset();
             plannedActions.Insert(0, action);
-            action.Character = character;
+
+            if (plannedActions.Count == 4)
+            {
+                plannedActions.RemoveAt(3);
+            }
         }
 
         public void CancelActiveAction()
         {
-            if(activePlannedAction != null && activePlannedAction.Status == EActionStatus.Started)
-            {
-                activePlannedAction.Cancel();
-            }
+            ActivePlannedAction?.Cancel();
         }
 
         public void CancelAllActions()
@@ -49,23 +53,23 @@ namespace BossRushJam25.Character.AI
 
         private void ProcessActivePlannedAction()
         {
-            if (activePlannedAction == null)
+            if(ActivePlannedAction == null)
             {
                 return;
             }
 
-            switch (activePlannedAction.Status)
+            switch(ActivePlannedAction.Status)
             {
                 case EActionStatus.Pending:
                 {
-                    activePlannedAction.Execute();
+                    ActivePlannedAction.Execute();
 
                     break;
                 }
                 case EActionStatus.Finished:
                 case EActionStatus.Cancelled:
                 {
-                    plannedActions.Remove(activePlannedAction);
+                    plannedActions.Remove(ActivePlannedAction);
                     ProcessActivePlannedAction();
 
                     break;
@@ -76,11 +80,6 @@ namespace BossRushJam25.Character.AI
         private void Update()
         {
             ProcessActivePlannedAction();
-
-            if(activeReflexAction != null && (activeReflexAction.Status == EActionStatus.Finished || activeReflexAction.Status == EActionStatus.Cancelled))
-            {
-                activeReflexAction = null;
-            }
         }
 
         private void OnGUI()
@@ -90,32 +89,30 @@ namespace BossRushJam25.Character.AI
                 return;
             }
 
-            GUIStyle reflexActionStyle = new(GUI.skin.label) { fontSize = 25, alignment = TextAnchor.MiddleLeft };
-            reflexActionStyle.normal.textColor = Color.cyan;
+            GUIStyle pendingActionStyle = new(GUI.skin.label) { fontSize = 25, alignment = TextAnchor.UpperLeft };
+            pendingActionStyle.normal.textColor = Color.white;
 
-            GUI.Label(new Rect(10, 10, 400, 50), activeReflexAction != null ? activeReflexAction.ToString() : "", reflexActionStyle);
-
-            GUIStyle currentActionStyle = new(GUI.skin.label) { fontSize = 25, alignment = TextAnchor.MiddleLeft };
-            currentActionStyle.normal.textColor = Color.yellow;
-
-            if(plannedActions.Count > 0)
+            if (plannedActions.Count > 0)
             {
-                GUI.Label(new Rect(10, 70, 400, 50), activePlannedAction.ToString(), currentActionStyle);
+                GUIStyle reflexActionStyle = new(GUI.skin.label) { fontSize = 25, alignment = TextAnchor.MiddleLeft };
+                reflexActionStyle.normal.textColor = Color.cyan;
+                GUIStyle activeActionStyle = new(reflexActionStyle);
+                activeActionStyle.normal.textColor = Color.yellow;
 
-                GUIStyle pendingActionsStyle = new(GUI.skin.label) { fontSize = 25, alignment = TextAnchor.UpperLeft };
-                pendingActionsStyle.normal.textColor = Color.white;
+                GUI.Label(new Rect(10, 10, 400, 50), ActivePlannedAction.ToString(), ActivePlannedAction is AReflexAction ? reflexActionStyle : activeActionStyle);
+
                 StringBuilder builder = new();
 
-                for(int actionIndex = plannedActions.Count - 2; actionIndex > -1; actionIndex--)
+                for(int actionIndex = 1; actionIndex < plannedActions.Count; actionIndex++)
                 {
                     builder.AppendLine(plannedActions[actionIndex].ToString());
                 }
 
-                GUI.Label(new Rect(10, 130, 400, 150), builder.ToString(), pendingActionsStyle);
+                GUI.Label(new Rect(10, 70, 400, 150), builder.ToString(), pendingActionStyle);
             }
             else
             {
-                GUI.Label(new Rect(10, 70, 400, 50), "No action assigned", currentActionStyle);
+                GUI.Label(new Rect(10, 10, 400, 50), "No action assigned", pendingActionStyle);
             }
         }
     }

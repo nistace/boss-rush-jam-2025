@@ -21,7 +21,7 @@ namespace BossRushJam25.Character.AI
             }
         }
 
-        public MoveAction(Vector3 destination) : base()
+        public MoveAction(CharacterCore character, Vector3 destination) : base(character)
         {
             this.destination = destination;
         }
