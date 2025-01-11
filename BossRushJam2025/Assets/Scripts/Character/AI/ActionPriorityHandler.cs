@@ -1,6 +1,5 @@
-using System;
+using System.Collections.Generic;
 using System.Text;
-using NUnit.Framework.Constraints;
 using UnityEngine;
 
 namespace BossRushJam25.Character.AI
@@ -11,26 +10,30 @@ namespace BossRushJam25.Character.AI
 
         protected CharacterCore character;
         protected AAction currentAction;
+        protected Queue<AAction> pendingActions = new();
 
         public void Initialize(CharacterCore character)
         {
             this.character = character;
-            //ChooseNextAction();
         }
 
-        public void ChooseNextAction()
+        public void ExecuteNextAction()
         {
-            currentAction = new MoveAction(Vector3.one * 5)
+            if(pendingActions.TryDequeue(out AAction nextAction))
             {
-                Character = character
-            };
+                currentAction = nextAction;
+                currentAction.Execute();
+            }
+            else
+            {
+                currentAction = null;
+            }
         }
 
-        public void AddNextAction(AAction action)
+        public void AddActionToQueue(AAction action)
         {
-            currentAction = action;
-            currentAction.Character = character;
-            currentAction.Execute();
+            action.Character = character;
+            pendingActions.Enqueue(action);
         }
 
         public void CancelCurrentAction()
@@ -38,13 +41,25 @@ namespace BossRushJam25.Character.AI
             if(currentAction != null)
             {
                 currentAction.Cancel();
+                currentAction = null;
             }
         }
 
         public void CancelAllActions()
         {
-            //TODO: empty queue
             CancelCurrentAction();
+            pendingActions.Clear();
+        }
+
+        private void Update()
+        {
+            if(currentAction == null
+                || currentAction.Status == EActionStatus.Finished
+                || currentAction.Status == EActionStatus.Cancelled
+                )
+            {
+                ExecuteNextAction();
+            }
         }
 
         private void OnGUI()
@@ -54,10 +69,24 @@ namespace BossRushJam25.Character.AI
                 return;
             }
 
-            StringBuilder builder = new();
-            builder.Append(currentAction);
+            GUIStyle currentActionStyle = new(GUI.skin.box) { fontSize = 25, alignment = TextAnchor.MiddleLeft };
+            currentActionStyle.normal.textColor = Color.yellow;
 
-            GUI.Box(new Rect(10, 10, 400, 200), builder.ToString(), new GUIStyle(GUI.skin.box) { fontSize = 25, alignment = TextAnchor.UpperLeft });
+            GUI.Box(new Rect(10, 10, 400, 50), currentAction != null ? currentAction.ToString() : "No action assigned", currentActionStyle);
+
+            if(pendingActions.Count > 0 )
+            {
+                GUIStyle pendingActionsStyle = new(GUI.skin.box) { fontSize = 25, alignment = TextAnchor.UpperLeft };
+                pendingActionsStyle.normal.textColor = Color.white;
+                StringBuilder builder = new();
+
+                foreach(AAction action in pendingActions)
+                {
+                    builder.AppendLine(action.ToString());
+                }
+
+                GUI.Box(new Rect(10, 70, 400, 150), builder.ToString(), pendingActionsStyle);
+            }
         }
     }
 }

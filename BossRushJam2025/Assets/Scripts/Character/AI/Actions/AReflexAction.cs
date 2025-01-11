@@ -1,7 +1,6 @@
 namespace BossRushJam25.Character.AI
 {
-    public class AReflexAction : AAction
+    public abstract class AReflexAction : AAction
     {
-
     }
 }

@@ -18,8 +18,7 @@ namespace BossRushJam25.Character
             {
                 if(Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out RaycastHit hit, 500) && hit.collider.gameObject.layer == LayerMask.NameToLayer("Ground"))
                 {
-                    character.ActionPriorityHandler.CancelAllActions();
-                    character.ActionPriorityHandler.AddNextAction(new MoveAction(hit.point));
+                    character.ActionPriorityHandler.AddActionToQueue(new MoveAction(hit.point));
                 }
             }
         }
