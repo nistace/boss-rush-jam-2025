@@ -605,7 +605,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spinStrategyHandler: {fileID: 176911248}
   cameraTransform: {fileID: 2023441308}
-  heroPrefab: {fileID: 4300564425374020743, guid: ac426a8c1a772c44f9256b049ebd4356, type: 3}
+  heroPrefab: {fileID: 6196457384134968242, guid: ac426a8c1a772c44f9256b049ebd4356, type: 3}
+  bossPrefab: {fileID: 63580048230656051, guid: ee01302736b570a48b59b50023cce2ad, type: 3}
 --- !u!4 &1565030202
 Transform:
   m_ObjectHideFlags: 0

@@ -15,15 +15,13 @@ namespace BossRushJam25.Character
         public NavMeshAgent NavMeshAgent => navMeshAgent;
         public HexLink HexLink => hexLink;
         public ActionPriorityHandler ActionPriorityHandler => actionPriorityHandler;
-        public DebugDestinationAssigner DestinationAssigner => destinationAssigner;
-        public DebugDodgeSimulation DodgeSimulation => dodgeSimulation;
 
         private void Awake()
         {
             hexLink.Initialize(this);
             actionPriorityHandler.Initialize(this);
-            destinationAssigner.Initialize(this);
-            dodgeSimulation.Initialize(this);
+            destinationAssigner?.Initialize(this);
+            dodgeSimulation?.Initialize(this);
         }
     }
 }
