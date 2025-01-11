@@ -15,7 +15,7 @@ namespace BossRushJam25.HexGrid {
       [SerializeField] protected float hexRadius = 1;
       [SerializeField] protected GridHex hexTilePrefab;
       [SerializeField] protected GridHexContentPattern[] patterns;
-      [SerializeField] protected AnimationCurve normalRotationCurve = AnimationCurve.EaseInOut(0, 0, 1, 1);
+      [SerializeField] protected GridHexRotationConfig rotationConfig;
       [SerializeField] protected NavMeshSurface navMeshSurface;
 
       private Dictionary<Vector2Int, GridHex> Hexes { get; } = new Dictionary<Vector2Int, GridHex>();
@@ -28,7 +28,7 @@ namespace BossRushJam25.HexGrid {
          Instance = this;
       }
 
-      private Vector3 CoordinatesToWorldPosition(Vector2Int coordinates) {
+      public Vector3 CoordinatesToWorldPosition(Vector2Int coordinates) {
          var x = coordinates.x;
          var z = coordinates.y;
          return new Vector3((2 * x + Mathf.Abs(z % 2)) * InnerRadius, 0, 1.5f * z * hexRadius);
@@ -97,47 +97,69 @@ namespace BossRushJam25.HexGrid {
          return result;
       }
 
-      public void TranslateRingAround(Vector2Int center, float duration, int ringRadius = 1, int translationsSteps = 1, UnityAction callback = null) =>
-         StartCoroutine(DoTranslateRingAround(center, duration, ringRadius, translationsSteps, callback));
+      public void TranslateRingAround(Vector2Int center, int ringRadius = 1, int translationsSteps = 1, UnityAction callback = null) =>
+         StartCoroutine(DoTranslateRingAround(center, ringRadius, translationsSteps, callback));
 
-      private IEnumerator DoTranslateRingAround(Vector2Int center, float duration, int ringRadius = 1, int translationsSteps = 1, UnityAction callback = null) {
+      private IEnumerator DoTranslateRingAround(Vector2Int center, int ringRadius = 1, int translationsSteps = 1, UnityAction callback = null) {
          if (translationsSteps == 0) {
             yield return null;
          }
          else {
+            var movingHexes = GetRingClockwiseCoordinates(center, ringRadius)
+               .Select((originCoordinates, originIndex) => (coordinates: originCoordinates, defined: TryGetHex(originCoordinates, out var hex), hex, originIndex))
+               .Where(t => t.defined)
+               .Select(t => t.hex)
+               .ToArray();
+            foreach (var movingHex in movingHexes) {
+               movingHex.SetAsMoving(true);
+            }
+
+            yield return new WaitForSeconds(rotationConfig.DelayBeforeRotation);
+
             var getRingFunc = translationsSteps > 0 ? (Func<Vector2Int, int, IReadOnlyList<Vector2Int>>)GetRingClockwiseCoordinates : GetRingAntiClockwiseCoordinates;
             for (var i = 0; i < Mathf.Abs(translationsSteps); ++i) {
                var rotatingHexesCoordinates = getRingFunc(center, ringRadius);
                var rotatingHexesDestinations = rotatingHexesCoordinates
-                  .Select((originCoordinates, originIndex) => (coordinates: originCoordinates, defined: TryGetHex(originCoordinates, out var hex), hex, originIndex)).Where(t => t.defined)
+                  .Select((originCoordinates, originIndex) => (coordinates: originCoordinates, defined: TryGetHex(originCoordinates, out var hex), hex, originIndex))
+                  .Where(t => t.defined)
                   .ToDictionary(t => t.hex, t => rotatingHexesCoordinates[(t.originIndex + 1) % rotatingHexesCoordinates.Count]);
 
-               yield return StartCoroutine(DoMoveHexes(rotatingHexesDestinations, duration));
+               yield return StartCoroutine(DoMoveHexes(rotatingHexesDestinations, i == 0));
+            }
+
+            yield return new WaitForSeconds(rotationConfig.DelayAfterRotation);
+
+            foreach (var movingHex in movingHexes) {
+               movingHex.SetAsMoving(false);
             }
          }
 
          callback?.Invoke();
       }
 
-      private IEnumerator DoMoveHexes(IReadOnlyDictionary<GridHex, Vector2Int> hexDestinationCoordinates, float duration) {
+      private IEnumerator DoMoveHexes(IReadOnlyDictionary<GridHex, Vector2Int> hexDestinationCoordinates, bool withAcceleration) {
          foreach (var hex in hexDestinationCoordinates) {
             Hexes.Remove(hex.Key.Coordinates);
             hex.Key.SetCoordinates(hex.Value);
-            hex.Key.SetAsMoving(true);
          }
 
          var hexMovements = hexDestinationCoordinates.ToDictionary(t => t.Key, t => (origin: t.Key.transform.position, destination: CoordinatesToWorldPosition(t.Value)));
-         for (var time = 0f; time < duration; time += Time.deltaTime) {
+         var lerp = 0f;
+         var time = 0f;
+         while (lerp < 1) {
+            lerp += rotationConfig.GetTranslationSpeedDelta(Time.deltaTime, withAcceleration, time);
+            time += Time.deltaTime;
+
             foreach (var hexMovement in hexMovements) {
-               hexMovement.Key.transform.position = Vector3.Lerp(hexMovement.Value.origin, hexMovement.Value.destination, normalRotationCurve.Evaluate(time / duration));
+               hexMovement.Key.transform.position = Vector3.Lerp(hexMovement.Value.origin, hexMovement.Value.destination, lerp);
             }
+
             yield return null;
          }
 
          foreach (var hexMovement in hexMovements) {
             hexMovement.Key.transform.position = hexMovement.Value.destination;
             Hexes[hexDestinationCoordinates[hexMovement.Key]] = hexMovement.Key;
-            hexMovement.Key.SetAsMoving(false);
          }
       }
 
@@ -165,5 +187,7 @@ namespace BossRushJam25.HexGrid {
 
          navMeshSurface.BuildNavMesh();
       }
+
+      public bool IsCellInGrid(Vector2Int coordinates) => coordinates.x >= 0 && coordinates.x < gridSize.x && coordinates.y >= 0 && coordinates.y < gridSize.y;
    }
 }

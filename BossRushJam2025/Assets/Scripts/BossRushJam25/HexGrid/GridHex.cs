@@ -1,9 +1,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.Events;
 
 namespace BossRushJam25.HexGrid {
    public class GridHex : MonoBehaviour {
+      [SerializeField] protected Transform hexContentParent;
+      [SerializeField] protected Transform hexOffsetTransform;
+      [SerializeField] protected Vector3 defaultOffset = Vector3.zero;
+      [SerializeField] protected Vector3 movingOffset = new Vector3(0, .1f, 0);
+
       [SerializeField] protected MeshRenderer hexRenderer;
       [SerializeField] protected NavMeshObstacle navMeshObstacle;
       [SerializeField] protected HexHighlightType noHighlight;
@@ -14,6 +20,8 @@ namespace BossRushJam25.HexGrid {
       public Vector2Int Coordinates { get; private set; }
       public string InitialName { get; set; }
       public bool IsMoving { get; private set; }
+
+      public UnityEvent<bool> OnMovingChanged { get; } = new UnityEvent<bool>();
 
       private void Awake() {
          navMeshObstacle.enabled = false;
@@ -41,18 +49,20 @@ namespace BossRushJam25.HexGrid {
          }
          Contents.Clear();
          foreach (var contentPrefab in pattern.Contents) {
-            Contents.Add(Instantiate(contentPrefab, transform));
+            Contents.Add(Instantiate(contentPrefab, hexContentParent));
          }
       }
 
       public void SetAsMoving(bool isMoving) {
-         if(isMoving == IsMoving)
-         {
+         if (isMoving == IsMoving) {
             return;
          }
 
          IsMoving = isMoving;
+         hexOffsetTransform.localPosition = IsMoving ? movingOffset : defaultOffset;
          navMeshObstacle.enabled = IsMoving;
+
+         OnMovingChanged.Invoke(IsMoving);
       }
    }
 }

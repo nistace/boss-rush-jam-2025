@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8c3e3644673f42298540f4b746601f46, type: 3}
   m_Name: NoHighlight
   m_EditorClassIdentifier: 
-  hexMaterial: {fileID: 2100000, guid: 2ddeb887760d9e441b6c003ab154fefe, type: 2}
+  hexMaterial: {fileID: 2100000, guid: 77f7c4eb59cdb034297a69eed213708c, type: 2}

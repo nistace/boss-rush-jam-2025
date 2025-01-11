@@ -8,8 +8,6 @@ using Utils;
 
 namespace BossRushJam25.SpinStrategies {
    public class ThreeClickSpinStrategy : MonoBehaviour, ISpinStrategy {
-      [SerializeField] protected float spinDuration = .5f;
-      [SerializeField] protected float delayBetweenSpins = .5f;
       [SerializeField] protected HexHighlightType hoverHighlight;
       [SerializeField] protected HexHighlightType originHighlight;
       [SerializeField] protected HexHighlightType centerHighlight;
@@ -52,7 +50,7 @@ namespace BossRushJam25.SpinStrategies {
             HexGridController.Instance.UnHighlightAllHexes();
             var steps = RingCoordinates.Count + RingCoordinates.IndexOf(HoveringCoordinates) - RingCoordinates.IndexOf(Origin);
             if (steps > RingCoordinates.Count / 2) steps -= RingCoordinates.Count;
-            HexGridController.Instance.TranslateRingAround(Center, spinDuration, HexCoordinates.HexDistance(Origin, Center), steps, HandleTranslationDone);
+            HexGridController.Instance.TranslateRingAround(Center, HexCoordinates.HexDistance(Origin, Center), steps, HandleTranslationDone);
             CurrentStep = EStep.Delay;
          }
       }

@@ -6,7 +6,6 @@ using UnityEngine.InputSystem;
 namespace BossRushJam25.SpinStrategies {
    public class StepSnapSpinStrategy : MonoBehaviour, ISpinStrategy {
       [SerializeField] protected float snapDelay = .2f;
-      [SerializeField] protected float snapAnimationDuration = .1f;
       [SerializeField] protected int ringRadius = 2;
       [SerializeField] protected HexHighlightType highlightType;
 
@@ -34,7 +33,7 @@ namespace BossRushJam25.SpinStrategies {
             if (IsHoveringOverTile) {
                DelayBeforeNextSnap -= Time.deltaTime;
                if (DelayBeforeNextSnap < 0) {
-                  HexGridController.Instance.TranslateRingAround(InteractionHexCoordinates, snapAnimationDuration, ringRadius);
+                  HexGridController.Instance.TranslateRingAround(InteractionHexCoordinates, ringRadius);
                   DelayBeforeNextSnap = snapDelay;
                }
             }
