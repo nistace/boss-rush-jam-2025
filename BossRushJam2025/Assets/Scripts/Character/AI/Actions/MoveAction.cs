@@ -20,7 +20,7 @@ namespace BossRushJam25.Character.AI
 
         public override void Cancel()
         {
-            Character.NavMeshAgent.isStopped = true;
+            Character.NavMeshAgent.ResetPath();
         }
 
         public override string ToString()
