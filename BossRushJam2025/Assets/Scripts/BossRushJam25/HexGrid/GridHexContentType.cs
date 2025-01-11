@@ -3,8 +3,10 @@ using UnityEngine;
 namespace BossRushJam25.HexGrid {
    [CreateAssetMenu]
    public class GridHexContentType : ScriptableObject {
-      [SerializeField] protected bool walkable = true;
+      [SerializeField] protected int maxToSpawn = 1;
+      [SerializeField] protected int rotationStepsInHex = 1;
 
-      public bool Walkable => walkable;
+      public int MaxToSpawn => maxToSpawn;
+      public int RotationStepsInHex => rotationStepsInHex;
    }
 }

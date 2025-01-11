@@ -638,7 +638,7 @@ MonoBehaviour:
   patterns:
   - {fileID: 11400000, guid: e25d6e92beb592d4fb7102a7e26a4883, type: 2}
   - {fileID: 11400000, guid: e25d6e92beb592d4fb7102a7e26a4883, type: 2}
-  - {fileID: 11400000, guid: cfa67ba22911cfe4bb669d0725a6c594, type: 2}
+  - {fileID: 11400000, guid: 5ee1702ff9fb29442af6a58469cca953, type: 2}
   rotationConfig: {fileID: 11400000, guid: 10f55b3411ccc9e4ca44c85ec9f76056, type: 2}
   navMeshSurface: {fileID: 2137533220}
 --- !u!4 &2137533219

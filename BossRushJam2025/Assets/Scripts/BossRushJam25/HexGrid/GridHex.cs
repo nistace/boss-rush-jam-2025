@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.Events;
@@ -49,7 +50,13 @@ namespace BossRushJam25.HexGrid {
          }
          Contents.Clear();
          foreach (var contentPrefab in pattern.Contents) {
-            Contents.Add(Instantiate(contentPrefab, hexContentParent));
+            var rotationOptionsCount = Mathf.Max(contentPrefab.Type.RotationStepsInHex, 1);
+            var rotationPerStep = 360f / rotationOptionsCount;
+            foreach (var rotationStep in Enumerable.Range(0, rotationOptionsCount).OrderBy(_ => Random.value).Take(contentPrefab.Type.MaxToSpawn)) {
+               var newContent = Instantiate(contentPrefab, hexContentParent);
+               newContent.transform.localRotation = Quaternion.Euler(0, rotationPerStep * rotationStep, 0);
+               Contents.Add(newContent);
+            }
          }
       }
 
