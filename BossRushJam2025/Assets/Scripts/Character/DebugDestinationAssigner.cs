@@ -1,11 +1,16 @@
+using BossRushJam25.Character.AI;
 using UnityEngine;
-using UnityEngine.AI;
 
 namespace BossRushJam25.Character
 {
     public class DebugDestinationAssigner : MonoBehaviour
     {
-        [SerializeField] protected NavMeshAgent navMeshAgent;
+        protected CharacterCore character;
+
+        public void Initialize(CharacterCore character)
+        {
+            this.character = character;
+        }
 
         private void Update()
         {
@@ -13,17 +18,18 @@ namespace BossRushJam25.Character
             {
                 if(Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out RaycastHit hit, 500) && hit.collider.gameObject.layer == LayerMask.NameToLayer("Ground"))
                 {
-                    navMeshAgent.destination = hit.point;
+                    character.ActionPriorityHandler.CancelAllActions();
+                    character.ActionPriorityHandler.AddNextAction(new MoveAction(hit.point));
                 }
             }
         }
 
         private void OnDrawGizmos()
         {
-            if(navMeshAgent.hasPath)
+            if(character.NavMeshAgent.hasPath)
             {
                 Gizmos.color = Color.blue;
-                Gizmos.DrawSphere(navMeshAgent.destination, 0.3f);
+                Gizmos.DrawSphere(character.NavMeshAgent.destination, 0.3f);
             }
         }
     }

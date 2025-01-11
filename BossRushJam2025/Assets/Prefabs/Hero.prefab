@@ -9,10 +9,12 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5849136863364302022}
+  - component: {fileID: 6196457384134968242}
   - component: {fileID: 470945499014949782}
   - component: {fileID: 4036202868100558749}
-  - component: {fileID: 2398727888956531791}
   - component: {fileID: 3018287139037387015}
+  - component: {fileID: 8323066234089659036}
+  - component: {fileID: 2398727888956531791}
   m_Layer: 0
   m_Name: Hero
   m_TagString: Untagged
@@ -35,6 +37,22 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6196457384134968242
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4300564425374020743}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dbd515aa14501e04fb2cb163e018be0b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  navMeshAgent: {fileID: 4036202868100558749}
+  hexLink: {fileID: 3018287139037387015}
+  actionPriorityHandler: {fileID: 8323066234089659036}
+  destinationAssigner: {fileID: 2398727888956531791}
 --- !u!212 &470945499014949782
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -112,19 +130,6 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
---- !u!114 &2398727888956531791
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4300564425374020743}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 65a3ebc00d975a74698f866f719262ac, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  navMeshAgent: {fileID: 4036202868100558749}
 --- !u!114 &3018287139037387015
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -137,4 +142,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7b2fded93a5a1324f8cd97d5bc0ac146, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  navMeshAgent: {fileID: 4036202868100558749}
+--- !u!114 &8323066234089659036
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4300564425374020743}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 15d3307325842e34e8416dfdfaf729e5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &2398727888956531791
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4300564425374020743}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 65a3ebc00d975a74698f866f719262ac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

@@ -6,8 +6,12 @@ namespace BossRushJam25.Character
 {
     public class HexLink : MonoBehaviour
     {
-        [SerializeField] protected NavMeshAgent navMeshAgent;
+        protected CharacterCore character;
 
+        public void Initialize(CharacterCore character)
+        {
+            this.character = character;
+        }
         private void Update()
         {
             //could be found with hero coordinates instead
@@ -16,7 +20,7 @@ namespace BossRushJam25.Character
                 )
             {
                 GridHex hex = hit.collider.GetComponentInParent<GridHex>();
-                navMeshAgent.obstacleAvoidanceType = hex.IsMoving ? ObstacleAvoidanceType.NoObstacleAvoidance : ObstacleAvoidanceType.HighQualityObstacleAvoidance;
+                character.NavMeshAgent.obstacleAvoidanceType = hex.IsMoving ? ObstacleAvoidanceType.NoObstacleAvoidance : ObstacleAvoidanceType.HighQualityObstacleAvoidance;
             }
         }
     }
