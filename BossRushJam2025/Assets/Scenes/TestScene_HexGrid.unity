@@ -276,7 +276,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 14
+  orthographic size: 9
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -605,7 +605,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spinStrategyHandler: {fileID: 176911248}
   cameraTransform: {fileID: 2023441308}
-  heroPrefab: {fileID: 4300564425374020743, guid: ac426a8c1a772c44f9256b049ebd4356, type: 3}
+  heroPrefab: {fileID: 6196457384134968242, guid: ac426a8c1a772c44f9256b049ebd4356, type: 3}
+  bossPrefab: {fileID: 63580048230656051, guid: ee01302736b570a48b59b50023cce2ad, type: 3}
 --- !u!4 &1565030202
 Transform:
   m_ObjectHideFlags: 0
@@ -686,7 +687,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a82e0035923e0945ba55ef844a02598, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gridRadius: 12
+  gridRadius: 7
   hexRadius: 1
   firstTilesPrefabs:
   - {fileID: 6811911467666851820, guid: af1925ec07f0f904694c16f2b291fd77, type: 3}

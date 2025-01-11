@@ -1,14 +1,15 @@
+using BossRushJam25.Character;
 using BossRushJam25.HexGrid;
 using BossRushJam25.Inputs;
 using BossRushJam25.SpinStrategies;
 using UnityEngine;
-using UnityEngine.AI;
 
 namespace BossRushJam25 {
    public class GameController : MonoBehaviour {
       [SerializeField] protected GameObject spinStrategyHandler;
       [SerializeField] protected Transform cameraTransform;
-      [SerializeField] protected GameObject heroPrefab;
+      [SerializeField] protected CharacterCore heroPrefab;
+      [SerializeField] protected CharacterCore bossPrefab;
       private ISpinStrategy SpinStrategy { get; set; }
 
       private void Start() {
@@ -16,6 +17,7 @@ namespace BossRushJam25 {
          SpinStrategy.Initialize();
          HexGridController.Instance.Build();
          Instantiate(heroPrefab);
+         Instantiate(bossPrefab);
          cameraTransform.position = HexGridController.Instance.GetCenterOfGridPosition();
          GameInputs.Controls.Player.Enable();
       }

@@ -5,9 +5,6 @@ namespace BossRushJam25.Character.AI
     public class DodgeAction : AReflexAction
     {
         protected Vector3 damageSourceDirection;
-        protected EActionStatus status;
-
-        public override EActionStatus Status => status;
 
         public DodgeAction(Vector3 damageSourceDirection)
         {
@@ -26,13 +23,11 @@ namespace BossRushJam25.Character.AI
         {
             base.Cancel();
 
-            status = EActionStatus.Cancelled;
+            //TODO: cancel animation
         }
 
         private void DoDodgeAnimation(Vector3 dodgeDirection)
         {
-            status = EActionStatus.Started;
-
             //TODO: animate
             Vector3 targetPosition = Character.transform.position + dodgeDirection * 1f;
             Character.transform.position = targetPosition;
