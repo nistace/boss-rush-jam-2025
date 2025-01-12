@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using BossRushJam25.Character.AI.Actions.ActionData;
 using BossRushJam25.GameControllers;
 using BossRushJam25.HexGrid;
 using UnityEngine;

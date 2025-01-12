@@ -1,5 +1,8 @@
 using UnityEngine;
 
-public abstract class AActionData : ScriptableObject
+namespace BossRushJam25.Character.AI.Actions.ActionData
 {
+    public abstract class AActionData : ScriptableObject
+    {
+    }
 }

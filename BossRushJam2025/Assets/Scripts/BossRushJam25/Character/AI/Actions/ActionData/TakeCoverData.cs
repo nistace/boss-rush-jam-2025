@@ -1,11 +1,14 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "TakeCoverData", menuName = "Actions/TakeCoverData")]
-public class TakeCoverData : AActionData
+namespace BossRushJam25.Character.AI.Actions.ActionData
 {
-    [SerializeField] private float coverDetectionRadius = 10f;
-    [SerializeField] private float distanceWithCover = 3f;
+    [CreateAssetMenu(fileName = "TakeCoverData", menuName = "Actions/TakeCoverData")]
+    public class TakeCoverData : AActionData
+    {
+        [SerializeField] private float coverDetectionRadius = 10f;
+        [SerializeField] private float distanceWithCover = 3f;
 
-    public float CoverDetectionRadius => coverDetectionRadius;
-    public float DistanceWithCover => distanceWithCover;
+        public float CoverDetectionRadius => coverDetectionRadius;
+        public float DistanceWithCover => distanceWithCover;
+    }
 }
