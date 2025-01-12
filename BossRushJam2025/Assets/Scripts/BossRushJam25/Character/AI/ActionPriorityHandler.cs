@@ -4,6 +4,7 @@ using BossRushJam25.Character.AI.Actions;
 using BossRushJam25.GameControllers;
 using BossRushJam25.HexGrid;
 using UnityEngine;
+using Utils;
 
 namespace BossRushJam25.Character.AI
 {
@@ -12,11 +13,13 @@ namespace BossRushJam25.Character.AI
         [SerializeField] private bool displayDebugGUI;
         [SerializeField] private bool drawPreviews;
         [SerializeField] private int queueSize = 3;
+        [SerializeField] private SerializableDictionary<EActionType, AActionData> actionDataMap;
 
         protected CharacterCore character;
         protected List<AAction> plannedActions = new();
 
         protected AAction ActivePlannedAction => plannedActions.Count > 0 ? plannedActions[0] : null;
+        public SerializableDictionary<EActionType, AActionData> ActionDataMap => actionDataMap;
 
         public void Initialize(CharacterCore character)
         {

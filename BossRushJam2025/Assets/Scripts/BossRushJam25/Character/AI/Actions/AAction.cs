@@ -5,6 +5,7 @@ namespace BossRushJam25.Character.AI.Actions
         protected EActionStatus status;
 
         public CharacterCore Character { get; protected set; }
+        protected abstract EActionType Type { get; }
         public virtual EActionStatus Status => status;
 
         public AAction(CharacterCore character)
@@ -51,5 +52,13 @@ namespace BossRushJam25.Character.AI.Actions
         Started = 1,
         Finished = 2,
         Cancelled = 3,
+    }
+
+    public enum EActionType
+    {
+        Move = 0,
+        TakeCover = 1,
+        CollectPowerUp = 2,
+        Dodge = 3,
     }
 }

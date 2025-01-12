@@ -8,6 +8,7 @@ namespace BossRushJam25.Character.AI.Actions
     {
         protected LineRenderer pathLine;
 
+        protected override EActionType Type => EActionType.Move;
         public Vector3 Destination { get; private set; }
 
         public override EActionStatus Status

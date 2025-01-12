@@ -5,8 +5,10 @@ namespace BossRushJam25.Character.AI.Actions
 {
     public class TakeCoverAction : APlannedAction
     {
+        protected TakeCoverData data;
         protected MoveAction moveAction;
 
+        protected override EActionType Type => EActionType.TakeCover;
         public override EActionStatus Status
         {
             get
@@ -22,8 +24,9 @@ namespace BossRushJam25.Character.AI.Actions
 
         public TakeCoverAction(CharacterCore character) : base(character)
         {
-            Vector3 coverPosition = FindCoverFromOpponent();
+            data = (TakeCoverData)Character.ActionPriorityHandler.ActionDataMap[EActionType.TakeCover];
 
+            Vector3 coverPosition = FindCoverFromOpponent();
             moveAction = new(Character, coverPosition);
         }
 
