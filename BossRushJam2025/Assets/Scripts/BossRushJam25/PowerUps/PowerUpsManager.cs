@@ -15,7 +15,7 @@ namespace BossRushJam25.PowerUps
             SpawnPowerUp();
         }
 
-        private void SpawnPowerUp()
+        public void SpawnPowerUp()
         {
             GridHex randomHex = HexGridController.Instance.GetRandomGridHex();
             Vector3 randomPosition = randomHex.transform.position + 1f * Vector3.up;

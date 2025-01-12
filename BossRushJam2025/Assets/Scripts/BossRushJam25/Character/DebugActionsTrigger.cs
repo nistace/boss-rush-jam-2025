@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using BossRushJam25.Character.AI.Actions;
+using BossRushJam25.GameControllers;
 using UnityEngine;
 using Utils;
 
@@ -20,20 +21,25 @@ namespace BossRushJam25.Character
 
         private void HandleInputs()
         {
-            if (Input.GetKeyDown(KeyCode.Alpha1))
+            if(Input.GetKeyDown(KeyCode.Alpha1))
             {
-                if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out RaycastHit hit, 500) && hit.collider.gameObject.layer == LayerMask.NameToLayer("Ground"))
+                if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out RaycastHit hit, maxDistance: 500, layerMask: ~0, queryTriggerInteraction: QueryTriggerInteraction.Ignore) && hit.collider.gameObject.layer == LayerMask.NameToLayer("Ground"))
                 {
                     new MoveAction(character, hit.point).Force();
                 }
             }
 
-            if (Input.GetKeyDown(KeyCode.Alpha2))
+            if(Input.GetKeyDown(KeyCode.Alpha2))
             {
                 new TakeCoverAction(character).Force();
             }
 
-            if (Input.GetKeyDown(KeyCode.Alpha3))
+            if(Input.GetKeyDown(KeyCode.Alpha3))
+            {
+                GameConfig.Instance.PowerUpsManager.SpawnPowerUp();
+            }
+
+            if(Input.GetKeyDown(KeyCode.Alpha4))
             {
                 // if(Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out RaycastHit hit, 500) && hit.collider.gameObject.layer == LayerMask.NameToLayer("Ground"))
                 // {
