@@ -4,7 +4,7 @@ using UnityEngine.AI;
 
 namespace BossRushJam25.Character
 {
-    public class CharacterCore : MonoBehaviour 
+    public class CharacterCore : MonoBehaviour
     {
         [SerializeField] protected CharacterType type;
         [SerializeField] protected NavMeshAgent navMeshAgent;
@@ -18,11 +18,13 @@ namespace BossRushJam25.Character
         public HexLink HexLink => hexLink;
         public ActionPriorityHandler ActionPriorityHandler => actionPriorityHandler;
         public HealthSystem Health { get; private set; }
+        public CharacterCore Opponent { get; private set; }
         public CharacterType Type => type;
 
-        private void Awake()
+        public void Initialize(CharacterCore opponent)
         {
             Health = new HealthSystem(type.MaxHealth);
+            Opponent = opponent;
             hexLink.Initialize(this);
             actionPriorityHandler.Initialize(this);
             powerUpsCollector.Initialize(this);

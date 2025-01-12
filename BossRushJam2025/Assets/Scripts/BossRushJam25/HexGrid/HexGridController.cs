@@ -241,6 +241,29 @@ namespace BossRushJam25.HexGrid {
          return Vector3.zero;
       }
 
+      public Vector3 GetRandomPositionOnNavMesh(Vector3 source, Vector3 direction, float amplitude)
+      {
+         int attempts = 0;
+
+         while(attempts < 100)
+         {
+            Vector3 randomPositionOnCircle = (Random.insideUnitCircle * gridRadius).ToVector3(EAxis.Y);
+            Vector3 sourceToPosition = randomPositionOnCircle - source;
+            float angleFromDirection = Vector3.Angle(direction, sourceToPosition);
+
+            if(angleFromDirection < amplitude / 2
+               && NavMesh.SamplePosition(randomPositionOnCircle, out NavMeshHit hit, 10f, NavMesh.AllAreas)
+               )
+            {
+               return hit.position;
+            }
+
+            attempts++;
+         }
+
+         return GetRandomPositionOnNavMesh();
+      }
+
       public GridHex GetRandomGridHex()
       {
          return Hexes.ElementAt(Random.Range(0, Hexes.Count)).Value;
