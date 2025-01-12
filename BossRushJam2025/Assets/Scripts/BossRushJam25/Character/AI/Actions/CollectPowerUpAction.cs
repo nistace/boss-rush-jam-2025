@@ -18,6 +18,8 @@ namespace BossRushJam25.Character.AI.Actions
             base.Execute();
 
             moveAction.Execute();
+
+            status = EActionStatus.Finished;
         }
 
         public override void Cancel()
