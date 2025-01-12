@@ -1457,6 +1457,7 @@ MonoBehaviour:
   powerUpsManager: {fileID: 1802581949}
   heroPrefab: {fileID: 6196457384134968242, guid: ac426a8c1a772c44f9256b049ebd4356, type: 3}
   bossPrefab: {fileID: 63580048230656051, guid: ee01302736b570a48b59b50023cce2ad, type: 3}
+  bossPatternManagerPrefab: {fileID: 721333850165358362, guid: 7df918d1dafb8754d96b328387a55439, type: 3}
   pathLinePrefab: {fileID: 4152763838001735776, guid: 2c23048632097174a9543c519a0cd828, type: 3}
   actionPreviewsGradient:
     serializedVersion: 2
@@ -2105,6 +2106,7 @@ GameObject:
   - component: {fileID: 2137533219}
   - component: {fileID: 2137533218}
   - component: {fileID: 2137533220}
+  - component: {fileID: 2137533221}
   m_Layer: 0
   m_Name: GridController
   m_TagString: Untagged
@@ -2179,6 +2181,19 @@ MonoBehaviour:
   m_MinRegionArea: 2
   m_NavMeshData: {fileID: 23800000, guid: 5d6f37d1a87054446bbf70aa69cc7849, type: 2}
   m_BuildHeightMesh: 0
+--- !u!114 &2137533221
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2137533217}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1cb8650d0a9747209c6dd859f442eeee, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  affectedHexPrefab: {fileID: 6966482394264578128, guid: 6c2862c3f6e1ce847a626d6469a38f15, type: 3}
 --- !u!1001 &508766729229454340
 PrefabInstance:
   m_ObjectHideFlags: 0

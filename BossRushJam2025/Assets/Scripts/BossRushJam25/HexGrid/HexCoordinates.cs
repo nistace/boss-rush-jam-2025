@@ -12,6 +12,16 @@ namespace BossRushJam25.HexGrid {
          DownLeft = 5,
       }
 
+      public static EDirection Opposite(this EDirection direction) => direction switch {
+         EDirection.Left => EDirection.Right,
+         EDirection.UpLeft => EDirection.DownRight,
+         EDirection.UpRight => EDirection.DownLeft,
+         EDirection.Right => EDirection.Left,
+         EDirection.DownRight => EDirection.UpLeft,
+         EDirection.DownLeft => EDirection.UpRight,
+         _ => throw new ArgumentOutOfRangeException(nameof(direction), direction, null)
+      };
+
       public static EDirection RotateClockwise(this EDirection direction) => direction switch {
          EDirection.Left => EDirection.UpLeft,
          EDirection.UpLeft => EDirection.UpRight,

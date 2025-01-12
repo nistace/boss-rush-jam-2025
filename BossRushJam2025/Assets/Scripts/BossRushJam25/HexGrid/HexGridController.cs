@@ -23,6 +23,7 @@ namespace BossRushJam25.HexGrid {
       private Dictionary<Vector2Int, GridHex> Hexes { get; } = new Dictionary<Vector2Int, GridHex>();
 
       private float InnerRadius { get; set; }
+      public static  Vector2Int Center => Vector2Int.zero;
 
       private void RefreshInnerRadius() => InnerRadius = hexRadius * .5f * Mathf.Sqrt(3);
 
@@ -101,6 +102,9 @@ namespace BossRushJam25.HexGrid {
 
          return result;
       }
+
+      public IReadOnlyList<Vector2Int> GetBorderRing() => GetRingClockwiseCoordinates(Vector2Int.zero, gridRadius);
+      public HashSet<Vector2Int> GetBorderVertices() => GetBorderRing().Where(t => GetNeighbours(t).Count == 3).ToHashSet();
 
       public void TranslateRingAround(Vector2Int center, int ringRadius = 1, int translationsSteps = 1, UnityAction callback = null) =>
          StartCoroutine(DoTranslateRingAround(center, ringRadius, translationsSteps, callback));
@@ -229,32 +233,25 @@ namespace BossRushJam25.HexGrid {
 
       public bool IsCellInGrid(Vector2Int coordinates) => HexCoordinates.HexDistance(coordinates, Vector2Int.zero) <= gridRadius;
 
-      public Vector3 GetRandomPositionOnNavMesh()
-      {
+      public Vector3 GetRandomPositionOnNavMesh() {
          Vector3 randomPositionOnCircle = (Random.insideUnitCircle * gridRadius).ToVector3(EAxis.Y);
 
-         if(NavMesh.SamplePosition(randomPositionOnCircle, out NavMeshHit hit, 10f, NavMesh.AllAreas))
-         {
+         if (NavMesh.SamplePosition(randomPositionOnCircle, out NavMeshHit hit, 10f, NavMesh.AllAreas)) {
             return hit.position;
          }
 
          return Vector3.zero;
       }
 
-      public Vector3 GetRandomPositionOnNavMesh(Vector3 source, Vector3 direction, float amplitude)
-      {
+      public Vector3 GetRandomPositionOnNavMesh(Vector3 source, Vector3 direction, float amplitude) {
          int attempts = 0;
 
-         while(attempts < 100)
-         {
+         while (attempts < 100) {
             Vector3 randomPositionOnCircle = (Random.insideUnitCircle * gridRadius).ToVector3(EAxis.Y);
             Vector3 sourceToPosition = randomPositionOnCircle - source;
             float angleFromDirection = Vector3.Angle(direction, sourceToPosition);
 
-            if(angleFromDirection < amplitude / 2
-               && NavMesh.SamplePosition(randomPositionOnCircle, out NavMeshHit hit, 10f, NavMesh.AllAreas)
-               )
-            {
+            if (angleFromDirection < amplitude / 2 && NavMesh.SamplePosition(randomPositionOnCircle, out NavMeshHit hit, 10f, NavMesh.AllAreas)) {
                return hit.position;
             }
 
@@ -264,8 +261,7 @@ namespace BossRushJam25.HexGrid {
          return GetRandomPositionOnNavMesh();
       }
 
-      public GridHex GetRandomGridHex()
-      {
+      public GridHex GetRandomGridHex() {
          return Hexes.ElementAt(Random.Range(0, Hexes.Count)).Value;
       }
    }
