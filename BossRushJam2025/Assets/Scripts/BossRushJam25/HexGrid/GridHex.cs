@@ -15,7 +15,6 @@ namespace BossRushJam25.HexGrid {
       private List<GridHexContent> Contents { get; } = new List<GridHexContent>();
 
       public GridHexType Type => type;
-      public bool Highlighted { get; private set; }
       public Vector2Int Coordinates { get; private set; }
       public string InitialName { get; set; }
       public bool IsMoving { get; private set; }
@@ -28,14 +27,12 @@ namespace BossRushJam25.HexGrid {
 
       private void Start() {
          SetNoHighlight();
-         SetupContent();
+         Setup();
       }
 
       public void SetNoHighlight() => SetHighlighted(null);
 
       public void SetHighlighted(HexHighlightType highlightType) {
-         Highlighted = highlightType;
-
          highlightRenderer.enabled = highlightType;
          if (highlightType) highlightRenderer.material = highlightType.HexMaterial;
       }
@@ -45,7 +42,15 @@ namespace BossRushJam25.HexGrid {
          name = $"{InitialName}@{coordinates.x:00}{coordinates.y:00}";
       }
 
-      public void SetupContent() {
+      private void Setup() {
+         var rotationSteps = Mathf.Max(type.RotationSteps, 1);
+         var rotation = Random.Range(0, Mathf.Max(type.RotationSteps, 1)) * 360f / rotationSteps;
+         transform.rotation = Quaternion.Euler(0, rotation, 0);
+
+         SetupContent();
+      }
+
+      private void SetupContent() {
          foreach (var content in Contents) {
             Destroy(content.gameObject);
          }

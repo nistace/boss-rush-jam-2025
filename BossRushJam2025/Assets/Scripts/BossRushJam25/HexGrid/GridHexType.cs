@@ -7,11 +7,13 @@ using Random = UnityEngine.Random;
 namespace BossRushJam25.HexGrid {
    [CreateAssetMenu]
    public class GridHexType : ScriptableObject {
+      [SerializeField] protected int rotationSteps = 6;
       [SerializeField] protected bool alwaysAnObstacle;
       [SerializeField] protected NeighbourProbability[] neighbours;
       [SerializeField] protected int noContentProbability = 1;
       [SerializeField] protected ContentProbability[] contents;
 
+      public int RotationSteps => rotationSteps;
       public bool AlwaysAnObstacle => alwaysAnObstacle;
       public IReadOnlyList<NeighbourProbability> Neighbours => neighbours;
 

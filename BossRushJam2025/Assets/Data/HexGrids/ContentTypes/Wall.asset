@@ -12,4 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9ac717a7dd5e4e5190dd4bf1ef4fc1fd, type: 3}
   m_Name: Wall
   m_EditorClassIdentifier: 
-  walkable: 0
+  maxToSpawn: 1
+  rotationStepsInHex: 3

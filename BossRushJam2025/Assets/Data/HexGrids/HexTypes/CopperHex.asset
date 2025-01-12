@@ -12,16 +12,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c8c165fb50eb4be6ae182ddbf7342891, type: 3}
   m_Name: CopperHex
   m_EditorClassIdentifier: 
+  rotationSteps: 3
+  alwaysAnObstacle: 0
   neighbours:
   - prefab: {fileID: 6811911467666851820, guid: af1925ec07f0f904694c16f2b291fd77, type: 3}
-    probability: 10
+    probability: 15
   - prefab: {fileID: 6811911467666851820, guid: f9cceb9f25126ba41a75a5a1bcd793a6, type: 3}
-    probability: 4
+    probability: 0
   - prefab: {fileID: 6811911467666851820, guid: 769657ffd17b5404fa4848dfc29fadd7, type: 3}
-    probability: 2
+    probability: 0
   - prefab: {fileID: 6811911467666851820, guid: c614a6c3010f5874eb8fef537745b8b4, type: 3}
     probability: 1
   noContentProbability: 10
   contents:
-  - contentPrefab: {fileID: -4768754773489207537, guid: 971714ee3e76908469d0a0d298823bcd, type: 3}
+  - contentPrefab: {fileID: -4768754773489207537, guid: 8d2eedb7f32868d419010772e254a492, type: 3}
     probability: 3
