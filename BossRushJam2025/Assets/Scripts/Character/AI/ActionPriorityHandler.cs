@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Text;
+using BossRushJam25.HexGrid;
 using UnityEngine;
 
 namespace BossRushJam25.Character.AI
@@ -77,9 +78,29 @@ namespace BossRushJam25.Character.AI
             }
         }
 
+        private void TryPlanNewAction()
+        {
+            if (plannedActions.Count > queueSize)
+            {
+                return;
+            }
+
+            //TODO: use enum
+            int randomIndex = 0;
+
+            APlannedAction action = randomIndex switch
+            {
+                0 => new MoveAction(character, HexGridController.Instance.GetRandomPositionOnNavMesh()),
+                _ => throw new System.NotImplementedException()
+            };
+
+            PlanAction(action);
+        }
+
         private void Update()
         {
             ProcessActivePlannedAction();
+            TryPlanNewAction();
         }
 
         private void OnGUI()
