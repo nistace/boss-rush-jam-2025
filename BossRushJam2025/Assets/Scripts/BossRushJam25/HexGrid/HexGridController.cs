@@ -175,7 +175,7 @@ namespace BossRushJam25.HexGrid {
          RefreshInnerRadius();
 
          foreach (var hex in Hexes.Values) {
-            Destroy(hex);
+            Destroy(hex.gameObject);
          }
 
          Hexes.Clear();
