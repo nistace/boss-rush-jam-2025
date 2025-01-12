@@ -14,9 +14,8 @@ GameObject:
   - component: {fileID: 4036202868100558749}
   - component: {fileID: 3018287139037387015}
   - component: {fileID: 8323066234089659036}
-  - component: {fileID: 2398727888956531791}
-  - component: {fileID: -6598400233001388747}
   - component: {fileID: 1807859909927588945}
+  - component: {fileID: 2398727888956531791}
   m_Layer: 0
   m_Name: Hero
   m_TagString: Untagged
@@ -56,8 +55,7 @@ MonoBehaviour:
   hexLink: {fileID: 3018287139037387015}
   actionPriorityHandler: {fileID: 8323066234089659036}
   powerUpsCollector: {fileID: 1807859909927588945}
-  destinationAssigner: {fileID: 2398727888956531791}
-  dodgeSimulation: {fileID: -6598400233001388747}
+  actionsTrigger: {fileID: 2398727888956531791}
 --- !u!212 &470945499014949782
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -166,31 +164,6 @@ MonoBehaviour:
     KeyValueList:
     - Key: 1
       Value: {fileID: 11400000, guid: 1e2fbd3a7b25d7f44b4aa6a029c95ed8, type: 2}
---- !u!114 &2398727888956531791
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4300564425374020743}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 65a3ebc00d975a74698f866f719262ac, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &-6598400233001388747
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4300564425374020743}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1729bedd297da874693c09a94df32d8e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  projectileSpeed: 10
 --- !u!114 &1807859909927588945
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -203,3 +176,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d1756a9faced06c4390576dabe4900c7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &2398727888956531791
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4300564425374020743}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 65a3ebc00d975a74698f866f719262ac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  projectileSpeed: 10

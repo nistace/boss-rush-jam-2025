@@ -1,13 +1,13 @@
 using System.Collections.Generic;
-using BossRushJam25.Character.AI;
 using BossRushJam25.Character.AI.Actions;
 using UnityEngine;
 using Utils;
 
 namespace BossRushJam25.Character
 {
-    public class DebugDodgeSimulation : MonoBehaviour
+    public class DebugActionsTrigger : MonoBehaviour
     {
+        [Header("Dodge")]
         [SerializeField] private float projectileSpeed;
 
         protected CharacterCore character;
@@ -18,15 +18,22 @@ namespace BossRushJam25.Character
             this.character = character;
         }
 
-        private void Update()
+        private void HandleInputs()
         {
-            HandleInput();
-            MoveProjectiles();
-        }
+            if (Input.GetKeyDown(KeyCode.Alpha1))
+            {
+                if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out RaycastHit hit, 500) && hit.collider.gameObject.layer == LayerMask.NameToLayer("Ground"))
+                {
+                    new MoveAction(character, hit.point).Force();
+                }
+            }
 
-        private void HandleInput()
-        {
-            if(Input.GetKeyDown(KeyCode.Space))
+            if (Input.GetKeyDown(KeyCode.Alpha2))
+            {
+                new TakeCoverAction(character).Force();
+            }
+
+            if (Input.GetKeyDown(KeyCode.Alpha3))
             {
                 // if(Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out RaycastHit hit, 500) && hit.collider.gameObject.layer == LayerMask.NameToLayer("Ground"))
                 // {
@@ -49,11 +56,11 @@ namespace BossRushJam25.Character
 
         private void MoveProjectiles()
         {
-            for(int projectileIndex = projectiles.Count - 1; projectileIndex > -1; projectileIndex--)
+            for (int projectileIndex = projectiles.Count - 1; projectileIndex > -1; projectileIndex--)
             {
                 Transform projectile = projectiles[projectileIndex];
 
-                if(projectile.position.sqrMagnitude > 2500f)
+                if (projectile.position.sqrMagnitude > 2500f)
                 {
                     projectiles.Remove(projectile);
                     Destroy(projectile.gameObject);
@@ -63,6 +70,13 @@ namespace BossRushJam25.Character
 
                 projectile.Translate(Time.deltaTime * projectileSpeed * Vector3.forward);
             }
+        }
+
+        private void Update()
+        {
+            HandleInputs();
+
+            MoveProjectiles();
         }
     }
 }
