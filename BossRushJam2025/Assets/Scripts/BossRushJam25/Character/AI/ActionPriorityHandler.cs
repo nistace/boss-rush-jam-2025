@@ -82,18 +82,19 @@ namespace BossRushJam25.Character.AI
 
         private void TryPlanNewAction()
         {
-            if (plannedActions.Count > queueSize)
+            if (plannedActions.Count >= queueSize)
             {
                 return;
             }
 
             //TODO: use enum
-            int randomIndex = Random.Range(0,2);
+            int randomIndex = Random.Range(0,3);
 
             APlannedAction action = randomIndex switch
             {
                 0 => new MoveAction(character, HexGridController.Instance.GetRandomPositionOnNavMesh()),
                 1 => new CollectPowerUpAction(character, GameConfig.Instance.PowerUpsManager.powerUps[0]),
+                2 => new TakeCoverAction(character),
                 _ => throw new System.NotImplementedException()
             };
 

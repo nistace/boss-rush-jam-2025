@@ -19,6 +19,8 @@ namespace BossRushJam25.GameControllers {
          GameConfig.Instance.PowerUpsManager.Initialize();
          Hero = Object.Instantiate(GameConfig.Instance.HeroPrefab, HexGridController.Instance.CoordinatesToWorldPosition(GameConfig.Instance.HeroPrefab.Type.SpawnPosition), Quaternion.identity);
          Boss = Object.Instantiate(GameConfig.Instance.BossPrefab, HexGridController.Instance.CoordinatesToWorldPosition(GameConfig.Instance.BossPrefab.Type.SpawnPosition), Quaternion.identity);
+         Hero.Initialize(Boss);
+         Boss.Initialize(Hero);
 
          MainCanvas.Game.HeroHealthBar.Setup(Hero.Health);
          MainCanvas.Game.BossHealthBar.Setup(Boss.Health);
