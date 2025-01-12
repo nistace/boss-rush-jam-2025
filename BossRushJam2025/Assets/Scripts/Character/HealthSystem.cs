@@ -16,7 +16,7 @@ namespace Character {
          Health = maxHealth;
       }
 
-      public bool Damage(int amount) => ChangeHealth(amount);
+      public bool Damage(int amount) => ChangeHealth(-amount);
 
       public bool Heal(int amount, bool canRevive = false) {
          if (!canRevive && Health == 0) return false;
