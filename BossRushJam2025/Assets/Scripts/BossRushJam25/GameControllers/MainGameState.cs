@@ -16,6 +16,7 @@ namespace BossRushJam25.GameControllers {
 
       public override void Enable() {
          HexGridController.Instance.Build(new[] { GameConfig.Instance.HeroPrefab.Type.SpawnPosition, GameConfig.Instance.BossPrefab.Type.SpawnPosition });
+         GameConfig.Instance.PowerUpsManager.Initialize();
          Hero = Object.Instantiate(GameConfig.Instance.HeroPrefab, HexGridController.Instance.CoordinatesToWorldPosition(GameConfig.Instance.HeroPrefab.Type.SpawnPosition), Quaternion.identity);
          Boss = Object.Instantiate(GameConfig.Instance.BossPrefab, HexGridController.Instance.CoordinatesToWorldPosition(GameConfig.Instance.BossPrefab.Type.SpawnPosition), Quaternion.identity);
 
@@ -23,7 +24,7 @@ namespace BossRushJam25.GameControllers {
          MainCanvas.Game.BossHealthBar.Setup(Boss.Health);
 
          CameraController.Instance.MoveToGamePosition(false);
-         SpinStrategy = Object.FindFirstObjectByType<GameController>().GetComponentInChildren<ISpinStrategy>();
+         SpinStrategy = GameConfig.Instance.SpinStrategy.GetComponent<ISpinStrategy>();
 
          MainCanvas.Show<GameUi>(false, HandleUiShown);
       }

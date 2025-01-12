@@ -240,5 +240,10 @@ namespace BossRushJam25.HexGrid {
 
          return Vector3.zero;
       }
+
+      public GridHex GetRandomGridHex()
+      {
+         return Hexes.ElementAt(Random.Range(0, Hexes.Count)).Value;
+      }
    }
 }

@@ -11,6 +11,7 @@ namespace BossRushJam25.Character
         [SerializeField] protected NavMeshAgent navMeshAgent;
         [SerializeField] protected HexLink hexLink;
         [SerializeField] protected ActionPriorityHandler actionPriorityHandler;
+        [SerializeField] protected PowerUpsCollector powerUpsCollector;
         [SerializeField] protected DebugDestinationAssigner destinationAssigner;
         [SerializeField] protected DebugDodgeSimulation dodgeSimulation;
 
@@ -25,6 +26,7 @@ namespace BossRushJam25.Character
             Health = new HealthSystem(type.MaxHealth);
             hexLink.Initialize(this);
             actionPriorityHandler.Initialize(this);
+            powerUpsCollector.Initialize(this);
             destinationAssigner?.Initialize(this);
             dodgeSimulation?.Initialize(this);
         }

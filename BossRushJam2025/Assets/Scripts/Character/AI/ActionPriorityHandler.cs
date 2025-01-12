@@ -22,7 +22,7 @@ namespace BossRushJam25.Character.AI
 
         public void PlanAction(APlannedAction action)
         {
-            if(plannedActions.Count > queueSize)
+            if(plannedActions.Count >= queueSize)
             {
                 return;
             }
