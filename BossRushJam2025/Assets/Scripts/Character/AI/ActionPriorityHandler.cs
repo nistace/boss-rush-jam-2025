@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Text;
+using BossRushJam25.GameControllers;
 using BossRushJam25.HexGrid;
 using UnityEngine;
 
@@ -86,11 +87,12 @@ namespace BossRushJam25.Character.AI
             }
 
             //TODO: use enum
-            int randomIndex = 0;
+            int randomIndex = Random.Range(0,2);
 
             APlannedAction action = randomIndex switch
             {
                 0 => new MoveAction(character, HexGridController.Instance.GetRandomPositionOnNavMesh()),
+                1 => new CollectPowerUpAction(character, GameConfig.Instance.PowerUpsManager.powerUps[0]),
                 _ => throw new System.NotImplementedException()
             };
 

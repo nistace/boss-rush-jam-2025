@@ -10,13 +10,13 @@ namespace BossRushJam25.Character.AI
         public CollectPowerUpAction(CharacterCore character, GameObject powerUp) : base(character)
         {
             this.powerUp = powerUp;
+            moveAction = new(Character, powerUp.transform.position);
         }
 
         public override void Execute()
         {
             base.Execute();
 
-            moveAction = new(Character, powerUp.transform.position);
             moveAction.Execute();
         }
 
