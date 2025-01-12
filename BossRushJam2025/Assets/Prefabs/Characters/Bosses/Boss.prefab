@@ -84,7 +84,8 @@ PrefabInstance:
       propertyPath: displayDebugGUI
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 480870842285146875, guid: ac426a8c1a772c44f9256b049ebd4356, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []

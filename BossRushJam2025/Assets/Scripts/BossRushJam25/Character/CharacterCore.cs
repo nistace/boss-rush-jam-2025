@@ -10,7 +10,6 @@ namespace BossRushJam25.Character
         [SerializeField] protected NavMeshAgent navMeshAgent;
         [SerializeField] protected HexLink hexLink;
         [SerializeField] protected ActionPriorityHandler actionPriorityHandler;
-        [SerializeField] protected PowerUpsCollector powerUpsCollector;
         [SerializeField] protected DebugActionsTrigger actionsTrigger;
 
         public NavMeshAgent NavMeshAgent => navMeshAgent;
@@ -26,7 +25,6 @@ namespace BossRushJam25.Character
             Opponent = opponent;
             hexLink.Initialize(this);
             actionPriorityHandler.Initialize(this);
-            powerUpsCollector.Initialize(this);
             actionsTrigger?.Initialize(this);
         }
     }
