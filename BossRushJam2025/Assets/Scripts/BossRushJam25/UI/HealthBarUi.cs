@@ -12,8 +12,9 @@ namespace BossRushJam25.UI {
       private float AdjustmentStartTime { get; set; }
 
       public void Setup(HealthSystem healthSystem) {
-         ObservedHealthSystem = healthSystem;
          ObservedHealthSystem?.OnHealthChanged.RemoveListener(HandleHealthChanged);
+         ObservedHealthSystem = healthSystem;
+         ObservedHealthSystem.OnHealthChanged.AddListener(HandleHealthChanged);
          healthBarFillImage.fillAmount = healthSystem.HealthRatio;
          healthBarDiffImage.fillAmount = healthSystem.HealthRatio;
          AdjustmentStartTime = 0;
@@ -29,12 +30,12 @@ namespace BossRushJam25.UI {
             healthBarFillImage.fillAmount = healthBarDiffImage.fillAmount;
             healthBarDiffImage.fillAmount = ObservedHealthSystem.HealthRatio;
          }
-         AdjustmentStartTime = Time.deltaTime;
+         AdjustmentStartTime = Time.time;
       }
 
       private void Update() {
          if (ObservedHealthSystem == null) return;
-         var adjustmentDelta = adjustmentOverTime.Evaluate(Time.time - AdjustmentStartTime);
+         var adjustmentDelta = adjustmentOverTime.Evaluate(Time.time - AdjustmentStartTime) * Time.deltaTime;
          healthBarFillImage.fillAmount = Mathf.MoveTowards(healthBarFillImage.fillAmount, ObservedHealthSystem.HealthRatio, adjustmentDelta);
          healthBarDiffImage.fillAmount = Mathf.MoveTowards(healthBarDiffImage.fillAmount, ObservedHealthSystem.HealthRatio, adjustmentDelta);
       }

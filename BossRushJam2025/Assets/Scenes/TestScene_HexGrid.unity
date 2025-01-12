@@ -1265,7 +1265,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spinStrategy: {fileID: 176911248}
   heroPrefab: {fileID: 6196457384134968242, guid: ac426a8c1a772c44f9256b049ebd4356, type: 3}
-  bossPrefab: {fileID: 6196457384134968242, guid: ac426a8c1a772c44f9256b049ebd4356, type: 3}
+  bossPrefab: {fileID: 6196457384134968242, guid: cb407a9dba15ccf4c806f1b6ceccb6a6, type: 3}
 --- !u!224 &1604926321 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 4568536129734699747, guid: 47fe62321577b4f4893efdcb12c44c3d, type: 3}
