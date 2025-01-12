@@ -1,3 +1,6 @@
+using System.Collections.Generic;
+using System.Linq;
+using BossRushJam25.GameControllers;
 using BossRushJam25.HexGrid;
 using UnityEngine;
 
@@ -7,6 +10,7 @@ namespace BossRushJam25.Character.AI.Actions
     {
         protected TakeCoverData data;
         protected MoveAction moveAction;
+        protected GridHex targetedCover;
 
         protected override EActionType Type => EActionType.TakeCover;
         public override EActionStatus Status
@@ -62,10 +66,18 @@ namespace BossRushJam25.Character.AI.Actions
 
         private Vector3 FindCoverFromOpponent()
         {
-            //TODO: find nearby walls instead
+            IEnumerable<GridHex> nearbyHexes = HexGridController.Instance.GetGridHexesInArea(Character.transform.position, data.CoverDetectionRadius);
+
+            GridHex nearestCoverHex = nearbyHexes
+                .Where(hex => hex.Contents.Any(content => GameConfig.Instance.CoverTypes.Contains(content.Type)))
+                .OrderBy(hex => (hex.transform.position - Character.transform.position).sqrMagnitude)
+                .First();
+
+            targetedCover = nearestCoverHex;
+
             Vector3 opponentPosition = Character.Opponent.transform.position;
-            Vector3 oppositeDirection = (Character.transform.position - opponentPosition).normalized;
-            Vector3 targetPosition = HexGridController.Instance.GetRandomPositionOnNavMesh(source: Character.transform.position, direction: oppositeDirection, amplitude: 60f);
+            Vector3 oppositeDirection = (targetedCover.transform.position - opponentPosition).normalized;
+            Vector3 targetPosition = targetedCover.transform.position + oppositeDirection * data.DistanceWithCover;
 
             return targetPosition;
         }

@@ -1298,6 +1298,8 @@ MonoBehaviour:
     m_ColorSpace: -1
     m_NumColorKeys: 2
     m_NumAlphaKeys: 2
+  coverTypes:
+  - {fileID: 11400000, guid: 0727135848fead74e90a9dbe595130b4, type: 2}
 --- !u!224 &1604926321 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 4568536129734699747, guid: 47fe62321577b4f4893efdcb12c44c3d, type: 3}

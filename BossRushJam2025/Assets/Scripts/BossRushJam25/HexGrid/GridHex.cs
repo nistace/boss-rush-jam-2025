@@ -12,7 +12,7 @@ namespace BossRushJam25.HexGrid {
       [SerializeField] protected MeshRenderer highlightRenderer;
       [SerializeField] protected NavMeshObstacle navMeshObstacle;
 
-      private List<GridHexContent> Contents { get; } = new List<GridHexContent>();
+      public List<GridHexContent> Contents { get; } = new List<GridHexContent>();
 
       public GridHexType Type => type;
       public Vector2Int Coordinates { get; private set; }
