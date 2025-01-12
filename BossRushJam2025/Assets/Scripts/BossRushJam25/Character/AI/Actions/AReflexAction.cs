@@ -1,8 +1,8 @@
-namespace BossRushJam25.Character.AI
+namespace BossRushJam25.Character.AI.Actions
 {
-    public abstract class APlannedAction : AAction
+    public abstract class AReflexAction : AAction
     {
-        public APlannedAction(CharacterCore character) : base(character)
+        public AReflexAction(CharacterCore character) : base(character)
         {
 
         }

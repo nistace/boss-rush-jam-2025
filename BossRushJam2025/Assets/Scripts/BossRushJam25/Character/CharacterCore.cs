@@ -1,5 +1,4 @@
 using BossRushJam25.Character.AI;
-using Character;
 using UnityEngine;
 using UnityEngine.AI;
 

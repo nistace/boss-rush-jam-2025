@@ -1,4 +1,4 @@
-namespace BossRushJam25.Character.AI
+namespace BossRushJam25.Character.AI.Actions
 {
     public abstract class AAction
     {

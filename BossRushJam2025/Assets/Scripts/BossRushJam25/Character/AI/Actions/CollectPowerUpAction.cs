@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace BossRushJam25.Character.AI
+namespace BossRushJam25.Character.AI.Actions
 {
     public class CollectPowerUpAction : APlannedAction
     {

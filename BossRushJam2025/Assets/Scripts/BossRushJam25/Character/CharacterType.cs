@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Character {
+namespace BossRushJam25.Character {
    [CreateAssetMenu]
    public class CharacterType : ScriptableObject {
       [SerializeField] protected Vector2Int spawnPosition;

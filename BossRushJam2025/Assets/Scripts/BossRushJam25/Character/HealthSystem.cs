@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.Events;
 
-namespace Character {
+namespace BossRushJam25.Character {
    public class HealthSystem {
       public int MaxHealth { get; }
       public int Health { get; private set; }
