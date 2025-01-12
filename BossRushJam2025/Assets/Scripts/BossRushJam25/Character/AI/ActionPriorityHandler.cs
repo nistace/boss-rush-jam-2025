@@ -139,16 +139,16 @@ namespace BossRushJam25.Character.AI
             }
 
             GUIStyle pendingActionStyle = new(GUI.skin.label) { fontSize = 25, alignment = TextAnchor.UpperLeft };
-            pendingActionStyle.normal.textColor = Color.white;
+            pendingActionStyle.normal.textColor = Color.black;
 
             if (plannedActions.Count > 0)
             {
-                GUIStyle reflexActionStyle = new(GUI.skin.label) { fontSize = 25, alignment = TextAnchor.MiddleLeft };
-                reflexActionStyle.normal.textColor = Color.cyan;
+                GUIStyle reflexActionStyle = new(pendingActionStyle);
+                reflexActionStyle.normal.textColor = Color.blue;
                 GUIStyle activeActionStyle = new(reflexActionStyle);
-                activeActionStyle.normal.textColor = Color.yellow;
+                activeActionStyle.normal.textColor = Color.red;
 
-                GUI.Label(new Rect(10, 10, 400, 50), ActivePlannedAction.ToString(), ActivePlannedAction is AReflexAction ? reflexActionStyle : activeActionStyle);
+                GUI.Label(new Rect(10, 10, 400, 30), ActivePlannedAction.ToString(), ActivePlannedAction is AReflexAction ? reflexActionStyle : activeActionStyle);
 
                 StringBuilder builder = new();
 
@@ -157,11 +157,11 @@ namespace BossRushJam25.Character.AI
                     builder.AppendLine(plannedActions[actionIndex].ToString());
                 }
 
-                GUI.Label(new Rect(10, 70, 400, 150), builder.ToString(), pendingActionStyle);
+                GUI.Label(new Rect(10, 40, 400, 60), builder.ToString(), pendingActionStyle);
             }
             else
             {
-                GUI.Label(new Rect(10, 10, 400, 50), "No action assigned", pendingActionStyle);
+                GUI.Label(new Rect(10, 10, 400, 30), "No action assigned", pendingActionStyle);
             }
         }
 
