@@ -4,7 +4,9 @@ using System.Collections.Generic;
 using System.Linq;
 using Unity.AI.Navigation;
 using UnityEngine;
+using UnityEngine.AI;
 using UnityEngine.Events;
+using Utils;
 using Random = UnityEngine.Random;
 
 namespace BossRushJam25.HexGrid {
@@ -215,5 +217,17 @@ namespace BossRushJam25.HexGrid {
       }
 
       public bool IsCellInGrid(Vector2Int coordinates) => HexCoordinates.HexDistance(coordinates, Vector2Int.zero) <= gridRadius;
+
+      public Vector3 GetRandomPositionOnNavMesh()
+      {
+         Vector3 randomPositionOnCircle = (Random.insideUnitCircle * gridRadius).ToVector3(EAxis.Y);
+
+         if(NavMesh.SamplePosition(randomPositionOnCircle, out NavMeshHit hit, 10f, NavMesh.AllAreas))
+         {
+            return hit.position;
+         }
+
+         return Vector3.zero;
+      }
    }
 }

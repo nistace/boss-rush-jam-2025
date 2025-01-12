@@ -4,10 +4,15 @@ namespace BossRushJam25.Character.AI
     {
         protected EActionStatus status;
 
-        public CharacterCore Character { get; internal set; }
+        public CharacterCore Character { get; protected set; }
         public virtual EActionStatus Status => status;
 
-        public AAction()
+        public AAction(CharacterCore character)
+        {
+            Character = character;
+        }
+
+        public virtual void Assign()
         {
             status = EActionStatus.Pending;
         }
@@ -20,6 +25,12 @@ namespace BossRushJam25.Character.AI
         public virtual void Cancel()
         {
             status = EActionStatus.Cancelled;
+        }
+
+        public void Reset()
+        {
+            Cancel();
+            status = EActionStatus.Pending;
         }
     }
 

@@ -6,7 +6,7 @@ namespace BossRushJam25.Character.AI
     {
         protected Vector3 damageSourceDirection;
 
-        public DodgeAction(Vector3 damageSourceDirection)
+        public DodgeAction(CharacterCore character, Vector3 damageSourceDirection) : base(character)
         {
             this.damageSourceDirection = damageSourceDirection;
         }

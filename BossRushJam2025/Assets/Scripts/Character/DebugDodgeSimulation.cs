@@ -43,7 +43,7 @@ namespace BossRushJam25.Character
             projectile.transform.forward = character.transform.position - projectile.transform.position;
             projectile.transform.localScale = Vector3.one * 0.3f;
             projectiles.Add(projectile.transform);
-            character.ActionPriorityHandler.ExecuteReflexAction(new DodgeAction(projectile.transform.forward));
+            new DodgeAction(character, projectile.transform.forward).Assign();
         }
 
         private void MoveProjectiles()
