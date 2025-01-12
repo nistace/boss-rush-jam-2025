@@ -58,7 +58,7 @@ namespace BossRushJam25.HexGrid {
          }
       }
 
-      private void OnDrawGizmosSelected() {
+      private void OnDrawGizmos() {
          Gizmos.color = Color.cyan;
 
          if (!Application.isPlaying) RefreshInnerRadius();
@@ -267,6 +267,13 @@ namespace BossRushJam25.HexGrid {
       public GridHex GetRandomGridHex()
       {
          return Hexes.ElementAt(Random.Range(0, Hexes.Count)).Value;
+      }
+
+      public IEnumerable<GridHex> GetGridHexesInArea(Vector3 origin, float radius)
+      {
+         IEnumerable<GridHex> hexesInArea = Hexes.Values.Where(hex => (hex.transform.position - origin).sqrMagnitude - radius * radius < 0.01f);
+
+         return hexesInArea;
       }
    }
 }

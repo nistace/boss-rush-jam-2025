@@ -8,6 +8,7 @@ namespace BossRushJam25.Character.AI.Actions
     {
         protected LineRenderer pathLine;
 
+        protected override EActionType Type => EActionType.Move;
         public Vector3 Destination { get; private set; }
 
         public override EActionStatus Status
@@ -80,6 +81,17 @@ namespace BossRushJam25.Character.AI.Actions
             Color color = GameConfig.Instance.ActionPreviewsGradient.Evaluate(priorityValue01);
             pathLine.startColor = color;
             pathLine.startColor = color;
+        }
+
+        public override void DrawGizmos()
+        {
+            base.DrawGizmos();
+
+            if (Character.NavMeshAgent.hasPath)
+            {
+                Gizmos.color = Color.blue;
+                Gizmos.DrawSphere(Character.NavMeshAgent.destination, 0.2f);
+            }
         }
 
         public override string ToString()

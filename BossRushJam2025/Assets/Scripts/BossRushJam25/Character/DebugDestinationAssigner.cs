@@ -22,20 +22,5 @@ namespace BossRushJam25.Character
                 }
             }
         }
-
-        //:TODO: draw all queued destinations (maybe in MoveAction instead?)
-        private void OnDrawGizmos()
-        {
-            if(!enabled)
-            {
-                return;
-            }
-
-            if(character.NavMeshAgent.hasPath)
-            {
-                Gizmos.color = Color.blue;
-                Gizmos.DrawSphere(character.NavMeshAgent.destination, 0.3f);
-            }
-        }
     }
 }
