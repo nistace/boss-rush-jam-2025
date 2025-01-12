@@ -5,29 +5,23 @@ namespace BossRushJam25.Character.AI
     public class MoveAction : APlannedAction
     {
         protected Vector3 destination;
-        protected bool cancelled;
 
         public override EActionStatus Status
         {
             get
             {
-                bool destination_is_reached = (destination - Character.transform.position).sqrMagnitude <= 0.01f;
+                bool destination_is_reached = Character.NavMeshAgent.remainingDistance <= 0.01f;
 
-                if(destination_is_reached)
+                if(status == EActionStatus.Started && destination_is_reached)
                 {
-                    return EActionStatus.Finished;
+                    status = EActionStatus.Finished;
                 }
 
-                if(Character.NavMeshAgent.hasPath)
-                {
-                    return EActionStatus.Started;
-                }
-
-                return cancelled ? EActionStatus.Cancelled : EActionStatus.Pending;
+                return status;
             }
         }
 
-        public MoveAction(Vector3 destination) : base()
+        public MoveAction(CharacterCore character, Vector3 destination) : base(character)
         {
             this.destination = destination;
         }
@@ -44,7 +38,6 @@ namespace BossRushJam25.Character.AI
             base.Cancel();
 
             Character.NavMeshAgent.ResetPath();
-            cancelled = true;
         }
 
         public override string ToString()

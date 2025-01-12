@@ -17,8 +17,6 @@ namespace BossRushJam25.Character
         public NavMeshAgent NavMeshAgent => navMeshAgent;
         public HexLink HexLink => hexLink;
         public ActionPriorityHandler ActionPriorityHandler => actionPriorityHandler;
-        public DebugDestinationAssigner DestinationAssigner => destinationAssigner;
-        public DebugDodgeSimulation DodgeSimulation => dodgeSimulation;
         public HealthSystem Health { get; private set; }
         public CharacterType Type => type;
 
@@ -27,8 +25,8 @@ namespace BossRushJam25.Character
             Health = new HealthSystem(type.MaxHealth);
             hexLink.Initialize(this);
             actionPriorityHandler.Initialize(this);
-            destinationAssigner.Initialize(this);
-            dodgeSimulation.Initialize(this);
+            destinationAssigner?.Initialize(this);
+            dodgeSimulation?.Initialize(this);
         }
     }
 }

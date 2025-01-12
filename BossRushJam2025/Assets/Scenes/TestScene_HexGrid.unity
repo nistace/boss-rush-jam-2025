@@ -654,13 +654,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 824274559}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.42176995, y: -0.23284192, z: 0.11301289, w: 0.8689781}
+  m_LocalRotation: {x: 0.63218254, y: -0.32884943, z: 0.05605464, w: 0.6993292}
   m_LocalPosition: {x: -0.3218706, y: -1.6358758, z: 5.559383}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 51.78, y: -30, z: 0}
+  m_LocalEulerAnglesHint: {x: 67.084, y: -92.295, z: -60.049}
 --- !u!1 &1042709829
 GameObject:
   m_ObjectHideFlags: 0
@@ -1265,7 +1265,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spinStrategy: {fileID: 176911248}
   heroPrefab: {fileID: 6196457384134968242, guid: ac426a8c1a772c44f9256b049ebd4356, type: 3}
-  bossPrefab: {fileID: 6196457384134968242, guid: cb407a9dba15ccf4c806f1b6ceccb6a6, type: 3}
+  bossPrefab: {fileID: 63580048230656051, guid: ee01302736b570a48b59b50023cce2ad, type: 3}
 --- !u!224 &1604926321 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 4568536129734699747, guid: 47fe62321577b4f4893efdcb12c44c3d, type: 3}

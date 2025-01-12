@@ -1,13 +1,10 @@
 fileFormatVersion: 2
-guid: 5a76f7e543725a44189f6ab240ec7eb8
+guid: bab0741a772a25348929e3a1d783827b
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 815424164945274260
-    second: IDLE_0
-  - first:
-      213: -270785710348516584
-    second: IDLE_1
+      213: -3260209307103872720
+    second: BaseTile_DefaultMaterial_AlbedoTransparency_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -54,7 +51,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 200
+  spritePixelsToUnits: 100
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -75,7 +72,7 @@ TextureImporter:
   platformSettings:
   - serializedVersion: 4
     buildTarget: DefaultTexturePlatform
-    maxTextureSize: 128
+    maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 1
@@ -99,27 +96,40 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: IDLE_0
+      name: BaseTile_DefaultMaterial_AlbedoTransparency_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 304
-        height: 442
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+        width: 2048
+        height: 2048
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
-      spriteID: 4b02562464e7e2b439ec7193ee0a3362
-      internalID: 162241595
+      spriteID: 039b6a498e861c2d0800000000000000
+      internalID: -3260209307103872720
       vertices: []
       indices: 
       edges: []
@@ -128,7 +138,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 5e09a890e36cd504984fd3e70a2beadb
+    spriteID: 
     internalID: 0
     vertices: []
     indices: 
@@ -138,7 +148,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      IDLE_0: 162241595
+      BaseTile_DefaultMaterial_AlbedoTransparency_0: -3260209307103872720
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
