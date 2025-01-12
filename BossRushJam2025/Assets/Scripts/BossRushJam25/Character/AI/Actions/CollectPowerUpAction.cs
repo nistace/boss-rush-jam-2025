@@ -29,6 +29,13 @@ namespace BossRushJam25.Character.AI.Actions
             moveAction.Cancel();
         }
 
+        public override void DrawPreview(float priorityValue01)
+        {
+            base.DrawPreview(priorityValue01);
+
+            moveAction.DrawPreview(priorityValue01);
+        }
+
         public override string ToString()
         {
             return $"Collect power up at: {moveAction.Destination}";

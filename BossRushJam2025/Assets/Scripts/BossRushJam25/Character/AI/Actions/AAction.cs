@@ -27,10 +27,21 @@ namespace BossRushJam25.Character.AI.Actions
             status = EActionStatus.Cancelled;
         }
 
+        public virtual void CleanUp()
+        {
+
+        }
+
         public void Reset()
         {
             Cancel();
+            CleanUp();
             status = EActionStatus.Pending;
+        }
+
+        public virtual void DrawPreview(float priorityValue01)
+        {
+
         }
     }
 

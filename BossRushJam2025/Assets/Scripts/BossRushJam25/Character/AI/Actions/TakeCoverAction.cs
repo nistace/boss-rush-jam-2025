@@ -7,6 +7,19 @@ namespace BossRushJam25.Character.AI.Actions
     {
         protected MoveAction moveAction;
 
+        public override EActionStatus Status
+        {
+            get
+            {
+                if (status == EActionStatus.Started && moveAction.Status == EActionStatus.Finished)
+                {
+                    status = EActionStatus.Finished;
+                }
+
+                return status;
+            }
+        }
+
         public TakeCoverAction(CharacterCore character) : base(character)
         {
             Vector3 coverPosition = FindCoverFromOpponent();
@@ -21,8 +34,6 @@ namespace BossRushJam25.Character.AI.Actions
             moveAction.Execute();
 
             //TODO: rotate sprite towards opponent + cover idle
-
-            status = EActionStatus.Finished;
         }
 
         public override void Cancel()
@@ -32,6 +43,13 @@ namespace BossRushJam25.Character.AI.Actions
             moveAction.Cancel();
 
             //TODO: quit cover idle?
+        }
+
+        public override void DrawPreview(float priorityValue01)
+        {
+            base.DrawPreview(priorityValue01);
+
+            moveAction.DrawPreview(priorityValue01);
         }
 
         public override string ToString()
