@@ -59,6 +59,19 @@ namespace BossRushJam25.Character.AI.Actions
             moveAction.DrawPreview(priorityValue01);
         }
 
+        public override void DrawGizmos()
+        {
+            base.DrawGizmos();
+
+            if(targetedCover != null)
+            {
+                Gizmos.color = Color.magenta;
+                Gizmos.DrawCube(targetedCover.transform.position, Vector3.one * 0.2f);
+            }
+
+            moveAction.DrawGizmos();
+        }
+
         public override string ToString()
         {
             return $"Take cover at: {moveAction.Destination}";

@@ -38,6 +38,13 @@ namespace BossRushJam25.Character.AI.Actions
             moveAction.DrawPreview(priorityValue01);
         }
 
+        public override void DrawGizmos()
+        {
+            base.DrawGizmos();
+
+            moveAction.DrawGizmos();
+        }
+
         public override string ToString()
         {
             return $"Collect power up at: {moveAction.Destination}";

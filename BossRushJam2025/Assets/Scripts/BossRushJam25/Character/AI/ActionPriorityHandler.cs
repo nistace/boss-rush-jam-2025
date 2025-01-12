@@ -164,5 +164,13 @@ namespace BossRushJam25.Character.AI
                 GUI.Label(new Rect(10, 10, 400, 50), "No action assigned", pendingActionStyle);
             }
         }
+
+        private void OnDrawGizmos()
+        {
+            foreach(AAction action in plannedActions)
+            {
+                action.DrawGizmos();
+            }
+        }
     }
 }

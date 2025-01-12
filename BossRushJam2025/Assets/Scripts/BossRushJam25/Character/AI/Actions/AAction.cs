@@ -44,6 +44,11 @@ namespace BossRushJam25.Character.AI.Actions
         {
 
         }
+
+        public virtual void DrawGizmos()
+        {
+
+        }
     }
 
     public enum EActionStatus

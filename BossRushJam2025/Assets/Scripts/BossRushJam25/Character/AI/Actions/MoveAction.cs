@@ -83,6 +83,17 @@ namespace BossRushJam25.Character.AI.Actions
             pathLine.startColor = color;
         }
 
+        public override void DrawGizmos()
+        {
+            base.DrawGizmos();
+
+            if (Character.NavMeshAgent.hasPath)
+            {
+                Gizmos.color = Color.blue;
+                Gizmos.DrawSphere(Character.NavMeshAgent.destination, 0.2f);
+            }
+        }
+
         public override string ToString()
         {
             return $"Move to: {Destination}";
