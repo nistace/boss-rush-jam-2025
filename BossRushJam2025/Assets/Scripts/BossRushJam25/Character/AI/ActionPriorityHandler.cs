@@ -10,6 +10,7 @@ namespace BossRushJam25.Character.AI
     public class ActionPriorityHandler : MonoBehaviour
     {
         [SerializeField] private bool displayDebugGUI;
+        [SerializeField] private bool drawPreviews;
         [SerializeField] private int queueSize = 3;
 
         protected CharacterCore character;
@@ -72,7 +73,7 @@ namespace BossRushJam25.Character.AI
                 case EActionStatus.Finished:
                 case EActionStatus.Cancelled:
                 {
-                    plannedActions.Remove(ActivePlannedAction);
+                    CleanUpAction(ActivePlannedAction);
                     ProcessActivePlannedAction();
 
                     break;
@@ -101,10 +102,30 @@ namespace BossRushJam25.Character.AI
             PlanAction(action);
         }
 
+        private void DrawPreviews()
+        {
+            if(!drawPreviews)
+            {
+                return;
+            }
+
+            for(int actionIndex = 0; actionIndex < plannedActions.Count; actionIndex++)
+            {
+                plannedActions[actionIndex].DrawPreview(priorityValue01: (float)actionIndex / queueSize);
+            }
+        }
+
+        private void CleanUpAction(AAction action)
+        {
+            plannedActions.Remove(action);
+            action.CleanUp();
+        }
+
         private void Update()
         {
             ProcessActivePlannedAction();
             TryPlanNewAction();
+            DrawPreviews();
         }
 
         private void OnGUI()
