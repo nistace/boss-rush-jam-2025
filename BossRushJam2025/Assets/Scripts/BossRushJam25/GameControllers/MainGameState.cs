@@ -52,7 +52,7 @@ namespace BossRushJam25.GameControllers {
       }
 
       public override void Disable() {
-         SpinStrategy.Disable();
+         SpinStrategy?.Disable();
          MainCanvas.Hide(false, null);
          GameInputs.Controls.Player.Disable();
          GameInputs.Controls.Player.DamageHero.performed -= HandleDamageHeroPerformed;
