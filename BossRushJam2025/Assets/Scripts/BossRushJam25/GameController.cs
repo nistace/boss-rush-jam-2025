@@ -1,6 +1,7 @@
 using BossRushJam25.Character;
 using BossRushJam25.HexGrid;
 using BossRushJam25.Inputs;
+using BossRushJam25.PowerUps;
 using BossRushJam25.SpinStrategies;
 using UnityEngine;
 
@@ -10,6 +11,7 @@ namespace BossRushJam25 {
       [SerializeField] protected Transform cameraTransform;
       [SerializeField] protected CharacterCore heroPrefab;
       [SerializeField] protected CharacterCore bossPrefab;
+      [SerializeField] protected PowerUpsManager powerUpsManager;
       private ISpinStrategy SpinStrategy { get; set; }
 
       private void Start() {
@@ -20,6 +22,7 @@ namespace BossRushJam25 {
          Instantiate(bossPrefab);
          cameraTransform.position = HexGridController.Instance.GetCenterOfGridPosition();
          GameInputs.Controls.Player.Enable();
+         powerUpsManager.Initialize();
       }
 
       private void Update() {
