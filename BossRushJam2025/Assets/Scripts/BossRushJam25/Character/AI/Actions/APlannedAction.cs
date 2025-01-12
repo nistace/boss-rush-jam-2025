@@ -11,6 +11,11 @@ namespace BossRushJam25.Character.AI.Actions
         {
             base.Assign();
 
+            Character.ActionPriorityHandler.PlanAction(this);
+        }
+
+        public void Force()
+        {
             Character.ActionPriorityHandler.ForceAction(this);
         }
     }
