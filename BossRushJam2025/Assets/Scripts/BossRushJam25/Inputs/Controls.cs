@@ -46,6 +46,24 @@ namespace BossRushJam25.Inputs
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""DamageHero"",
+                    ""type"": ""Button"",
+                    ""id"": ""3c53a50f-36bb-4fed-ab97-09de7ec60af9"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""DamageBoss"",
+                    ""type"": ""Button"",
+                    ""id"": ""bcd48100-32ad-4408-828c-f1a942a22b53"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -70,6 +88,28 @@ namespace BossRushJam25.Inputs
                     ""action"": ""Interact"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""3367a65a-f061-4d90-95d0-2753d7c1d701"",
+                    ""path"": ""<Keyboard>/h"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""DamageHero"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""5c238299-e3ca-41c7-a91a-62f5c4e63ff5"",
+                    ""path"": ""<Keyboard>/b"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""DamageBoss"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -80,6 +120,8 @@ namespace BossRushJam25.Inputs
             m_Player = asset.FindActionMap("Player", throwIfNotFound: true);
             m_Player_Aim = m_Player.FindAction("Aim", throwIfNotFound: true);
             m_Player_Interact = m_Player.FindAction("Interact", throwIfNotFound: true);
+            m_Player_DamageHero = m_Player.FindAction("DamageHero", throwIfNotFound: true);
+            m_Player_DamageBoss = m_Player.FindAction("DamageBoss", throwIfNotFound: true);
         }
 
         ~@Controls()
@@ -148,12 +190,16 @@ namespace BossRushJam25.Inputs
         private List<IPlayerActions> m_PlayerActionsCallbackInterfaces = new List<IPlayerActions>();
         private readonly InputAction m_Player_Aim;
         private readonly InputAction m_Player_Interact;
+        private readonly InputAction m_Player_DamageHero;
+        private readonly InputAction m_Player_DamageBoss;
         public struct PlayerActions
         {
             private @Controls m_Wrapper;
             public PlayerActions(@Controls wrapper) { m_Wrapper = wrapper; }
             public InputAction @Aim => m_Wrapper.m_Player_Aim;
             public InputAction @Interact => m_Wrapper.m_Player_Interact;
+            public InputAction @DamageHero => m_Wrapper.m_Player_DamageHero;
+            public InputAction @DamageBoss => m_Wrapper.m_Player_DamageBoss;
             public InputActionMap Get() { return m_Wrapper.m_Player; }
             public void Enable() { Get().Enable(); }
             public void Disable() { Get().Disable(); }
@@ -169,6 +215,12 @@ namespace BossRushJam25.Inputs
                 @Interact.started += instance.OnInteract;
                 @Interact.performed += instance.OnInteract;
                 @Interact.canceled += instance.OnInteract;
+                @DamageHero.started += instance.OnDamageHero;
+                @DamageHero.performed += instance.OnDamageHero;
+                @DamageHero.canceled += instance.OnDamageHero;
+                @DamageBoss.started += instance.OnDamageBoss;
+                @DamageBoss.performed += instance.OnDamageBoss;
+                @DamageBoss.canceled += instance.OnDamageBoss;
             }
 
             private void UnregisterCallbacks(IPlayerActions instance)
@@ -179,6 +231,12 @@ namespace BossRushJam25.Inputs
                 @Interact.started -= instance.OnInteract;
                 @Interact.performed -= instance.OnInteract;
                 @Interact.canceled -= instance.OnInteract;
+                @DamageHero.started -= instance.OnDamageHero;
+                @DamageHero.performed -= instance.OnDamageHero;
+                @DamageHero.canceled -= instance.OnDamageHero;
+                @DamageBoss.started -= instance.OnDamageBoss;
+                @DamageBoss.performed -= instance.OnDamageBoss;
+                @DamageBoss.canceled -= instance.OnDamageBoss;
             }
 
             public void RemoveCallbacks(IPlayerActions instance)
@@ -200,6 +258,8 @@ namespace BossRushJam25.Inputs
         {
             void OnAim(InputAction.CallbackContext context);
             void OnInteract(InputAction.CallbackContext context);
+            void OnDamageHero(InputAction.CallbackContext context);
+            void OnDamageBoss(InputAction.CallbackContext context);
         }
     }
 }

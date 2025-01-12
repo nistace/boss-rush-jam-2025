@@ -1,6 +1,7 @@
 namespace BossRushJam25.SpinStrategies {
    public interface ISpinStrategy {
-      void Initialize();
+      void Enable();
+      void Disable();
       void Tick();
    }
 }

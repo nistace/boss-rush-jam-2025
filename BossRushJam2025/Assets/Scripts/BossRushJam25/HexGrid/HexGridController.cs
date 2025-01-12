@@ -15,6 +15,7 @@ namespace BossRushJam25.HexGrid {
 
       [SerializeField] protected int gridRadius = 10;
       [SerializeField] protected float hexRadius = 1;
+      [SerializeField] protected GridHex clearHexPrefab;
       [SerializeField] protected GridHex[] firstTilesPrefabs;
       [SerializeField] protected GridHexRotationConfig rotationConfig;
       [SerializeField] protected NavMeshSurface navMeshSurface;
@@ -172,26 +173,36 @@ namespace BossRushJam25.HexGrid {
 
       public HashSet<GridHex> GetNeighbours(GridHex hex, int steps = 1) => GetNeighbours(hex.Coordinates, steps);
 
-      public Vector3 GetCenterOfGridPosition() => Vector3.zero;
-
-      public void Build() {
+      public void Build(IReadOnlyCollection<Vector2Int> requiredClearHexes) {
          RefreshInnerRadius();
+
+         foreach (var hex in Hexes.Values) {
+            Destroy(hex.gameObject);
+         }
+
          Hexes.Clear();
+
+         foreach (var requiredClearHex in requiredClearHexes) {
+            InstantiateHex(requiredClearHex, clearHexPrefab);
+         }
 
          for (var x = -gridRadius; x <= gridRadius; x++) {
             for (var z = -gridRadius; z <= gridRadius; z++) {
                var coordinates = new Vector2Int(x, z);
-               if (IsCellInGrid(coordinates)) {
-                  var randomTilePrefab = RollRandomTile(coordinates);
-                  var hex = Instantiate(randomTilePrefab, CoordinatesToWorldPosition(coordinates), Quaternion.identity, transform);
-                  Hexes[coordinates] = hex;
-                  hex.InitialName = $"Hex{x:00}{z:00}";
-                  hex.SetCoordinates(coordinates);
+               if (IsCellInGrid(coordinates) && !Hexes.ContainsKey(coordinates)) {
+                  InstantiateHex(coordinates, RollRandomTile(coordinates));
                }
             }
          }
 
          navMeshSurface.BuildNavMesh();
+      }
+
+      private void InstantiateHex(Vector2Int coordinates, GridHex prefab) {
+         var hex = Instantiate(prefab, CoordinatesToWorldPosition(coordinates), Quaternion.identity, transform);
+         Hexes[coordinates] = hex;
+         hex.InitialName = $"Hex{coordinates.x:00}{coordinates.y:00}";
+         hex.SetCoordinates(coordinates);
       }
 
       private GridHex RollRandomTile(Vector2Int coordinates) {

@@ -51,6 +51,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dbd515aa14501e04fb2cb163e018be0b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  type: {fileID: 11400000, guid: 5b795baa65259a44496487de1b9045cc, type: 2}
   navMeshAgent: {fileID: 4036202868100558749}
   hexLink: {fileID: 3018287139037387015}
   actionPriorityHandler: {fileID: 8323066234089659036}
