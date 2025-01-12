@@ -11,7 +11,7 @@ namespace BossRushJam25.SpinStrategies {
 
       public static bool IsHoveringOverTile(out Vector2Int hoveredCoordinates) {
          hoveredCoordinates = default;
-         if (Physics.Raycast(new Ray(MainCamera.ScreenToWorldPoint(GameInputs.Controls.Player.Aim.ReadValue<Vector2>()), MainCamera.transform.forward), out var hit, Mathf.Infinity, ClickLayerMask)) {
+         if (Physics.Raycast(MainCamera.ScreenPointToRay(GameInputs.Controls.Player.Aim.ReadValue<Vector2>()), out var hit, Mathf.Infinity, ClickLayerMask)) {
             hoveredCoordinates = HexGridController.Instance.WorldToCoordinates(hit.point);
             return true;
          }
