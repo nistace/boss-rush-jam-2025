@@ -4,7 +4,7 @@ namespace BossRushJam25.Character.AI
 {
     public class MoveAction : APlannedAction
     {
-        protected Vector3 destination;
+        public Vector3 Destination { get; private set; }
 
         public override EActionStatus Status
         {
@@ -23,14 +23,14 @@ namespace BossRushJam25.Character.AI
 
         public MoveAction(CharacterCore character, Vector3 destination) : base(character)
         {
-            this.destination = destination;
+            this.Destination = destination;
         }
 
         public override void Execute()
         {
             base.Execute();
 
-            Character.NavMeshAgent.SetDestination(destination);
+            Character.NavMeshAgent.SetDestination(Destination);
         }
 
         public override void Cancel()
@@ -42,7 +42,7 @@ namespace BossRushJam25.Character.AI
 
         public override string ToString()
         {
-            return $"Move to: {destination}";
+            return $"Move to: {Destination}";
         }
     }
 }
