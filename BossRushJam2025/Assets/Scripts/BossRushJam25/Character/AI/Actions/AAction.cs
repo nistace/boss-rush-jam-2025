@@ -36,7 +36,6 @@ namespace BossRushJam25.Character.AI.Actions
         public void Reset()
         {
             Cancel();
-            CleanUp();
             status = EActionStatus.Pending;
         }
 

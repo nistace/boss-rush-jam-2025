@@ -31,6 +31,13 @@ namespace BossRushJam25.Character.AI.Actions
             moveAction.Cancel();
         }
 
+        public override void CleanUp()
+        {
+            base.CleanUp();
+
+            moveAction.CleanUp();
+        }
+
         public override void DrawPreview(float priorityValue01)
         {
             base.DrawPreview(priorityValue01);

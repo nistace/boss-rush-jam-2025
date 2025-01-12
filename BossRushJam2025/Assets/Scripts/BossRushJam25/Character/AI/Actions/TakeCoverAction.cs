@@ -52,6 +52,13 @@ namespace BossRushJam25.Character.AI.Actions
             //TODO: quit cover idle?
         }
 
+        public override void CleanUp()
+        {
+            base.CleanUp();
+
+            moveAction.CleanUp();
+        }
+
         public override void DrawPreview(float priorityValue01)
         {
             base.DrawPreview(priorityValue01);

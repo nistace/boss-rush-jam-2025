@@ -43,7 +43,7 @@ namespace BossRushJam25.Character.AI
 
             if (plannedActions.Count == 4)
             {
-                plannedActions.RemoveAt(3);
+                CleanUpAction(plannedActions[3]);
             }
         }
 
