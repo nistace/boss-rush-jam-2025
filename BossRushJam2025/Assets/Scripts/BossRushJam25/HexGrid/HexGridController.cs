@@ -58,7 +58,7 @@ namespace BossRushJam25.HexGrid {
          }
       }
 
-      private void OnDrawGizmosSelected() {
+      private void OnDrawGizmos() {
          Gizmos.color = Color.cyan;
 
          if (!Application.isPlaying) RefreshInnerRadius();
