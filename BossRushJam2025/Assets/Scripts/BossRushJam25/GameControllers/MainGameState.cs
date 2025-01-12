@@ -59,8 +59,8 @@ namespace BossRushJam25.GameControllers {
          GameInputs.Controls.Player.Disable();
          GameInputs.Controls.Player.DamageHero.performed -= HandleDamageHeroPerformed;
          GameInputs.Controls.Player.DamageBoss.performed -= HandleDamageBossPerformed;
-         Hero.Health.OnHealthChanged.RemoveListener(HandleHeroHealthChanged);
-         Boss.Health.OnHealthChanged.RemoveListener(HandleBossHealthChanged);
+         Hero?.Health.OnHealthChanged.RemoveListener(HandleHeroHealthChanged);
+         Boss?.Health.OnHealthChanged.RemoveListener(HandleBossHealthChanged);
       }
 
       public override void Tick() {

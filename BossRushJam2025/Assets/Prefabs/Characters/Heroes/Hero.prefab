@@ -161,6 +161,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   displayDebugGUI: 1
   queueSize: 3
+  pathLinePrefab: {fileID: 4152763838001735776, guid: 2c23048632097174a9543c519a0cd828, type: 3}
 --- !u!114 &2398727888956531791
 MonoBehaviour:
   m_ObjectHideFlags: 0

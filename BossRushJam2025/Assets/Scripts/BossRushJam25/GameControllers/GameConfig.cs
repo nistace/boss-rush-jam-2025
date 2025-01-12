@@ -10,11 +10,15 @@ namespace BossRushJam25.GameControllers {
       [SerializeField] protected PowerUpsManager powerUpsManager;
       [SerializeField] protected CharacterCore heroPrefab;
       [SerializeField] protected CharacterCore bossPrefab;
+      [SerializeField] protected LineRenderer pathLinePrefab;
+      [SerializeField] protected Gradient actionPreviewsGradient;
 
       public PowerUpsManager PowerUpsManager => powerUpsManager;
       public GameObject SpinStrategy => spinStrategy;
       public CharacterCore HeroPrefab => heroPrefab;
       public CharacterCore BossPrefab => bossPrefab;
+      public LineRenderer PathLinePrefab => pathLinePrefab;
+      public Gradient ActionPreviewsGradient => actionPreviewsGradient;
 
       private void Awake() {
          Instance = this;
