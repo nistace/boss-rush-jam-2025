@@ -7,6 +7,8 @@ namespace BossRushJam25.Character.AI.Actions
         protected GameObject powerUp;
         protected MoveAction moveAction;
 
+        protected override EActionType Type => EActionType.TakeCover;
+
         public CollectPowerUpAction(CharacterCore character, GameObject powerUp) : base(character)
         {
             this.powerUp = powerUp;
@@ -29,11 +31,25 @@ namespace BossRushJam25.Character.AI.Actions
             moveAction.Cancel();
         }
 
+        public override void CleanUp()
+        {
+            base.CleanUp();
+
+            moveAction.CleanUp();
+        }
+
         public override void DrawPreview(float priorityValue01)
         {
             base.DrawPreview(priorityValue01);
 
             moveAction.DrawPreview(priorityValue01);
+        }
+
+        public override void DrawGizmos()
+        {
+            base.DrawGizmos();
+
+            moveAction.DrawGizmos();
         }
 
         public override string ToString()

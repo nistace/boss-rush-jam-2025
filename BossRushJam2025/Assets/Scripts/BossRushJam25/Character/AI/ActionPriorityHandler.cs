@@ -1,9 +1,8 @@
 using System.Collections.Generic;
 using System.Text;
 using BossRushJam25.Character.AI.Actions;
-using BossRushJam25.GameControllers;
-using BossRushJam25.HexGrid;
 using UnityEngine;
+using Utils;
 
 namespace BossRushJam25.Character.AI
 {
@@ -12,11 +11,13 @@ namespace BossRushJam25.Character.AI
         [SerializeField] private bool displayDebugGUI;
         [SerializeField] private bool drawPreviews;
         [SerializeField] private int queueSize = 3;
+        [SerializeField] private SerializableDictionary<EActionType, AActionData> actionDataMap;
 
         protected CharacterCore character;
         protected List<AAction> plannedActions = new();
 
         protected AAction ActivePlannedAction => plannedActions.Count > 0 ? plannedActions[0] : null;
+        public SerializableDictionary<EActionType, AActionData> ActionDataMap => actionDataMap;
 
         public void Initialize(CharacterCore character)
         {
@@ -40,7 +41,7 @@ namespace BossRushJam25.Character.AI
 
             if (plannedActions.Count == 4)
             {
-                plannedActions.RemoveAt(3);
+                CleanUpAction(plannedActions[3]);
             }
         }
 
@@ -81,27 +82,6 @@ namespace BossRushJam25.Character.AI
             }
         }
 
-        private void TryPlanNewAction()
-        {
-            if (plannedActions.Count >= queueSize)
-            {
-                return;
-            }
-
-            //TODO: use enum
-            int randomIndex = Random.Range(0,3);
-
-            APlannedAction action = randomIndex switch
-            {
-                0 => new MoveAction(character, HexGridController.Instance.GetRandomPositionOnNavMesh()),
-                1 => new CollectPowerUpAction(character, GameConfig.Instance.PowerUpsManager.powerUps[0]),
-                2 => new TakeCoverAction(character),
-                _ => throw new System.NotImplementedException()
-            };
-
-            PlanAction(action);
-        }
-
         private void DrawPreviews()
         {
             if(!drawPreviews)
@@ -124,7 +104,6 @@ namespace BossRushJam25.Character.AI
         private void Update()
         {
             ProcessActivePlannedAction();
-            TryPlanNewAction();
             DrawPreviews();
         }
 
@@ -136,16 +115,16 @@ namespace BossRushJam25.Character.AI
             }
 
             GUIStyle pendingActionStyle = new(GUI.skin.label) { fontSize = 25, alignment = TextAnchor.UpperLeft };
-            pendingActionStyle.normal.textColor = Color.white;
+            pendingActionStyle.normal.textColor = Color.black;
 
             if (plannedActions.Count > 0)
             {
-                GUIStyle reflexActionStyle = new(GUI.skin.label) { fontSize = 25, alignment = TextAnchor.MiddleLeft };
-                reflexActionStyle.normal.textColor = Color.cyan;
+                GUIStyle reflexActionStyle = new(pendingActionStyle);
+                reflexActionStyle.normal.textColor = Color.blue;
                 GUIStyle activeActionStyle = new(reflexActionStyle);
-                activeActionStyle.normal.textColor = Color.yellow;
+                activeActionStyle.normal.textColor = Color.red;
 
-                GUI.Label(new Rect(10, 10, 400, 50), ActivePlannedAction.ToString(), ActivePlannedAction is AReflexAction ? reflexActionStyle : activeActionStyle);
+                GUI.Label(new Rect(10, 10, 400, 30), ActivePlannedAction.ToString(), ActivePlannedAction is AReflexAction ? reflexActionStyle : activeActionStyle);
 
                 StringBuilder builder = new();
 
@@ -154,11 +133,19 @@ namespace BossRushJam25.Character.AI
                     builder.AppendLine(plannedActions[actionIndex].ToString());
                 }
 
-                GUI.Label(new Rect(10, 70, 400, 150), builder.ToString(), pendingActionStyle);
+                GUI.Label(new Rect(10, 40, 400, 60), builder.ToString(), pendingActionStyle);
             }
             else
             {
-                GUI.Label(new Rect(10, 10, 400, 50), "No action assigned", pendingActionStyle);
+                GUI.Label(new Rect(10, 10, 400, 30), "No action assigned", pendingActionStyle);
+            }
+        }
+
+        private void OnDrawGizmos()
+        {
+            foreach(AAction action in plannedActions)
+            {
+                action.DrawGizmos();
             }
         }
     }

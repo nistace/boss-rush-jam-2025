@@ -1,4 +1,6 @@
-﻿using BossRushJam25.Character;
+﻿using System.Collections.Generic;
+using BossRushJam25.Character;
+using BossRushJam25.HexGrid;
 using BossRushJam25.Character.Bosses;
 using BossRushJam25.PowerUps;
 using UnityEngine;
@@ -14,6 +16,7 @@ namespace BossRushJam25.GameControllers {
       [SerializeField] protected BossPatternManager bossPatternManagerPrefab;
       [SerializeField] protected LineRenderer pathLinePrefab;
       [SerializeField] protected Gradient actionPreviewsGradient;
+      [SerializeField] protected List<GridHexContentType> coverTypes;
 
       public PowerUpsManager PowerUpsManager => powerUpsManager;
       public GameObject SpinStrategy => spinStrategy;
@@ -22,6 +25,7 @@ namespace BossRushJam25.GameControllers {
       public BossPatternManager BossPatternManagerPrefab => bossPatternManagerPrefab;
       public LineRenderer PathLinePrefab => pathLinePrefab;
       public Gradient ActionPreviewsGradient => actionPreviewsGradient;
+      public List<GridHexContentType> CoverTypes => coverTypes;
 
       private void Awake() {
          Instance = this;
