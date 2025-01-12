@@ -14,9 +14,14 @@ namespace BossRushJam25.SpinStrategies {
       private Vector2Int InteractionHexCoordinates { get; set; }
       private float DelayBeforeNextSnap { get; set; }
 
-      public void Initialize() {
+      public void Enable() {
          GameInputs.Controls.Player.Interact.performed += HandleInteractPerformed;
          GameInputs.Controls.Player.Interact.canceled += HandleInteractCancelled;
+      }
+
+      public void Disable() {
+         GameInputs.Controls.Player.Interact.performed -= HandleInteractPerformed;
+         GameInputs.Controls.Player.Interact.canceled -= HandleInteractCancelled;
       }
 
       private void HandleInteractCancelled(InputAction.CallbackContext obj) {

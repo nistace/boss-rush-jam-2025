@@ -28,7 +28,11 @@ namespace BossRushJam25.SpinStrategies {
       private Vector2Int HoveringCoordinates { get; set; }
       private bool HoveringOverHex { get; set; }
 
-      public void Initialize() {
+      public void Enable() {
+         GameInputs.Controls.Player.Interact.performed += HandleInteractPerformed;
+      }
+
+      public void Disable() {
          GameInputs.Controls.Player.Interact.performed += HandleInteractPerformed;
       }
 
