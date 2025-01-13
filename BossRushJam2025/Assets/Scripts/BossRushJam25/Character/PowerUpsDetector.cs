@@ -12,7 +12,9 @@ namespace BossRushJam25.Character
 
         protected List<Collider> detectedPowerUps = new();
 
-        public UnityEvent OnPowerUpsDetectedChanged { get; } = new();
+        public Collider NearestPowerUp { get; private set; }
+
+        public UnityEvent OnDetectedPowerUpsChanged { get; } = new();
         public UnityEvent OnPowerUpCollected { get; } = new();
 
         private void CollectNearPowerUps()
@@ -20,12 +22,32 @@ namespace BossRushJam25.Character
             for(int powerUpIndex = detectedPowerUps.Count - 1; powerUpIndex > -1; powerUpIndex--)
             {
                 Collider powerUp = detectedPowerUps[powerUpIndex];
+                float sqrDistance = (powerUp.transform.position - transform.position).sqrMagnitude;
 
-                if((powerUp.transform.position - transform.position).sqrMagnitude - collectionRadius < 0.01f)
+                if(sqrDistance - collectionRadius < 0.01f)
                 {
                     OnPowerUpCollected.Invoke();
                     detectedPowerUps.Remove(powerUp);
                     Destroy(powerUp.gameObject);
+
+                    continue;
+                }
+            }
+        }
+
+        private void CheckNearestPowerUp()
+        {
+            float nearestPowerUpDistance = float.MaxValue;
+
+            for (int powerUpIndex = detectedPowerUps.Count - 1; powerUpIndex > -1; powerUpIndex--)
+            {
+                Collider powerUp = detectedPowerUps[powerUpIndex];
+                float sqrDistance = (powerUp.transform.position - transform.position).sqrMagnitude;
+
+                if (sqrDistance < nearestPowerUpDistance)
+                {
+                    nearestPowerUpDistance = sqrDistance;
+                    NearestPowerUp = powerUp;
                 }
             }
         }
@@ -35,7 +57,8 @@ namespace BossRushJam25.Character
             if(collider.gameObject.layer == LayerMask.NameToLayer("PowerUp"))
             {
                 detectedPowerUps.Add(collider);
-                OnPowerUpsDetectedChanged.Invoke();
+                CheckNearestPowerUp();
+                OnDetectedPowerUpsChanged.Invoke();
             }
         }
 
@@ -44,13 +67,15 @@ namespace BossRushJam25.Character
             if(collider.gameObject.layer == LayerMask.NameToLayer("PowerUp"))
             {
                 detectedPowerUps.Remove(collider);
-                OnPowerUpsDetectedChanged.Invoke();
+                CheckNearestPowerUp();
+                OnDetectedPowerUpsChanged.Invoke();
             }
         }
 
         private void FixedUpdate()
         {
             CollectNearPowerUps();
+            CheckNearestPowerUp();
         }
 
         private void OnValidate()

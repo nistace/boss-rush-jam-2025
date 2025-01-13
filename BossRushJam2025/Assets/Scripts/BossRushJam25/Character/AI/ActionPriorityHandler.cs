@@ -23,6 +23,7 @@ namespace BossRushJam25.Character.AI
         public void Initialize(CharacterCore character)
         {
             this.character = character;
+            character.PowerUpsDetector.OnDetectedPowerUpsChanged.AddListener(PowerUpsDetector_OnDetectedPowerUpChanged);
         }
 
         public void PlanAction(AAction action)
@@ -104,6 +105,20 @@ namespace BossRushJam25.Character.AI
             }
         }
 
+        private void EvaluateActionsProbability()
+        {
+            RemoveAllActions();
+
+            if (character.PowerUpsDetector.NearestPowerUp != null)
+            {
+                new CollectPowerUpAction(character, character.PowerUpsDetector.NearestPowerUp.gameObject).Assign();
+            }
+        }
+
+        private void PowerUpsDetector_OnDetectedPowerUpChanged()
+        {
+            EvaluateActionsProbability();
+        }
 
         private void Update()
         {
