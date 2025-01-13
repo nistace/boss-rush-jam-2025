@@ -8,6 +8,18 @@ namespace BossRushJam25.Character.AI.Actions
         protected MoveAction moveAction;
 
         protected override EActionType Type => EActionType.TakeCover;
+        public override EActionStatus Status
+        {
+            get
+            {
+                if (status == EActionStatus.Started && moveAction.Status == EActionStatus.Finished)
+                {
+                    status = EActionStatus.Finished;
+                }
+
+                return status;
+            }
+        }
 
         public CollectPowerUpAction(CharacterCore character, GameObject powerUp) : base(character)
         {
@@ -20,8 +32,6 @@ namespace BossRushJam25.Character.AI.Actions
             base.Execute();
 
             moveAction.Execute();
-
-            status = EActionStatus.Finished;
         }
 
         public override void Cancel()
