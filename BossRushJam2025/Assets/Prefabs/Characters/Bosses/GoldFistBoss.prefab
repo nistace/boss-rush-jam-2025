@@ -207,6 +207,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2649528350850896792}
+  - component: {fileID: 6964017279168319766}
   - component: {fileID: 721333850165358362}
   m_Layer: 0
   m_Name: GoldFistBoss
@@ -232,6 +233,20 @@ Transform:
   - {fileID: 5579248417777747904}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6964017279168319766
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1655740231146867200}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 15e2b851732d4c4499bb0c4fa75a1cef, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  type: {fileID: 11400000, guid: 0bb2b16163c32e54a8389753c545d6df, type: 2}
+  patternManager: {fileID: 721333850165358362}
 --- !u!114 &721333850165358362
 MonoBehaviour:
   m_ObjectHideFlags: 0

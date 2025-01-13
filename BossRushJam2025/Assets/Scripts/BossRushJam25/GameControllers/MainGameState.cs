@@ -14,20 +14,19 @@ namespace BossRushJam25.GameControllers {
       public static MainGameState State { get; } = new MainGameState();
       private ISpinStrategy SpinStrategy { get; set; }
       private CharacterCore Hero { get; set; }
-      private CharacterCore Boss { get; set; }
-      private BossPatternManager BossPatternManager { get; set; }
+      private BossCore Boss { get; set; }
       private float DelayBeforeNextAttack { get; set; }
 
       public override void Enable() {
          HexGridController.Instance.Build(new[] { GameConfig.Instance.HeroPrefab.Type.SpawnPosition, GameConfig.Instance.BossPrefab.Type.SpawnPosition });
          GameConfig.Instance.PowerUpsManager.Initialize();
          Hero = Object.Instantiate(GameConfig.Instance.HeroPrefab, HexGridController.Instance.CoordinatesToWorldPosition(GameConfig.Instance.HeroPrefab.Type.SpawnPosition), Quaternion.identity);
-         Boss = Object.Instantiate(GameConfig.Instance.BossPrefab, HexGridController.Instance.CoordinatesToWorldPosition(GameConfig.Instance.BossPrefab.Type.SpawnPosition), Quaternion.identity);
-         BossPatternManager = Object.Instantiate(GameConfig.Instance.BossPatternManagerPrefab);
-         Hero.Initialize(Boss);
-         Boss.Initialize(Hero);
+         Boss = Object.Instantiate(GameConfig.Instance.BossPrefab);
+         Hero.Initialize();
+         Boss.Initialize();
 
-         BossFightInfo.Set(Hero);
+         BossFightInfo.SetHero(Hero);
+         BossFightInfo.SetBoss(Boss);
 
          MainCanvas.Game.HeroHealthBar.Setup(Hero.Health);
          MainCanvas.Game.BossHealthBar.Setup(Boss.Health);
@@ -82,10 +81,10 @@ namespace BossRushJam25.GameControllers {
       public override void Tick() {
          SpinStrategy.Tick();
 
-         if (!BossPatternManager.IsExecutingAttack) {
+         if (!Boss.PatternManager.IsExecutingAttack) {
             DelayBeforeNextAttack -= Time.deltaTime;
             if (DelayBeforeNextAttack < 0) {
-               BossPatternManager.ExecuteNextAttack(null);
+               Boss.PatternManager.ExecuteNextAttack(null);
                DelayBeforeNextAttack = 2;
             }
          }

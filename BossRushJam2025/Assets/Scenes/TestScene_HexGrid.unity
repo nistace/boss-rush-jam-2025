@@ -447,7 +447,6 @@ MonoBehaviour:
   m_Cameras: []
   m_RendererIndex: -1
   m_VolumeLayerMask:
-    serializedVersion: 2
     m_Bits: 1
   m_VolumeTrigger: {fileID: 0}
   m_VolumeFrameworkUpdateModeOption: 2
@@ -1773,8 +1772,7 @@ MonoBehaviour:
   spinStrategy: {fileID: 176911248}
   powerUpsManager: {fileID: 1802581949}
   heroPrefab: {fileID: 6196457384134968242, guid: ac426a8c1a772c44f9256b049ebd4356, type: 3}
-  bossPrefab: {fileID: 63580048230656051, guid: ee01302736b570a48b59b50023cce2ad, type: 3}
-  bossPatternManagerPrefab: {fileID: 721333850165358362, guid: 7df918d1dafb8754d96b328387a55439, type: 3}
+  bossPrefab: {fileID: 6964017279168319766, guid: 7df918d1dafb8754d96b328387a55439, type: 3}
   pathLinePrefab: {fileID: 4152763838001735776, guid: 2c23048632097174a9543c519a0cd828, type: 3}
   actionPreviewsGradient:
     serializedVersion: 2
