@@ -113,7 +113,7 @@ Material:
     - _DstBlendAlpha: 0
     - _EnvironmentReflections: 1
     - _FadeDistance: 19.7
-    - _FadeFallOff: 70.4
+    - _FadeFallOff: 6.86
     - _FadeHeight: 0
     - _GlossMapScale: 0
     - _Glossiness: 0
