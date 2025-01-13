@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using BossRushJam25.BossFights;
 using BossRushJam25.Character.AI.Actions.ActionData;
 using BossRushJam25.GameControllers;
 using BossRushJam25.HexGrid;
@@ -96,7 +97,7 @@ namespace BossRushJam25.Character.AI.Actions
 
             targetedCover = nearestCoverHex;
 
-            Vector3 opponentPosition = Character.Opponent.transform.position;
+            Vector3 opponentPosition = BossFightInfo.Boss.transform.position;
             Vector3 oppositeDirection = (targetedCover.transform.position - opponentPosition).normalized;
             Vector3 targetPosition = targetedCover.transform.position + oppositeDirection * data.DistanceWithCover;
 

@@ -18,13 +18,11 @@ namespace BossRushJam25.Character
         public ActionPriorityHandler ActionPriorityHandler => actionPriorityHandler;
         public PowerUpsDetector PowerUpsDetector => powerUpsDetector;
         public HealthSystem Health { get; private set; }
-        public CharacterCore Opponent { get; private set; }
         public CharacterType Type => type;
 
-        public void Initialize(CharacterCore opponent)
+        public void Initialize()
         {
             Health = new HealthSystem(type.MaxHealth);
-            Opponent = opponent;
             hexLink.Initialize(this);
             actionPriorityHandler.Initialize(this);
             actionsTrigger?.Initialize(this);
