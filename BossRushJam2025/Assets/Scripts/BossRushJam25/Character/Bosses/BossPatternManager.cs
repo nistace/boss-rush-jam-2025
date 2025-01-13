@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using BossRushJam25.Character.Bosses.AttackPatterns;
 using UnityEngine;
 using UnityEngine.Events;
 using Random = UnityEngine.Random;

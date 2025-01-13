@@ -5,8 +5,8 @@ using BossRushJam25.HexGrid;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-namespace BossRushJam25.Character.Bosses.AttackPatterns.ShootRay6DirectionsToHero {
-   public class ShootRay6DirectionToHeroAttackPattern : BossAttackPattern {
+namespace BossRushJam25.Character.Bosses.GoldFist {
+   public class GoldFistIndexShotAttackPattern : BossAttackPattern {
       [SerializeField] protected float castDuration = 4;
       [SerializeField] protected GridHexContentType[] obstacles;
       [SerializeField] protected float shotDuration = 4;

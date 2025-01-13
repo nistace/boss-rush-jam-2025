@@ -1,10 +1,10 @@
 ﻿using BossRushJam25.HexGrid;
 using UnityEngine;
 
-namespace BossRushJam25.Character.Bosses.AttackPatterns.ShootRay6DirectionsToHero {
-   public class BossAttackRayVisual : MonoBehaviour {
+namespace BossRushJam25.Character.Bosses.GoldFist {
+   public class GoldFistIndexShotRayVisual : MonoBehaviour {
       [SerializeField] protected MeshRenderer meshRenderer;
-      [SerializeField] protected ShootRay6DirectionToHeroAttackPattern attackPattern;
+      [SerializeField] protected GoldFistIndexShotAttackPattern attackPattern;
 
       private void OnEnable() {
          meshRenderer.enabled = false;

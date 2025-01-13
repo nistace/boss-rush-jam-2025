@@ -3,7 +3,7 @@ using BossRushJam25.BossFights;
 using BossRushJam25.HexGrid;
 using UnityEngine;
 
-namespace BossRushJam25.Character.Bosses.AttackPatterns {
+namespace BossRushJam25.Character.Bosses {
    public static class BossAttackPatternUtils {
       public static Vector2Int GetRandomHexGridBorderVertex() => HexGridController.Instance.GetBorderVertices().OrderBy(_ => Random.value).FirstOrDefault();
 
