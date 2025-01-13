@@ -17,7 +17,7 @@ namespace BossRushJam25.Character.AI
         protected CharacterCore character;
         protected List<AAction> plannedActions = new();
 
-        protected AAction ActivePlannedAction => plannedActions.Count > 0 ? plannedActions[0] : null;
+        protected AAction ActiveAction => plannedActions.Count > 0 ? plannedActions[0] : null;
         public SerializableDictionary<EActionType, AActionData> ActionDataMap => actionDataMap;
 
         public void Initialize(CharacterCore character)
@@ -25,7 +25,7 @@ namespace BossRushJam25.Character.AI
             this.character = character;
         }
 
-        public void PlanAction(APlannedAction action)
+        public void PlanAction(AAction action)
         {
             if(plannedActions.Count >= queueSize)
             {
@@ -37,45 +37,53 @@ namespace BossRushJam25.Character.AI
 
         public void ForceAction(AAction action)
         {
-            ActivePlannedAction?.Reset();
-            plannedActions.Insert(0, action);
+            ActiveAction?.Cancel();
 
-            if (plannedActions.Count == 4)
+            if (plannedActions.Count >= queueSize)
             {
-                CleanUpAction(plannedActions[3]);
+                RemoveAction(plannedActions[^1]);
             }
+
+            plannedActions.Insert(0, action);
         }
 
-        public void CancelActiveAction()
+        public void RemoveAction(AAction action)
         {
-            ActivePlannedAction?.Cancel();
+            if(action == ActiveAction && action.Status == EActionStatus.Started)
+            {
+                action.Cancel();
+            }
+
+            action.CleanUp();
+            plannedActions.Remove(action);
         }
 
-        public void CancelAllActions()
+        public void RemoveAllActions()
         {
-            CancelActiveAction();
-            plannedActions.Clear();
+            for(int actionIndex = plannedActions.Count - 1;  actionIndex > -1; actionIndex--)
+            {
+                RemoveAction(plannedActions[actionIndex]);
+            }
         }
 
         private void ProcessActivePlannedAction()
         {
-            if(ActivePlannedAction == null)
+            if(ActiveAction == null)
             {
                 return;
             }
 
-            switch(ActivePlannedAction.Status)
+            switch(ActiveAction.Status)
             {
                 case EActionStatus.Pending:
                 {
-                    ActivePlannedAction.Execute();
+                    ActiveAction.Execute();
 
                     break;
                 }
                 case EActionStatus.Finished:
-                case EActionStatus.Cancelled:
                 {
-                    CleanUpAction(ActivePlannedAction);
+                    RemoveAction(ActiveAction);
                     ProcessActivePlannedAction();
 
                     break;
@@ -96,11 +104,6 @@ namespace BossRushJam25.Character.AI
             }
         }
 
-        private void CleanUpAction(AAction action)
-        {
-            plannedActions.Remove(action);
-            action.CleanUp();
-        }
 
         private void Update()
         {
@@ -125,7 +128,7 @@ namespace BossRushJam25.Character.AI
                 GUIStyle activeActionStyle = new(reflexActionStyle);
                 activeActionStyle.normal.textColor = Color.red;
 
-                GUI.Label(new Rect(10, 10, 400, 30), ActivePlannedAction.ToString(), ActivePlannedAction is AReflexAction ? reflexActionStyle : activeActionStyle);
+                GUI.Label(new Rect(10, 10, 400, 30), ActiveAction.ToString(), ActiveAction is AReflexAction ? reflexActionStyle : activeActionStyle);
 
                 StringBuilder builder = new();
 

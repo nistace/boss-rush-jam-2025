@@ -25,18 +25,12 @@ namespace BossRushJam25.Character.AI.Actions
 
         public virtual void Cancel()
         {
-            status = EActionStatus.Cancelled;
+            status = EActionStatus.Pending;
         }
 
         public virtual void CleanUp()
         {
 
-        }
-
-        public void Reset()
-        {
-            Cancel();
-            status = EActionStatus.Pending;
         }
 
         public virtual void DrawPreview(float priorityValue01)
@@ -55,7 +49,6 @@ namespace BossRushJam25.Character.AI.Actions
         Pending = 0,
         Started = 1,
         Finished = 2,
-        Cancelled = 3,
     }
 
     public enum EActionType
