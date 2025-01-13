@@ -12,11 +12,15 @@ namespace BossRushJam25.SpinStrategies {
       [SerializeField] protected HexHighlightType originHighlight;
       [SerializeField] protected HexHighlightType centerHighlight;
       [SerializeField] protected HexHighlightType ringHighlight;
+      [SerializeField] protected float holdDurationToRotateOneHex = .3f;
+      [SerializeField] protected float delayBetweenOneHexRotations = .5f;
 
       private enum EStep {
          SelectOrigin = 0,
          SelectDestination = 1,
-         Rotation = 2
+         TranslatingRing = 2,
+         HoldingToRotateSingleHex = 3,
+         RotatingSingleHex = 4,
       }
 
       private EStep CurrentStep { get; set; } = EStep.SelectOrigin;
@@ -27,16 +31,33 @@ namespace BossRushJam25.SpinStrategies {
       private bool CurrentCenterIsSolution { get; set; }
       private Vector2Int HoveringCoordinates { get; set; }
       private bool HoveringOverHex { get; set; }
+      private bool IsInteracting { get; set; }
+      private float CurrentInteractStartTime { get; set; }
+      private float DelayBeforeNextSingleHexRotation { get; set; }
 
       public void Enable() {
          GameInputs.Controls.Player.Interact.performed += HandleInteractPerformed;
+         GameInputs.Controls.Player.Interact.canceled += HandleInteractCanceled;
       }
 
       public void Disable() {
-         GameInputs.Controls.Player.Interact.performed += HandleInteractPerformed;
+         GameInputs.Controls.Player.Interact.performed -= HandleInteractPerformed;
+         GameInputs.Controls.Player.Interact.canceled -= HandleInteractCanceled;
       }
 
-      private void HandleInteractPerformed(InputAction.CallbackContext obj) {
+      private void HandleInteractCanceled(InputAction.CallbackContext obj) {
+         if (!IsInteracting) return;
+         IsInteracting = false;
+
+         if (CurrentStep == EStep.HoldingToRotateSingleHex) {
+            CurrentStep = EStep.SelectOrigin;
+            if (HexGridController.Instance.TryGetHex(HoveringCoordinates, out var hex)) {
+               hex.SetAsMoving(false);
+            }
+            HoveringOverHex = false;
+            return;
+         }
+
          if (!HoveringOverHex) return;
          if (CurrentStep == EStep.SelectOrigin) {
             if (!HexGridController.Instance.IsCellInGrid(HoveringCoordinates)) return;
@@ -50,8 +71,16 @@ namespace BossRushJam25.SpinStrategies {
 
             HexGridController.Instance.SetHighlightedHexAt(HoveringCoordinates, ringHighlight);
             HexGridController.Instance.TranslateRingAround(Center, RingRadius, Steps, HandleTranslationDone);
-            CurrentStep = EStep.Rotation;
+            CurrentStep = EStep.TranslatingRing;
          }
+      }
+
+      private void HandleInteractPerformed(InputAction.CallbackContext obj) {
+         if (!HoveringOverHex) return;
+
+         IsInteracting = true;
+         CurrentInteractStartTime = Time.time;
+         DelayBeforeNextSingleHexRotation = delayBetweenOneHexRotations;
       }
 
       private void HandleTranslationDone() {
@@ -59,10 +88,47 @@ namespace BossRushJam25.SpinStrategies {
          CurrentStep = EStep.SelectOrigin;
       }
 
+      private void HandleSingleRotationDone() {
+         if (CurrentStep != EStep.RotatingSingleHex) return;
+         if (IsInteracting) {
+            DelayBeforeNextSingleHexRotation = delayBetweenOneHexRotations;
+            CurrentStep = EStep.HoldingToRotateSingleHex;
+         }
+         else {
+            CurrentStep = EStep.SelectOrigin;
+            if (HexGridController.Instance.TryGetHex(HoveringCoordinates, out var hex)) {
+               hex.SetAsMoving(false);
+            }
+            HoveringOverHex = false;
+         }
+      }
+
       public void Tick() {
-         if (CurrentStep == EStep.Rotation) {
+         if (CurrentStep == EStep.TranslatingRing) {
             return;
          }
+
+         if (CurrentStep == EStep.RotatingSingleHex) {
+            return;
+         }
+
+         if (CurrentStep == EStep.HoldingToRotateSingleHex) {
+            DelayBeforeNextSingleHexRotation -= Time.deltaTime;
+            if (DelayBeforeNextSingleHexRotation < 0) {
+               CurrentStep = EStep.RotatingSingleHex;
+               HexGridController.Instance.RotateHex(HoveringCoordinates, 1, HandleSingleRotationDone);
+            }
+            return;
+         }
+
+         if (HoveringOverHex && IsInteracting && Time.time > CurrentInteractStartTime + holdDurationToRotateOneHex && HexGridController.Instance.TryGetHex(HoveringCoordinates, out var hex)) {
+            CurrentStep = EStep.HoldingToRotateSingleHex;
+            DelayBeforeNextSingleHexRotation = delayBetweenOneHexRotations;
+            hex.SetAsMoving(true);
+            return;
+         }
+
+         if (IsInteracting) return;
 
          var newHoveringOverHex = GameStrategyUtils.IsHoveringOverTile(out var newHoveringCoordinates);
 
@@ -104,7 +170,7 @@ namespace BossRushJam25.SpinStrategies {
          }
       }
 
-      public static bool EvaluateBestRingToMoveHex(Vector2Int origin, Vector2Int destination, out Vector2Int center, out int ringRadius, out int steps, out IReadOnlyList<Vector2Int> ring) {
+      private static bool EvaluateBestRingToMoveHex(Vector2Int origin, Vector2Int destination, out Vector2Int center, out int ringRadius, out int steps, out IReadOnlyList<Vector2Int> ring) {
          var cubeOrigin = HexCoordinates.OffsetCoordinatesToCubeCoordinates(origin);
          var cubeHover = HexCoordinates.OffsetCoordinatesToCubeCoordinates(destination);
 
@@ -123,7 +189,7 @@ namespace BossRushJam25.SpinStrategies {
          return false;
       }
 
-      public static bool EvaluateBestRingToMoveHex(Vector2Int origin, Vector2Int destination, int ringRadius, out Vector2Int center, out int steps, out IReadOnlyList<Vector2Int> ring) {
+      private static bool EvaluateBestRingToMoveHex(Vector2Int origin, Vector2Int destination, int ringRadius, out Vector2Int center, out int steps, out IReadOnlyList<Vector2Int> ring) {
          center = default;
          steps = default;
          ring = default;

@@ -39,3 +39,4 @@ MonoBehaviour:
     m_RotationOrder: 4
   translationSpeed: 4
   delayAfterRotation: 0.1
+  singleHexRotationSpeed: 480
