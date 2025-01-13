@@ -21,11 +21,20 @@ namespace BossRushJam25.Character
 
         private void HandleInputs()
         {
-            if(Input.GetKeyDown(KeyCode.Alpha1))
+            if(Input.GetKeyDown(KeyCode.Alpha1)
+                && Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out RaycastHit hit, maxDistance: 500, layerMask: ~0, queryTriggerInteraction: QueryTriggerInteraction.Ignore)
+                && hit.collider.gameObject.layer == LayerMask.NameToLayer("Ground")
+                )
             {
-                if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out RaycastHit hit, maxDistance: 500, layerMask: ~0, queryTriggerInteraction: QueryTriggerInteraction.Ignore) && hit.collider.gameObject.layer == LayerMask.NameToLayer("Ground"))
+                AAction action = new MoveAction(character, hit.point);
+
+                if(Input.GetKey(KeyCode.LeftControl))
                 {
-                    character.ActionPriorityHandler.ForceAction(new MoveAction(character, hit.point));
+                    character.ActionPriorityHandler.ForceAction(action);
+                }
+                else
+                {
+                    character.ActionPriorityHandler.PlanAction(action);
                 }
             }
 
