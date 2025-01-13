@@ -23,11 +23,9 @@ namespace BossRushJam25.UI {
       private void HandleHealthChanged(int newHealth, int diff) {
          if (ObservedHealthSystem == null) return;
          if (diff < 0) {
-            healthBarDiffImage.fillAmount = healthBarFillImage.fillAmount;
             healthBarFillImage.fillAmount = ObservedHealthSystem.HealthRatio;
          }
          else {
-            healthBarFillImage.fillAmount = healthBarDiffImage.fillAmount;
             healthBarDiffImage.fillAmount = ObservedHealthSystem.HealthRatio;
          }
          AdjustmentStartTime = Time.time;

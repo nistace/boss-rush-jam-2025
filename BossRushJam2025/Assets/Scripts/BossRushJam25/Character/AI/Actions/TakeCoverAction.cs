@@ -90,7 +90,7 @@ namespace BossRushJam25.Character.AI.Actions
             IEnumerable<GridHex> nearbyHexes = HexGridController.Instance.GetGridHexesInArea(Character.transform.position, data.CoverDetectionRadius);
 
             GridHex nearestCoverHex = nearbyHexes
-                .Where(hex => hex.Contents.Any(content => GameConfig.Instance.CoverTypes.Contains(content.Type)))
+                .Where(hex => hex.HexContents.Any(content => GameConfig.Instance.CoverTypes.Contains(content.Type)))
                 .OrderBy(hex => (hex.transform.position - Character.transform.position).sqrMagnitude)
                 .First();
 
