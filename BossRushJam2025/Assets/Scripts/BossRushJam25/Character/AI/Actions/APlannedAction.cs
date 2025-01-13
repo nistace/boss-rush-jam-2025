@@ -13,10 +13,5 @@ namespace BossRushJam25.Character.AI.Actions
 
             Character.ActionPriorityHandler.PlanAction(this);
         }
-
-        public void Force()
-        {
-            Character.ActionPriorityHandler.ForceAction(this);
-        }
     }
 }

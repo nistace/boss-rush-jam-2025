@@ -25,13 +25,13 @@ namespace BossRushJam25.Character
             {
                 if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out RaycastHit hit, maxDistance: 500, layerMask: ~0, queryTriggerInteraction: QueryTriggerInteraction.Ignore) && hit.collider.gameObject.layer == LayerMask.NameToLayer("Ground"))
                 {
-                    new MoveAction(character, hit.point).Force();
+                    character.ActionPriorityHandler.ForceAction(new MoveAction(character, hit.point));
                 }
             }
 
             if(Input.GetKeyDown(KeyCode.Alpha2))
             {
-                new TakeCoverAction(character).Force();
+                character.ActionPriorityHandler.ForceAction(new TakeCoverAction(character));
             }
 
             if(Input.GetKeyDown(KeyCode.Alpha3))
