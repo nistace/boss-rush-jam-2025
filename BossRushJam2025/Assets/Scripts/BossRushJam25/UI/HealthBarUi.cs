@@ -9,14 +9,14 @@ namespace BossRushJam25.UI {
       [SerializeField] protected AnimationCurve adjustmentOverTime;
 
       private HealthSystem ObservedHealthSystem { get; set; }
-      private float AdjustmentStartTime { get; set; }
+      private float AdjustmentStartTime { get; set; } 
 
       public void Setup(HealthSystem healthSystem) {
          ObservedHealthSystem?.OnHealthChanged.RemoveListener(HandleHealthChanged);
          ObservedHealthSystem = healthSystem;
          ObservedHealthSystem.OnHealthChanged.AddListener(HandleHealthChanged);
          healthBarFillImage.fillAmount = healthSystem.HealthRatio;
-         healthBarDiffImage.fillAmount = healthSystem.HealthRatio;
+         healthBarDiffImage.fillAmount = healthSystem.HealthRatio; 
          AdjustmentStartTime = 0;
       }
 

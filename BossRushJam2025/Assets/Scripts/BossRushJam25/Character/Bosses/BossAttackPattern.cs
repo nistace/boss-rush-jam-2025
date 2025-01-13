@@ -1,9 +1,11 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using BossRushJam25.HexGrid;
 using UnityEngine;
 using UnityEngine.Events;
 
-namespace BossRushJam25.Character.Bosses.AttackPatterns {
+namespace BossRushJam25.Character.Bosses {
+   [RequireComponent(typeof(Animator))]
    public abstract class BossAttackPattern : MonoBehaviour {
       [SerializeField] protected Animator animator;
       [SerializeField] protected GameObject gameObjectToActivationDuringExecution;
@@ -14,6 +16,10 @@ namespace BossRushJam25.Character.Bosses.AttackPatterns {
       private UnityEvent OnExecuting { get; } = new UnityEvent();
       public UnityEvent OnExecuted { get; } = new UnityEvent();
       public UnityEvent OnInterrupted { get; } = new UnityEvent();
+
+      private void Reset() {
+         animator = GetComponent<Animator>();
+      }
 
       private void Start() {
          gameObjectToActivationDuringExecution.SetActive(false);
