@@ -24,6 +24,7 @@ namespace BossRushJam25.Character.AI
         {
             this.character = character;
             character.PowerUpsDetector.OnDetectedPowerUpsChanged.AddListener(PowerUpsDetector_OnDetectedPowerUpChanged);
+            character.BossPatternDetector.OnSuccessfulAttackDetected.AddListener(BossPatternDetector_OnSuccessfulAttackDetected);
         }
 
         public void PlanAction(AAction action)
@@ -109,13 +110,28 @@ namespace BossRushJam25.Character.AI
         {
             RemoveAllActions();
 
-            if (character.PowerUpsDetector.NearestPowerUp != null)
+            if(character.BossPatternDetector.CurrentPattern != null)
+            {
+                HashSet<Vector2Int> affectedHexes = character.BossPatternDetector.CurrentPattern.GetAffectedHexes();
+
+                if(affectedHexes.Contains(character.HexLink.LinkedHex.Coordinates))
+                {
+                    new TakeCoverAction(character).Assign();
+                }
+            }
+
+            if(character.PowerUpsDetector.NearestPowerUp != null)
             {
                 new CollectPowerUpAction(character, character.PowerUpsDetector.NearestPowerUp.gameObject).Assign();
             }
         }
 
         private void PowerUpsDetector_OnDetectedPowerUpChanged()
+        {
+            EvaluateActionsProbability();
+        }
+
+        private void BossPatternDetector_OnSuccessfulAttackDetected()
         {
             EvaluateActionsProbability();
         }

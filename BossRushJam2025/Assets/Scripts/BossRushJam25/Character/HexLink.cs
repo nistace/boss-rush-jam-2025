@@ -8,6 +8,8 @@ namespace BossRushJam25.Character
     {
         protected CharacterCore character;
 
+        public GridHex LinkedHex { get; private set; }
+
         public void Initialize(CharacterCore character)
         {
             this.character = character;
@@ -17,9 +19,10 @@ namespace BossRushJam25.Character
         {
             if(HexGridController.Instance.TryGetHex(HexGridController.Instance.WorldToCoordinates(transform.position), out var hex))
             {
-                character.NavMeshAgent.obstacleAvoidanceType = hex.IsMoving ? ObstacleAvoidanceType.NoObstacleAvoidance : ObstacleAvoidanceType.HighQualityObstacleAvoidance;
-                character.NavMeshAgent.isStopped = hex.IsMoving;
-                character.transform.SetParent(hex.transform);
+                LinkedHex = hex;
+                character.NavMeshAgent.obstacleAvoidanceType = LinkedHex.IsMoving ? ObstacleAvoidanceType.NoObstacleAvoidance : ObstacleAvoidanceType.HighQualityObstacleAvoidance;
+                character.NavMeshAgent.isStopped = LinkedHex.IsMoving;
+                character.transform.SetParent(LinkedHex.transform);
             }
         }
     }

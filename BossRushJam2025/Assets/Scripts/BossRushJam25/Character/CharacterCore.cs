@@ -11,12 +11,14 @@ namespace BossRushJam25.Character
         [SerializeField] protected HexLink hexLink;
         [SerializeField] protected ActionPriorityHandler actionPriorityHandler;
         [SerializeField] protected PowerUpsDetector powerUpsDetector;
+        [SerializeField] protected BossPatternDetector bossPatternDetector;
         [SerializeField] protected DebugActionsTrigger actionsTrigger;
 
         public NavMeshAgent NavMeshAgent => navMeshAgent;
         public HexLink HexLink => hexLink;
         public ActionPriorityHandler ActionPriorityHandler => actionPriorityHandler;
         public PowerUpsDetector PowerUpsDetector => powerUpsDetector;
+        public BossPatternDetector BossPatternDetector => bossPatternDetector;
         public HealthSystem Health { get; private set; }
         public CharacterType Type => type;
 
@@ -26,6 +28,7 @@ namespace BossRushJam25.Character
             hexLink.Initialize(this);
             actionPriorityHandler.Initialize(this);
             actionsTrigger?.Initialize(this);
+            bossPatternDetector?.Initialize(this);
         }
     }
 }

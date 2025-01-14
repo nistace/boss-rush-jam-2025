@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using BossRushJam25.HexGrid;
 using UnityEngine;
@@ -66,6 +67,20 @@ namespace BossRushJam25.Character.Bosses.GoldFist {
             hexCoordinates = hexCoordinates.Neighbour(Direction);
          }
          ShotBlockingHexCoordinates = hexCoordinates;
+      }
+
+      public override HashSet<Vector2Int> GetAffectedHexes()
+      {
+         HashSet<Vector2Int> affectedHexes = new();
+         var hexCoordinates = Origin;
+
+         while(HexGridController.Instance.TryGetHex(hexCoordinates, out var hex) && !hex.HexContents.Any(t => obstacles.Contains(t.Type)))
+         {
+            affectedHexes.Add(hexCoordinates);
+            hexCoordinates = hexCoordinates.Neighbour(Direction);
+         }
+
+         return affectedHexes;
       }
    }
 }

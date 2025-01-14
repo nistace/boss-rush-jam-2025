@@ -22,11 +22,10 @@ namespace BossRushJam25.GameControllers {
          GameConfig.Instance.PowerUpsManager.Initialize();
          Hero = Object.Instantiate(GameConfig.Instance.HeroPrefab, HexGridController.Instance.CoordinatesToWorldPosition(GameConfig.Instance.HeroPrefab.Type.SpawnPosition), Quaternion.identity);
          Boss = Object.Instantiate(GameConfig.Instance.BossPrefab);
-         Hero.Initialize();
-         Boss.Initialize();
-
          BossFightInfo.SetHero(Hero);
          BossFightInfo.SetBoss(Boss);
+         Hero.Initialize();
+         Boss.Initialize();
 
          MainCanvas.Game.HeroHealthBar.Setup(Hero.Health);
          MainCanvas.Game.BossHealthBar.Setup(Boss.Health);

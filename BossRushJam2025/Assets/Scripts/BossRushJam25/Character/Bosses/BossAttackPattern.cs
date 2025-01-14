@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
 using BossRushJam25.HexGrid;
 using UnityEngine;
 using UnityEngine.Events;
@@ -49,6 +50,8 @@ namespace BossRushJam25.Character.Bosses {
       }
 
       protected abstract IEnumerator Play();
+
+      public abstract HashSet<Vector2Int> GetAffectedHexes();
 
       public void Interrupt() {
          InterruptAsap = true;

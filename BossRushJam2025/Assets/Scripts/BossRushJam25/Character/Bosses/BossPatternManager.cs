@@ -8,9 +8,11 @@ namespace BossRushJam25.Character.Bosses {
    public class BossPatternManager : MonoBehaviour {
       private HashSet<BossAttackPattern> AttackPatterns { get; } = new HashSet<BossAttackPattern>();
 
-      private BossAttackPattern CurrentAttack { get; set; }
+      public BossAttackPattern CurrentAttack { get; set; }
       private UnityAction CurrentAttackCallback { get; set; }
       public bool IsExecutingAttack => CurrentAttack;
+
+      public UnityEvent OnAttackStarted { get; } = new();
 
       private void Start() {
          AttackPatterns.Clear();
@@ -24,6 +26,7 @@ namespace BossRushJam25.Character.Bosses {
          CurrentAttack = AttackPatterns.OrderBy(_ => Random.value).First();
          CurrentAttack.OnExecuted.AddListener(HandleAttackExecuted);
          CurrentAttack.Execute();
+         OnAttackStarted.Invoke();
       }
 
       private void HandleAttackExecuted() {

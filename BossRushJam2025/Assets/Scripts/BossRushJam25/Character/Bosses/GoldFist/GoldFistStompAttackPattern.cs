@@ -86,5 +86,10 @@ namespace BossRushJam25.Character.Bosses.GoldFist {
          }
          return result;
       }
+
+      public override HashSet<Vector2Int> GetAffectedHexes()
+      {
+         return EvaluateTargetedHexes();
+      }
    }
 }
