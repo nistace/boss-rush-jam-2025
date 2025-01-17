@@ -18,7 +18,7 @@ namespace BossRushJam25.GameControllers {
       private float DelayBeforeNextAttack { get; set; }
 
       public override void Enable() {
-         HexGridController.Instance.Build(new[] { GameConfig.Instance.HeroPrefab.Type.SpawnPosition, GameConfig.Instance.BossPrefab.Type.SpawnPosition });
+         HexGridController.Instance.Build(GameConfig.Instance.BossPrefab.Type.HexGridPreset, new[] { GameConfig.Instance.HeroPrefab.Type.SpawnPosition });
          GameConfig.Instance.PowerUpsManager.Initialize();
          Hero = Object.Instantiate(GameConfig.Instance.HeroPrefab, HexGridController.Instance.CoordinatesToWorldPosition(GameConfig.Instance.HeroPrefab.Type.SpawnPosition), Quaternion.identity);
          Boss = Object.Instantiate(GameConfig.Instance.BossPrefab);

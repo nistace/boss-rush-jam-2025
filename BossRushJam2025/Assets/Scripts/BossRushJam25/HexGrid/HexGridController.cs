@@ -205,23 +205,19 @@ namespace BossRushJam25.HexGrid {
       public HashSet<GridHex> GetNeighbours(GridHex hex, int steps = 1) => GetNeighbours(hex.Coordinates, steps);
 
       public void Build(IReadOnlyCollection<Vector2Int> requiredClearHexes) {
+         ClearGrid();
          RefreshInnerRadius();
 
-         foreach (var hex in Hexes.Values) {
-            Destroy(hex.gameObject);
-         }
-
-         Hexes.Clear();
-
          foreach (var requiredClearHex in requiredClearHexes) {
-            InstantiateHex(requiredClearHex, clearHexPrefab);
+            InstantiateHex(requiredClearHex, clearHexPrefab, null);
          }
 
          for (var x = -gridRadius; x <= gridRadius; x++) {
             for (var z = -gridRadius; z <= gridRadius; z++) {
                var coordinates = new Vector2Int(x, z);
                if (IsCellInGrid(coordinates) && !Hexes.ContainsKey(coordinates)) {
-                  InstantiateHex(coordinates, RollRandomTile(coordinates));
+                  var randomTile = RollRandomTile(coordinates);
+                  InstantiateHex(coordinates, randomTile, randomTile.Type.RollContentPrefab());
                }
             }
          }
@@ -229,9 +225,52 @@ namespace BossRushJam25.HexGrid {
          navMeshSurface.BuildNavMesh();
       }
 
-      private void InstantiateHex(Vector2Int coordinates, GridHex prefab) {
+      private void ClearGrid() {
+         foreach (var hex in Hexes.Values) {
+            Destroy(hex.gameObject);
+         }
+
+         Hexes.Clear();
+      }
+
+      public void Build(HexGridPreset preset, IReadOnlyCollection<Vector2Int> requiredClearHexes) {
+         ClearGrid();
+         RefreshInnerRadius();
+
+         foreach (var requiredClearHex in requiredClearHexes) {
+            InstantiateHex(requiredClearHex, clearHexPrefab, null);
+         }
+
+         var remainingHexes = new List<Vector2Int>();
+         for (var x = -gridRadius; x <= gridRadius; x++) {
+            for (var z = -gridRadius; z <= gridRadius; z++) {
+               var coordinates = new Vector2Int(x, z);
+               if (IsCellInGrid(coordinates) && !Hexes.ContainsKey(coordinates)) {
+                  remainingHexes.Add(coordinates);
+               }
+            }
+         }
+         remainingHexes = remainingHexes.OrderBy(_ => Random.value).ToList();
+
+         foreach (var presetHex in preset.Presets) {
+            for (var i = 0; remainingHexes.Count > 0 && i < presetHex.Amount; ++i) {
+               InstantiateHex(remainingHexes[0], presetHex.GridHexPreset.HexPrefab, presetHex.GridHexPreset.ContentPrefab);
+               remainingHexes.RemoveAt(0);
+            }
+         }
+
+         while (remainingHexes.Count > 0) {
+            InstantiateHex(remainingHexes[0], preset.FillerPreset.HexPrefab, preset.FillerPreset.ContentPrefab);
+            remainingHexes.RemoveAt(0);
+         }
+         
+         navMeshSurface.BuildNavMesh();
+      }
+
+      private void InstantiateHex(Vector2Int coordinates, GridHex prefab, GridHexContent content) {
          var hex = Instantiate(prefab, CoordinatesToWorldPosition(coordinates), Quaternion.identity, transform);
          Hexes[coordinates] = hex;
+         hex.Setup(content);
          hex.InitialName = $"Hex{coordinates.x:00}{coordinates.y:00}";
          hex.SetCoordinates(coordinates);
       }

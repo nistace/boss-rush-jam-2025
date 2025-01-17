@@ -9,8 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b9022d219eec489ba65a1550949d206d, type: 3}
-  m_Name: HeroType
+  m_Script: {fileID: 11500000, guid: 35329ec5045f465b93c615561ed3677e, type: 3}
+  m_Name: GoldFist
   m_EditorClassIdentifier: 
-  spawnPosition: {x: 0, y: 0}
-  maxHealth: 20
+  maxHealth: 200
+  hexGridPreset: {fileID: 11400000, guid: ae8775c342164f042807ad760390666a, type: 2}

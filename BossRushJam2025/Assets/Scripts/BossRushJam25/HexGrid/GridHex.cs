@@ -28,7 +28,6 @@ namespace BossRushJam25.HexGrid {
 
       private void Start() {
          SetNoHighlight();
-         Setup();
       }
 
       public void SetNoHighlight() => SetHighlighted(null);
@@ -43,26 +42,25 @@ namespace BossRushJam25.HexGrid {
          name = $"{InitialName}@{coordinates.x:00}{coordinates.y:00}";
       }
 
-      private void Setup() {
+      public void Setup(GridHexContent contentInfo) {
          var rotationSteps = Mathf.Max(type.RotationSteps, 1);
          var rotation = Random.Range(0, Mathf.Max(type.RotationSteps, 1)) * 360f / rotationSteps;
          transform.rotation = Quaternion.Euler(0, rotation, 0);
 
-         SetupContent();
+         SetupContent(contentInfo);
       }
 
-      private void SetupContent() {
+      public void SetupContent(GridHexContent contentInfo) {
          foreach (var content in Contents) {
             Destroy(content.gameObject);
          }
          Contents.Clear();
-         var contentPrefab = type.RollContentPrefab();
-         if (!contentPrefab) return;
+         if (!contentInfo) return;
 
-         var rotationOptionsCount = Mathf.Max(contentPrefab.Type.RotationStepsInHex, 1);
+         var rotationOptionsCount = Mathf.Max(contentInfo.Type.RotationStepsInHex, 1);
          var rotationPerStep = 360f / rotationOptionsCount;
-         foreach (var rotationStep in Enumerable.Range(0, rotationOptionsCount).OrderBy(_ => Random.value).Take(contentPrefab.Type.MaxToSpawn)) {
-            var newContent = Instantiate(contentPrefab, hexContentParent);
+         foreach (var rotationStep in Enumerable.Range(0, rotationOptionsCount).OrderBy(_ => Random.value).Take(contentInfo.Type.MaxToSpawn)) {
+            var newContent = Instantiate(contentInfo, hexContentParent);
             newContent.transform.localRotation = Quaternion.Euler(0, rotationPerStep * rotationStep, 0);
             Contents.Add(newContent);
          }
