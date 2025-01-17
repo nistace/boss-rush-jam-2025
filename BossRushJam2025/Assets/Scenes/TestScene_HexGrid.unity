@@ -664,7 +664,7 @@ Transform:
   m_GameObject: {fileID: 824274559}
   serializedVersion: 2
   m_LocalRotation: {x: 0.7631876, y: -0.19747105, z: -0.038400255, w: 0.6140646}
-  m_LocalPosition: {x: -0.3218706, y: -1.6358758, z: 5.559383}
+  m_LocalPosition: {x: -0.378, y: -1.503, z: 5.124}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -730,7 +730,7 @@ MonoBehaviour:
   flareSize: 2
   flareTint: {r: 1, g: 1, b: 1, a: 1}
   flareFalloff: 4
-  flareMultiplier: 1
+  flareMultiplier: 0.291
   surfaceTexture: {fileID: 0}
   surfaceTint: {r: 1, g: 1, b: 1, a: 1}
   m_Distance: 1.5e+11
@@ -2201,6 +2201,7 @@ MonoBehaviour:
   gridRadius: 7
   hexRadius: 1
   clearHexPrefab: {fileID: 6811911467666851820, guid: d2ec40b7d052956428a0eb9a40a8e0ed, type: 3}
+  fillerHexPrefab: {fileID: 0}
   firstTilesPrefabs:
   - {fileID: 6811911467666851820, guid: af1925ec07f0f904694c16f2b291fd77, type: 3}
   rotationConfig: {fileID: 11400000, guid: 10f55b3411ccc9e4ca44c85ec9f76056, type: 2}
