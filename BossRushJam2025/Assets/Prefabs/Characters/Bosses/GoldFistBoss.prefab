@@ -101,7 +101,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 3f2c9c3b253a7de47a6c3313627ec346, type: 2}
   damageInfo:
     damage: 1
-    damageType: 2
+    damageType: 1
     damageTick: 0.1
     damageDuration: 3
 --- !u!95 &546568513069982349

@@ -15,4 +15,4 @@ MonoBehaviour:
   maxToSpawn: 1
   rotationStepsInHex: 1
   maxHealth: 50
-  vulnerabilities: 4
+  vulnerabilities: 2
