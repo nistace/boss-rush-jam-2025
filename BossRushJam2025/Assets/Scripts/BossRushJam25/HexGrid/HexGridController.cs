@@ -25,7 +25,7 @@ namespace BossRushJam25.HexGrid {
       private float InnerRadius { get; set; }
       public static Vector2Int Center => Vector2Int.zero;
 
-      private void RefreshInnerRadius() => InnerRadius = hexRadius * .5f * Mathf.Sqrt(3);
+      public void RefreshInnerRadius() => InnerRadius = hexRadius * .5f * Mathf.Sqrt(3);
 
       private void Awake() {
          Instance = this;
