@@ -24,6 +24,7 @@ namespace BossRushJam25.HexGrid {
 
       private float InnerRadius { get; set; }
       public static Vector2Int Center => Vector2Int.zero;
+      public static UnityEvent OnBuilt { get; } = new UnityEvent();
 
       public void RefreshInnerRadius() => InnerRadius = hexRadius * .5f * Mathf.Sqrt(3);
 
@@ -223,6 +224,7 @@ namespace BossRushJam25.HexGrid {
          }
 
          navMeshSurface.BuildNavMesh();
+         OnBuilt.Invoke();
       }
 
       private void ClearGrid() {
@@ -265,6 +267,7 @@ namespace BossRushJam25.HexGrid {
          }
          
          navMeshSurface.BuildNavMesh();
+         OnBuilt.Invoke();
       }
 
       private void InstantiateHex(Vector2Int coordinates, GridHex prefab, GridHexContent content) {

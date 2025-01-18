@@ -12,10 +12,20 @@ namespace BossRushJam25.UI {
 
       private void Start() {
          GridHexContent.OnAnyContentHealthChanged.AddListener(HandleAnyContentHealthChanged);
+         HexGridController.OnBuilt.AddListener(HandleHexGridBuilt);
       }
 
       private void OnDestroy() {
          GridHexContent.OnAnyContentHealthChanged.RemoveListener(HandleAnyContentHealthChanged);
+         HexGridController.OnBuilt.RemoveListener(HandleHexGridBuilt);
+      }
+
+      private void HandleHexGridBuilt() {
+         foreach (var deactivatedBar in ActiveHealthBars.Values) {
+            PooledHealthBarUis.Enqueue(deactivatedBar);
+            deactivatedBar.gameObject.SetActive(false);
+         }
+         ActiveHealthBars.Clear();
       }
 
       private void HandleAnyContentHealthChanged(GridHexContent gridHexContent, HealthSystem gridHexContentHealth) {
