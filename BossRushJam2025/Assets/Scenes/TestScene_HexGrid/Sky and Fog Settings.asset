@@ -49,7 +49,7 @@ MonoBehaviour:
   active: 1
   indirectDiffuseLightingMultiplier:
     m_OverrideState: 1
-    m_Value: 1.93
+    m_Value: 0.82
   indirectDiffuseLightingLayers:
     m_OverrideState: 0
     m_Value: 65535
@@ -86,9 +86,9 @@ MonoBehaviour:
     m_Value: 1
   fixedExposure:
     m_OverrideState: 1
-    m_Value: 13.339806
+    m_Value: 12.022556
   compensation:
-    m_OverrideState: 0
+    m_OverrideState: 1
     m_Value: 0
   limitMin:
     m_OverrideState: 0
@@ -306,7 +306,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 59b6606ef2548734bb6d11b9d160bc7e, type: 3}
   m_Name: HDRISky
   m_EditorClassIdentifier: 
-  active: 1
+  active: 0
   rotation:
     m_OverrideState: 0
     m_Value: 0
@@ -595,13 +595,13 @@ MonoBehaviour:
   active: 1
   skyType:
     m_OverrideState: 1
-    m_Value: 1
+    m_Value: 4
   cloudType:
     m_OverrideState: 1
     m_Value: 0
   skyAmbientMode:
     m_OverrideState: 1
-    m_Value: 1
+    m_Value: 0
   planetRadius:
     m_OverrideState: 1
     m_Value: 6378.1
@@ -642,7 +642,7 @@ MonoBehaviour:
     m_Value: 0
   skyIntensityMode:
     m_OverrideState: 0
-    m_Value: 0
+    m_Value: 2
   exposure:
     m_OverrideState: 0
     m_Value: 0
@@ -716,8 +716,8 @@ MonoBehaviour:
     m_OverrideState: 0
     m_Value: 20000
   groundTint:
-    m_OverrideState: 0
-    m_Value: {r: 0.12, g: 0.1, b: 0.09, a: 1}
+    m_OverrideState: 1
+    m_Value: {r: 0.14441308, g: 0.18452463, b: 0.18877408, a: 1}
   groundColorTexture:
     m_OverrideState: 0
     m_Value: {fileID: 0}

@@ -1,16 +1,16 @@
 fileFormatVersion: 2
-guid: 394641e90d18a004d9e541c36772a62e
+guid: b4089b72fa951ed44befc6ab957562d7
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 6523951208836602698
-    second: BaseTile_Wall_DefaultMaterial_Normal_0
+      213: -7207487865229031490
+    second: T_City_MAMS_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
-    mipMapMode: 1
-    enableMipMap: 1
-    sRGBTexture: 0
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
     linearTexture: 0
     fadeOut: 0
     borderMipMap: 0
@@ -55,9 +55,9 @@ TextureImporter:
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
-  alphaIsTransparency: 0
+  alphaIsTransparency: 1
   spriteTessellationDetail: -1
-  textureType: 1
+  textureType: 8
   textureShape: 1
   singleChannelComponent: 0
   flipbookRows: 1
@@ -75,7 +75,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 2
+    textureCompression: 1
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -113,13 +113,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: BaseTile_Wall_DefaultMaterial_Normal_0
+      name: T_City_MAMS_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 2048
-        height: 2048
+        width: 128
+        height: 128
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -128,8 +128,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: a4b9fae1f0bb98a50800000000000000
-      internalID: 6523951208836602698
+      spriteID: eb7c51639fbd9fb90800000000000000
+      internalID: -7207487865229031490
       vertices: []
       indices: 
       edges: []
@@ -147,7 +147,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      T_City_MAMS_0: -7207487865229031490
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
