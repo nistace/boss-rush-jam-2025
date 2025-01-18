@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d67ac51dd9d6487aa921bad60e69d820, type: 3}
+  m_Name: Glyph_Triangle
+  m_EditorClassIdentifier: 
+  originGlyphPart:
+    hexPrefab: {fileID: 6811911467666851820, guid: af1925ec07f0f904694c16f2b291fd77, type: 3}
+    contentPrefab: {fileID: 3367509159087183507, guid: 76636f62b866c5547b5ee0f37cf2c219, type: 3}
+  otherGlyphParts:
+  - otherGlyphPart:
+      hexPrefab: {fileID: 6811911467666851820, guid: af1925ec07f0f904694c16f2b291fd77, type: 3}
+      contentPrefab: {fileID: 3367509159087183507, guid: 76636f62b866c5547b5ee0f37cf2c219, type: 3}
+    offsetWithOrigin: {x: 0.8660254, y: 0, z: 1.5}
+    rotationWithOrigin: 120.00001
+  - otherGlyphPart:
+      hexPrefab: {fileID: 6811911467666851820, guid: af1925ec07f0f904694c16f2b291fd77, type: 3}
+      contentPrefab: {fileID: 3367509159087183507, guid: 76636f62b866c5547b5ee0f37cf2c219, type: 3}
+    offsetWithOrigin: {x: 1.7320508, y: 0, z: 0}
+    rotationWithOrigin: -119.99999
