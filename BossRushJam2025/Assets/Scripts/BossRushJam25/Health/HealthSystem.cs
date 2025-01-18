@@ -6,7 +6,7 @@ namespace BossRushJam25.Health {
       public int MaxHealth { get; }
       public int Health { get; private set; }
       public float HealthRatio => (float)Health / MaxHealth;
-      public DamageTypes Vulnerabilities { get; private set; }
+      public DamageTypes Vulnerabilities { get; }
 
       /// <summary> Invoked when health changed. Notifies, in this order, the new Health value and the change</summary>
       public UnityEvent<int, int> OnHealthChanged { get; } = new UnityEvent<int, int>();
