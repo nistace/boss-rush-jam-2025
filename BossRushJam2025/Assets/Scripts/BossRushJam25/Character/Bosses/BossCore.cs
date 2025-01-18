@@ -1,3 +1,4 @@
+using BossRushJam25.Health;
 using UnityEngine;
 
 namespace BossRushJam25.Character.Bosses {

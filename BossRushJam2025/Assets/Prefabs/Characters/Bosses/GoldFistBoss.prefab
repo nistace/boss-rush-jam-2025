@@ -98,9 +98,12 @@ MonoBehaviour:
   castDuration: 4
   obstacles:
   - {fileID: 11400000, guid: 0727135848fead74e90a9dbe595130b4, type: 2}
-  shotDuration: 5
-  damage: 1
-  damageTick: 0.1
+  - {fileID: 11400000, guid: 3f2c9c3b253a7de47a6c3313627ec346, type: 2}
+  damageInfo:
+    damage: 1
+    damageType: 2
+    damageTick: 0.1
+    damageDuration: 3
 --- !u!95 &546568513069982349
 Animator:
   serializedVersion: 7
@@ -140,7 +143,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &5579248417777747904
 Transform:
   m_ObjectHideFlags: 0
@@ -209,6 +212,7 @@ GameObject:
   - component: {fileID: 2649528350850896792}
   - component: {fileID: 6964017279168319766}
   - component: {fileID: 721333850165358362}
+  - component: {fileID: 395200300307148939}
   m_Layer: 0
   m_Name: GoldFistBoss
   m_TagString: Untagged
@@ -259,6 +263,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 90d38e403d4b47aab92666477ad0ef45, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &395200300307148939
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1655740231146867200}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cf17b4d6156b4892864634bf5f76b0db, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  core: {fileID: 6964017279168319766}
+  batteryType: {fileID: 11400000, guid: 3f2c9c3b253a7de47a6c3313627ec346, type: 2}
 --- !u!1 &1702997802797354136
 GameObject:
   m_ObjectHideFlags: 0

@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using BossRushJam25.Health;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.Events;
@@ -75,6 +76,21 @@ namespace BossRushJam25.HexGrid {
          navMeshObstacle.enabled = IsMoving || type.AlwaysAnObstacle;
 
          OnMovingChanged.Invoke(IsMoving);
+      }
+
+      public void TryDamageContents(int damageDealt, DamageType damageType) {
+         var anyContentDestroyed = false;
+         foreach (var content in Contents) {
+            content.TryDamage(damageDealt, damageType);
+            anyContentDestroyed |= content.HealthSystem.Empty;
+         }
+
+         if (anyContentDestroyed) {
+            foreach (var contentToDestroy in Contents.Where(t => t.HealthSystem.Empty).ToArray()) {
+               Destroy(contentToDestroy.gameObject);
+               Contents.Remove(contentToDestroy);
+            }
+         }
       }
    }
 }

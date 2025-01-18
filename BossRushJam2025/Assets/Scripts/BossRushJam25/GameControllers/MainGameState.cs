@@ -47,8 +47,8 @@ namespace BossRushJam25.GameControllers {
          Boss.Health.OnHealthChanged.AddListener(HandleBossHealthChanged);
       }
 
-      private void HandleDamageHeroPerformed(InputAction.CallbackContext obj) => Hero.Health.Damage(1);
-      private void HandleDamageBossPerformed(InputAction.CallbackContext obj) => Boss.Health.Damage(1);
+      private void HandleDamageHeroPerformed(InputAction.CallbackContext obj) => Hero.Health.DamagePure(1);
+      private void HandleDamageBossPerformed(InputAction.CallbackContext obj) => Boss.Health.DamagePure(1);
 
       private static void HandleHeroHealthChanged(int newHealth, int _) {
          if (newHealth > 0) return;

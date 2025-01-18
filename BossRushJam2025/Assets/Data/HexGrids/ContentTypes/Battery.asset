@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9ac717a7dd5e4e5190dd4bf1ef4fc1fd, type: 3}
-  m_Name: GuardRail
+  m_Name: Battery
   m_EditorClassIdentifier: 
-  maxToSpawn: 4
-  rotationStepsInHex: 6
-  maxHealth: 5
-  vulnerabilities: 0
+  maxToSpawn: 1
+  rotationStepsInHex: 1
+  maxHealth: 50
+  vulnerabilities: 4

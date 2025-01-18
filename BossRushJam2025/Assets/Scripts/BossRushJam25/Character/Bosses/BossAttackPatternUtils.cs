@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using BossRushJam25.BossFights;
+using BossRushJam25.Health;
 using BossRushJam25.HexGrid;
 using UnityEngine;
 
@@ -18,6 +19,6 @@ namespace BossRushJam25.Character.Bosses {
          return hex;
       }
 
-      public static void DamageHero(int damage) => BossFightInfo.Hero.Health.Damage(damage);
+      public static void DamageHero(DamageType damageType, int damage) => BossFightInfo.Hero.Health.Damage(damage, damageType);
    }
 }

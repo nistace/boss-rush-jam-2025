@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using BossRushJam25.Health;
 using BossRushJam25.HexGrid;
 using UnityEngine;
 
@@ -64,7 +65,7 @@ namespace BossRushJam25.Character.Bosses.GoldFist {
 
       private void DealDamageOnAffectedHexes() {
          if (EvaluateTargetedHexes().Contains(BossAttackPatternUtils.GetHeroCoordinates())) {
-            BossAttackPatternUtils.DamageHero(damage);
+            BossAttackPatternUtils.DamageHero(DamageType.Physical, damage);
          }
       }
 
