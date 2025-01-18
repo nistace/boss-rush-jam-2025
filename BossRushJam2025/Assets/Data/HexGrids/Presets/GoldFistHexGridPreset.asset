@@ -12,6 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 655781bb1eca4d94928e5049554d8d38, type: 3}
   m_Name: GoldFistHexGridPreset
   m_EditorClassIdentifier: 
+  glyphs:
+  - {fileID: 11400000, guid: 179b343bba4dd684fa9e57d3e1e076ed, type: 2}
+  - {fileID: 11400000, guid: 179b343bba4dd684fa9e57d3e1e076ed, type: 2}
   presets:
   - gridHexPreset:
       hexPrefab: {fileID: 6811911467666851820, guid: af1925ec07f0f904694c16f2b291fd77, type: 3}
