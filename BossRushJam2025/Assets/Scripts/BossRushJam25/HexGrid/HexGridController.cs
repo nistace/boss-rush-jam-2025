@@ -243,6 +243,30 @@ namespace BossRushJam25.HexGrid {
             InstantiateHex(requiredClearHex, clearHexPrefab, null);
          }
 
+         var randomHexesQueue = GenerateRandomQueueOfMissingHexes();
+
+         foreach (var glyph in preset.Glyphs) {
+            InstantiateHex(randomHexesQueue.Dequeue(), glyph.OriginGlyphPart);
+            for (var i = 0; randomHexesQueue.Count > 0 && i < glyph.OtherGlyphParts.Count; ++i) {
+               InstantiateHex(randomHexesQueue.Dequeue(), glyph.OtherGlyphParts[i].OtherGlyphPart);
+            }
+         }
+
+         foreach (var presetHex in preset.Presets) {
+            for (var i = 0; randomHexesQueue.Count > 0 && i < presetHex.Amount; ++i) {
+               InstantiateHex(randomHexesQueue.Dequeue(), presetHex.GridHexPreset);
+            }
+         }
+
+         while (randomHexesQueue.Count > 0) {
+            InstantiateHex(randomHexesQueue.Dequeue(), preset.FillerPreset.HexPrefab, preset.FillerPreset.ContentPrefab);
+         }
+
+         navMeshSurface.BuildNavMesh();
+         OnBuilt.Invoke();
+      }
+
+      private Queue<Vector2Int> GenerateRandomQueueOfMissingHexes() {
          var remainingHexes = new List<Vector2Int>();
          for (var x = -gridRadius; x <= gridRadius; x++) {
             for (var z = -gridRadius; z <= gridRadius; z++) {
@@ -252,23 +276,10 @@ namespace BossRushJam25.HexGrid {
                }
             }
          }
-         remainingHexes = remainingHexes.OrderBy(_ => Random.value).ToList();
-
-         foreach (var presetHex in preset.Presets) {
-            for (var i = 0; remainingHexes.Count > 0 && i < presetHex.Amount; ++i) {
-               InstantiateHex(remainingHexes[0], presetHex.GridHexPreset.HexPrefab, presetHex.GridHexPreset.ContentPrefab);
-               remainingHexes.RemoveAt(0);
-            }
-         }
-
-         while (remainingHexes.Count > 0) {
-            InstantiateHex(remainingHexes[0], preset.FillerPreset.HexPrefab, preset.FillerPreset.ContentPrefab);
-            remainingHexes.RemoveAt(0);
-         }
-         
-         navMeshSurface.BuildNavMesh();
-         OnBuilt.Invoke();
+         return new Queue<Vector2Int>(remainingHexes.OrderBy(_ => Random.value));
       }
+
+      private void InstantiateHex(Vector2Int coordinates, GridHexPreset preset) => InstantiateHex(coordinates, preset.HexPrefab, preset.ContentPrefab);
 
       private void InstantiateHex(Vector2Int coordinates, GridHex prefab, GridHexContent content) {
          var hex = Instantiate(prefab, CoordinatesToWorldPosition(coordinates), Quaternion.identity, transform);
