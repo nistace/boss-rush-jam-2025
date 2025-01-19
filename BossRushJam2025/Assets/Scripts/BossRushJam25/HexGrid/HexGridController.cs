@@ -24,6 +24,7 @@ namespace BossRushJam25.HexGrid {
 
       private float InnerRadius { get; set; }
       public static Vector2Int Center => Vector2Int.zero;
+      public static UnityEvent OnClearingGrid { get; } = new UnityEvent();
       public static UnityEvent OnBuilt { get; } = new UnityEvent();
 
       public void RefreshInnerRadius() => InnerRadius = hexRadius * .5f * Mathf.Sqrt(3);
@@ -238,6 +239,8 @@ namespace BossRushJam25.HexGrid {
       }
 
       private void ClearGrid() {
+         OnClearingGrid.Invoke();
+
          foreach (var hex in Hexes.Values) {
             Destroy(hex.gameObject);
          }

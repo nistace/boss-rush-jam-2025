@@ -14,6 +14,16 @@ namespace BossRushJam25.HexGrid {
          Instance = this;
       }
 
+      private void Start() {
+         HexGridController.OnClearingGrid.AddListener(HandleClearingGrid);
+      }
+
+      private void OnDestroy() {
+         HexGridController.OnClearingGrid.RemoveListener(HandleClearingGrid);
+      }
+
+      private static void HandleClearingGrid() => HideAllAffectedHexes();
+
       public static void HideAllAffectedHexes() {
          foreach (var activeAffectedHex in Instance.ActiveAffectedHexes.Values) {
             Instance.PoolVisual(activeAffectedHex);
@@ -36,6 +46,8 @@ namespace BossRushJam25.HexGrid {
       }
 
       private void PoolVisual(Transform transform) {
+         if (!transform) return;
+         transform.SetParent(Instance.transform);
          transform.gameObject.SetActive(false);
          Pool.Enqueue(transform);
       }
