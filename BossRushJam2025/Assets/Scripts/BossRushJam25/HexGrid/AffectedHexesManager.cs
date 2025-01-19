@@ -34,7 +34,7 @@ namespace BossRushJam25.HexGrid {
 
       public static void SetAffectedHex(Vector2Int position, bool active) {
          if (Instance.ActiveAffectedHexes.ContainsKey(position) == active) return;
-         if (active) {
+         if (active && HexGridController.Instance.TryGetHex(position, out var hex)) {
             var visual = Instance.GetVisualInstance();
             hex.ParentTransformToHexContent(visual, true, true);
             Instance.ActiveAffectedHexes.Add(position, visual);
