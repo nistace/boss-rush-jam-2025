@@ -7,6 +7,7 @@ using UnityEngine.UIElements;
 namespace BossRushJam25.HexGrid.Glyphs.Editor {
    public class GlyphEditorWindow : EditorWindow {
       private Transform playgroundParent;
+      private Transform spawnPosition;
 
       private ObjectField hexGridField;
       private ObjectField glyphDefinitionField;
@@ -19,7 +20,11 @@ namespace BossRushJam25.HexGrid.Glyphs.Editor {
       private HexGridController hexGrid;
 
       private void OnEnable() {
+         if (!playgroundParent) playgroundParent = FindObjectsByType<Transform>(FindObjectsSortMode.None).FirstOrDefault(t => t.name == $"{nameof(GlyphEditorWindow)}.playground");
          if (!playgroundParent) playgroundParent = new GameObject($"{nameof(GlyphEditorWindow)}.playground").transform;
+         if (!spawnPosition) spawnPosition = playgroundParent.GetComponentsInChildren<Transform>().FirstOrDefault(t => t.name == $"{nameof(GlyphEditorWindow)}.spawnPosition");
+         if (!spawnPosition) spawnPosition = new GameObject($"{nameof(GlyphEditorWindow)}.spawnPosition").transform;
+         spawnPosition.SetParent(playgroundParent);
       }
 
       private void OnDisable() {
@@ -35,7 +40,8 @@ namespace BossRushJam25.HexGrid.Glyphs.Editor {
       public void CreateGUI() {
          hexGridField = new ObjectField { objectType = typeof(HexGridController), allowSceneObjects = true };
          hexGridField.RegisterValueChangedCallback(HandleSelectedHexGridChanged);
-         hexGridField.value = FindObjectsByType<HexGridController>(FindObjectsInactive.Exclude, FindObjectsSortMode.None).FirstOrDefault();
+         hexGrid = FindObjectsByType<HexGridController>(FindObjectsInactive.Exclude, FindObjectsSortMode.None).FirstOrDefault();
+         hexGridField.value = hexGrid;
          rootVisualElement.Add(hexGridField);
 
          glyphDefinitionField = new ObjectField { objectType = typeof(GlyphDefinition) };
@@ -66,8 +72,9 @@ namespace BossRushJam25.HexGrid.Glyphs.Editor {
 
       private void ClearPlayground() {
          errorLabel.text = string.Empty;
-         while (playgroundParent.childCount > 0) {
-            DestroyImmediate(playgroundParent.GetChild(0).gameObject);
+         spawnPosition.SetSiblingIndex(0);
+         while (playgroundParent.childCount > 1) {
+            DestroyImmediate(playgroundParent.GetChild(1).gameObject);
          }
       }
 
@@ -89,7 +96,7 @@ namespace BossRushJam25.HexGrid.Glyphs.Editor {
 
       private void RefreshButtons() {
          errorLabel.text = string.Empty;
-         fixPositionsButton.visible = hexGrid && playgroundParent && glyphDefinitionField != null && glyphDefinitionField.value;
+         fixPositionsButton.visible = playgroundParent;
          generateButton.visible = hexGrid && playgroundParent && glyphDefinitionField != null && glyphDefinitionField.value;
          saveButton.visible = hexGrid && playgroundParent && glyphDefinitionField != null && glyphDefinitionField.value;
       }
@@ -98,22 +105,19 @@ namespace BossRushJam25.HexGrid.Glyphs.Editor {
          errorLabel.text = string.Empty;
          ClearPlayground();
          var so = new SerializedObject(glyphDefinitionField.value);
-         GenerateOneHex(so.FindProperty("originGlyphPart"), Vector3.zero, 0);
+         spawnPosition.position = so.FindProperty("spawnOffsetWithOrigin").vector3Value;
+         GenerateOneHex(so.FindProperty("originGlyphChunk"), Vector3.zero, 0);
          for (var i = 0; i < so.FindProperty("otherGlyphParts").arraySize; ++i) {
             var otherGlyphPartProperty = so.FindProperty("otherGlyphParts").GetArrayElementAtIndex(i);
-            GenerateOneHex(otherGlyphPartProperty.FindPropertyRelative("otherGlyphPart"),
+            GenerateOneHex(otherGlyphPartProperty.FindPropertyRelative("glyphChunk"),
                otherGlyphPartProperty.FindPropertyRelative("offsetWithOrigin").vector3Value,
                otherGlyphPartProperty.FindPropertyRelative("rotationWithOrigin").floatValue);
          }
       }
 
-      private void GenerateOneHex(SerializedProperty gridHexPresetProperty, Vector3 offset, float rotation) {
-         if (gridHexPresetProperty.FindPropertyRelative("hexPrefab").objectReferenceValue) {
-            var hex = (GridHex)PrefabUtility.InstantiatePrefab(gridHexPresetProperty.FindPropertyRelative("hexPrefab").objectReferenceValue);
-            if (gridHexPresetProperty.FindPropertyRelative("hexPrefab").objectReferenceValue) {
-               var hexContent = (GridHexContent)PrefabUtility.InstantiatePrefab(gridHexPresetProperty.FindPropertyRelative("contentPrefab").objectReferenceValue);
-               hexContent.transform.SetParent(hex.transform, false);
-            }
+      private void GenerateOneHex(SerializedProperty glyphChunkProperty, Vector3 offset, float rotation) {
+         if (glyphChunkProperty.objectReferenceValue) {
+            var hex = (GlyphChunk)PrefabUtility.InstantiatePrefab(glyphChunkProperty.objectReferenceValue);
             hex.transform.SetParent(playgroundParent);
             hex.transform.position = offset;
             hex.transform.rotation = Quaternion.Euler(0, rotation, 0);
@@ -123,52 +127,47 @@ namespace BossRushJam25.HexGrid.Glyphs.Editor {
       private void HandleSaveToSoClicked() {
          FixHexPositions();
          errorLabel.text = string.Empty;
-         var hexes = playgroundParent.GetComponentsInChildren<GridHex>();
+         var glyphChunks = playgroundParent.GetComponentsInChildren<GlyphChunk>();
 
-         if (hexes.Length < 2) {
+         if (glyphChunks.Length < 2) {
             errorLabel.text += "There cannot be a glyph with less than 2 hexes.";
             return;
          }
 
-         var origin = hexes.OrderBy(t => t.transform.position.sqrMagnitude).FirstOrDefault();
+         var origin = glyphChunks.OrderBy(t => t.transform.position.sqrMagnitude).FirstOrDefault();
          var so = new SerializedObject(glyphDefinitionField.value);
          so.Update();
-         SaveGlyphHexPreset(so.FindProperty("originGlyphPart"), origin);
-         so.FindProperty("otherGlyphParts").arraySize = hexes.Length - 1;
-         foreach (var otherHex in hexes.Except(new[] { origin }).Select((t, i) => (hex: t, index: i))) {
-            var arrayElement = so.FindProperty("otherGlyphParts").GetArrayElementAtIndex(otherHex.index);
-            arrayElement.FindPropertyRelative("offsetWithOrigin").vector3Value = otherHex.hex.transform.position - origin.transform.position;
-            arrayElement.FindPropertyRelative("rotationWithOrigin").floatValue = Vector3.SignedAngle(origin.transform.forward, otherHex.hex.transform.forward, Vector3.up);
-            SaveGlyphHexPreset(arrayElement.FindPropertyRelative("otherGlyphPart"), otherHex.hex);
+         SaveGlyphHexPreset(so.FindProperty("originGlyphChunk"), origin);
+         so.FindProperty("spawnOffsetWithOrigin").vector3Value = origin.transform.InverseTransformPoint(spawnPosition.position);
+         so.FindProperty("otherGlyphParts").arraySize = glyphChunks.Length - 1;
+         foreach (var otherChunk in glyphChunks.Except(new[] { origin }).Select((t, i) => (chunk: t, index: i))) {
+            var arrayElement = so.FindProperty("otherGlyphParts").GetArrayElementAtIndex(otherChunk.index);
+            arrayElement.FindPropertyRelative("offsetWithOrigin").vector3Value = origin.transform.InverseTransformPoint(otherChunk.chunk.transform.position);
+            arrayElement.FindPropertyRelative("rotationWithOrigin").floatValue = Vector3.SignedAngle(origin.transform.forward, otherChunk.chunk.transform.forward, Vector3.up);
+            SaveGlyphHexPreset(arrayElement.FindPropertyRelative("glyphChunk"), otherChunk.chunk);
          }
 
          so.ApplyModifiedProperties();
       }
 
-      private void SaveGlyphHexPreset(SerializedProperty property, GridHex gridHex) {
-         if (!gridHex) {
-            errorLabel.text += "GridHex not defined.\n";
+      private void SaveGlyphHexPreset(SerializedProperty property, GlyphChunk glyphChunk) {
+         if (!glyphChunk) {
+            errorLabel.text += "GlyphChunk not defined.\n";
             return;
          }
-         if (!PrefabUtility.IsAnyPrefabInstanceRoot(gridHex.gameObject)) {
-            errorLabel.text += $"GridHex {gridHex.name} is not an instance of a prefab.\n";
-            return;
-         }
-
-         property.FindPropertyRelative("hexPrefab").objectReferenceValue = AssetDatabase.LoadAssetAtPath<GameObject>(PrefabUtility.GetPrefabAssetPathOfNearestInstanceRoot(gridHex));
-         property.FindPropertyRelative("contentPrefab").objectReferenceValue = null;
-
-         var content = gridHex.GetComponentInChildren<GridHexContent>();
-         if (!content) {
-            errorLabel.text += $"GridHex {gridHex.name} has no content. That's weird for a glyph.\n";
-            return;
-         }
-         if (!PrefabUtility.IsAnyPrefabInstanceRoot(gridHex.gameObject)) {
-            errorLabel.text += $"GridHex {gridHex.name} has a content " + content.name + ", but this content is not an instance of a prefab.\n";
+         if (!PrefabUtility.IsAnyPrefabInstanceRoot(glyphChunk.gameObject)) {
+            errorLabel.text += $"GlyphChunk {glyphChunk.name} is not an instance of a prefab.\n";
             return;
          }
 
-         property.FindPropertyRelative("contentPrefab").objectReferenceValue = AssetDatabase.LoadAssetAtPath<GameObject>(PrefabUtility.GetPrefabAssetPathOfNearestInstanceRoot(content));
+         property.objectReferenceValue = AssetDatabase.LoadAssetAtPath<GameObject>(PrefabUtility.GetPrefabAssetPathOfNearestInstanceRoot(glyphChunk));
+      }
+
+      private void Update() {
+         if (EditorApplication.isPlaying) {
+            DestroyImmediate(playgroundParent.gameObject);
+            Close();
+         }
       }
    }
 }

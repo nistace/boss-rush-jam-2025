@@ -10,14 +10,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d67ac51dd9d6487aa921bad60e69d820, type: 3}
-  m_Name: Glyph_Triangle
+  m_Name: Glyph_Diamond
   m_EditorClassIdentifier: 
-  originGlyphChunk: {fileID: 4966646679731647644, guid: c1782be4177014442a87ae5a6c2e57ef, type: 3}
-  spawnOffsetWithOrigin: {x: 0.872, y: 0, z: 0.5}
+  originGlyphChunk: {fileID: 4966646679731647644, guid: 407f46cbad46d9644b99e05756574b39, type: 3}
+  spawnOffsetWithOrigin: {x: 0.87, y: 0, z: 0}
   otherGlyphParts:
+  - glyphChunk: {fileID: 4966646679731647644, guid: c1782be4177014442a87ae5a6c2e57ef, type: 3}
+    offsetWithOrigin: {x: 0.8660254, y: 0, z: -1.5}
+    rotationWithOrigin: -60.000008
   - glyphChunk: {fileID: 4966646679731647644, guid: c1782be4177014442a87ae5a6c2e57ef, type: 3}
     offsetWithOrigin: {x: 0.8660254, y: 0, z: 1.5}
     rotationWithOrigin: 120.00001
-  - glyphChunk: {fileID: 4966646679731647644, guid: c1782be4177014442a87ae5a6c2e57ef, type: 3}
+  - glyphChunk: {fileID: 4966646679731647644, guid: 407f46cbad46d9644b99e05756574b39, type: 3}
     offsetWithOrigin: {x: 1.7320508, y: 0, z: 0}
-    rotationWithOrigin: -119.99999
+    rotationWithOrigin: -180

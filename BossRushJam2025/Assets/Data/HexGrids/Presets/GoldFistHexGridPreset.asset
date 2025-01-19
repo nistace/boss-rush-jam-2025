@@ -13,8 +13,15 @@ MonoBehaviour:
   m_Name: GoldFistHexGridPreset
   m_EditorClassIdentifier: 
   glyphs:
-  - {fileID: 11400000, guid: 179b343bba4dd684fa9e57d3e1e076ed, type: 2}
-  - {fileID: 11400000, guid: 179b343bba4dd684fa9e57d3e1e076ed, type: 2}
+  - definition: {fileID: 11400000, guid: 179b343bba4dd684fa9e57d3e1e076ed, type: 2}
+    castingTime: 3
+    objectToSpawn: {fileID: 7395046468507608522, guid: 10b31b09c8861f74b810adac8484f8c7, type: 3}
+  - definition: {fileID: 11400000, guid: 179b343bba4dd684fa9e57d3e1e076ed, type: 2}
+    castingTime: 3
+    objectToSpawn: {fileID: 7395046468507608522, guid: 10b31b09c8861f74b810adac8484f8c7, type: 3}
+  - definition: {fileID: 11400000, guid: efeb7020e9ef90c44b0678dbcdfd628a, type: 2}
+    castingTime: 3
+    objectToSpawn: {fileID: 7395046468507608522, guid: 10b31b09c8861f74b810adac8484f8c7, type: 3}
   presets:
   - gridHexPreset:
       hexPrefab: {fileID: 6811911467666851820, guid: af1925ec07f0f904694c16f2b291fd77, type: 3}

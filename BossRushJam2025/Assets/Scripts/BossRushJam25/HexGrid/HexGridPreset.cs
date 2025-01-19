@@ -6,11 +6,11 @@ using UnityEngine;
 namespace BossRushJam25.HexGrid {
    [CreateAssetMenu]
    public class HexGridPreset : ScriptableObject {
-      [SerializeField] protected GlyphDefinition[] glyphs;
+      [SerializeField] protected Glyph[] glyphs;
       [SerializeField] protected HexGridPresetData[] presets;
       [SerializeField] protected GridHexPreset fillerPreset;
 
-      public IReadOnlyList<GlyphDefinition> Glyphs => glyphs;
+      public IReadOnlyList<Glyph> Glyphs => glyphs;
       public IReadOnlyList<HexGridPresetData> Presets => presets;
       public GridHexPreset FillerPreset => fillerPreset;
 

@@ -23,9 +23,14 @@ namespace BossRushJam25.HexGrid {
       private Dictionary<Vector2Int, GridHex> Hexes { get; } = new Dictionary<Vector2Int, GridHex>();
 
       private float InnerRadius { get; set; }
+      public ICollection<GridHex> AllHexes => Hexes.Values;
+
       public static Vector2Int Center => Vector2Int.zero;
-      public static UnityEvent OnClearingGrid { get; } = new UnityEvent();
       public static UnityEvent OnBuilt { get; } = new UnityEvent();
+      public static UnityEvent<HexGridPreset> OnBuiltWithPreset { get; } = new UnityEvent<HexGridPreset>();
+      public static UnityEvent OnClearingGrid { get; } = new UnityEvent();
+      public static UnityEvent<IReadOnlyCollection<GridHex>> OnSomeHexesStartedMoving { get; } = new UnityEvent<IReadOnlyCollection<GridHex>>();
+      public static UnityEvent<IReadOnlyCollection<GridHex>> OnSomeHexesStoppedMoving { get; } = new UnityEvent<IReadOnlyCollection<GridHex>>();
 
       public void RefreshInnerRadius() => InnerRadius = hexRadius * .5f * Mathf.Sqrt(3);
 
@@ -48,6 +53,7 @@ namespace BossRushJam25.HexGrid {
          return surroundingHexesCoordinates.OrderBy(t => Vector3.SqrMagnitude(CoordinatesToWorldPosition(t) - worldPosition)).First();
       }
 
+      public bool TryGetHex(Vector3 worldPosition, out GridHex hex) => Hexes.TryGetValue(WorldToCoordinates(worldPosition), out hex);
       public bool TryGetHex(Vector2Int coordinates, out GridHex hex) => Hexes.TryGetValue(coordinates, out hex);
 
       public void SetHighlightedHexAt(Vector2Int coordinates, HexHighlightType highlightType) {
@@ -119,6 +125,11 @@ namespace BossRushJam25.HexGrid {
             yield return null;
          }
          else {
+            var hexAsArray = new[] { hex };
+
+            hex.SetAsMoving(true);
+            OnSomeHexesStartedMoving.Invoke(hexAsArray);
+
             yield return new WaitForSeconds(rotationConfig.DelayBeforeRotation);
 
             var remainingRotation = steps * 60f;
@@ -130,6 +141,9 @@ namespace BossRushJam25.HexGrid {
             }
 
             yield return new WaitForSeconds(rotationConfig.DelayAfterRotation);
+
+            hex.SetAsMoving(false);
+            OnSomeHexesStoppedMoving.Invoke(hexAsArray);
          }
 
          callback?.Invoke();
@@ -148,9 +162,12 @@ namespace BossRushJam25.HexGrid {
                .Where(t => t.defined)
                .Select(t => t.hex)
                .ToArray();
+
             foreach (var movingHex in movingHexes) {
                movingHex.SetAsMoving(true);
             }
+
+            OnSomeHexesStartedMoving.Invoke(movingHexes);
 
             yield return new WaitForSeconds(rotationConfig.DelayBeforeRotation);
 
@@ -170,6 +187,8 @@ namespace BossRushJam25.HexGrid {
             foreach (var movingHex in movingHexes) {
                movingHex.SetAsMoving(false);
             }
+
+            OnSomeHexesStoppedMoving.Invoke(movingHexes);
          }
 
          callback?.Invoke();
@@ -259,9 +278,9 @@ namespace BossRushJam25.HexGrid {
          var randomHexesQueue = GenerateRandomQueueOfMissingHexes();
 
          foreach (var glyph in preset.Glyphs) {
-            InstantiateHex(randomHexesQueue.Dequeue(), glyph.OriginGlyphPart);
-            for (var i = 0; randomHexesQueue.Count > 0 && i < glyph.OtherGlyphParts.Count; ++i) {
-               InstantiateHex(randomHexesQueue.Dequeue(), glyph.OtherGlyphParts[i].OtherGlyphPart);
+            InstantiateHex(randomHexesQueue.Dequeue(), glyph.Definition.OriginGlyphChunk.Hex);
+            for (var i = 0; randomHexesQueue.Count > 0 && i < glyph.Definition.OtherGlyphParts.Count; ++i) {
+               InstantiateHex(randomHexesQueue.Dequeue(), glyph.Definition.OtherGlyphParts[i].GlyphChunk.Hex);
             }
          }
 
@@ -277,6 +296,7 @@ namespace BossRushJam25.HexGrid {
 
          navMeshSurface.BuildNavMesh();
          OnBuilt.Invoke();
+         OnBuiltWithPreset.Invoke(preset);
       }
 
       private Queue<Vector2Int> GenerateRandomQueueOfMissingHexes() {
@@ -293,6 +313,7 @@ namespace BossRushJam25.HexGrid {
       }
 
       private void InstantiateHex(Vector2Int coordinates, GridHexPreset preset) => InstantiateHex(coordinates, preset.HexPrefab, preset.ContentPrefab);
+      private void InstantiateHex(Vector2Int coordinates, GridHex prefab) => InstantiateHex(coordinates, prefab, null);
 
       private void InstantiateHex(Vector2Int coordinates, GridHex prefab, GridHexContent content) {
          var hex = Instantiate(prefab, CoordinatesToWorldPosition(coordinates), Quaternion.identity, transform);
