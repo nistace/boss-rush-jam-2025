@@ -13,8 +13,8 @@ namespace BossRushJam25.HexGrid {
       [SerializeField] protected MeshRenderer highlightRenderer;
       [SerializeField] protected NavMeshObstacle navMeshObstacle;
 
-      private List<GridHexContent> Contents { get; } = new List<GridHexContent>();
-      public IReadOnlyList<GridHexContent> HexContents => Contents;
+      private HashSet<GridHexContent> Contents { get; } = new HashSet<GridHexContent>();
+      public IReadOnlyCollection<GridHexContent> HexContents => Contents;
 
       public GridHexType Type => type;
       public Vector2Int Coordinates { get; private set; }
@@ -29,6 +29,10 @@ namespace BossRushJam25.HexGrid {
 
       private void Start() {
          SetNoHighlight();
+
+         foreach (var alreadyAttachedContents in GetComponentsInChildren<GridHexContent>()) {
+            Contents.Add(alreadyAttachedContents);
+         }
       }
 
       public void SetNoHighlight() => SetHighlighted(null);
@@ -51,11 +55,7 @@ namespace BossRushJam25.HexGrid {
          SetupContent(contentInfo);
       }
 
-      public void SetupContent(GridHexContent contentInfo) {
-         foreach (var content in Contents) {
-            Destroy(content.gameObject);
-         }
-         Contents.Clear();
+      private void SetupContent(GridHexContent contentInfo) {
          if (!contentInfo) return;
 
          var rotationOptionsCount = Mathf.Max(contentInfo.Type.RotationStepsInHex, 1);
