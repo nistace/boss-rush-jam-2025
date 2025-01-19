@@ -26,7 +26,7 @@ namespace BossRushJam25.HexGrid {
          if (Instance.ActiveAffectedHexes.ContainsKey(position) == active) return;
          if (active) {
             var visual = Instance.GetVisualInstance();
-            visual.position = HexGridController.Instance.CoordinatesToWorldPosition(position);
+            hex.ParentTransformToHexContent(visual, true, true);
             Instance.ActiveAffectedHexes.Add(position, visual);
          }
          else {

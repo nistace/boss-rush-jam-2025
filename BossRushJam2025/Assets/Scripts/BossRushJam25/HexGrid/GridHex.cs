@@ -67,6 +67,17 @@ namespace BossRushJam25.HexGrid {
          }
       }
 
+      public void ParentTransformToHexContent(Transform transform, bool resetPosition, bool resetRotation) {
+         if (!transform) return;
+         transform.SetParent(hexContentParent);
+         if (resetPosition) {
+            transform.localPosition = Vector3.zero;
+         }
+         if (resetRotation) {
+            transform.localRotation = Quaternion.identity;
+         }
+      }
+
       public void SetAsMoving(bool isMoving) {
          if (isMoving == IsMoving) {
             return;
