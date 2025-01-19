@@ -175,17 +175,21 @@ namespace BossRushJam25.HexGrid {
       }
 
       private IEnumerator DoMoveHexes(IReadOnlyDictionary<GridHex, Vector2Int> hexDestinationCoordinates, bool withAcceleration) {
-         foreach (var hex in hexDestinationCoordinates) {
-            Hexes.Remove(hex.Key.Coordinates);
-            hex.Key.SetCoordinates(hex.Value);
-         }
-
          var hexMovements = hexDestinationCoordinates.ToDictionary(t => t.Key, t => (origin: t.Key.transform.position, destination: CoordinatesToWorldPosition(t.Value)));
          var lerp = 0f;
          var time = 0f;
+         var coordinatesChanged = false;
          while (lerp < 1) {
             lerp += rotationConfig.GetTranslationSpeedDelta(Time.deltaTime, withAcceleration, time);
             time += Time.deltaTime;
+
+            if (!coordinatesChanged && lerp > .5f) {
+               foreach (var hex in hexDestinationCoordinates) {
+                  Hexes[hex.Value] = hex.Key;
+                  hex.Key.SetCoordinates(hex.Value);
+               }
+               coordinatesChanged = true;
+            }
 
             foreach (var hexMovement in hexMovements) {
                hexMovement.Key.transform.position = Vector3.Lerp(hexMovement.Value.origin, hexMovement.Value.destination, lerp);
@@ -194,9 +198,15 @@ namespace BossRushJam25.HexGrid {
             yield return null;
          }
 
+         if (!coordinatesChanged) {
+            foreach (var hex in hexDestinationCoordinates) {
+               Hexes[hex.Value] = hex.Key;
+               hex.Key.SetCoordinates(hex.Value);
+            }
+         }
+
          foreach (var hexMovement in hexMovements) {
             hexMovement.Key.transform.position = hexMovement.Value.destination;
-            Hexes[hexDestinationCoordinates[hexMovement.Key]] = hexMovement.Key;
          }
       }
 
