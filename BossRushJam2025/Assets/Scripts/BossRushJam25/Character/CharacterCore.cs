@@ -8,6 +8,7 @@ namespace BossRushJam25.Character
     public class CharacterCore : MonoBehaviour
     {
         [SerializeField] protected CharacterType type;
+        [SerializeField] protected HexLink hexLink;
         [SerializeField] protected NavMeshAgent navMeshAgent;
         [SerializeField] protected ActionPriorityHandler actionPriorityHandler;
         [SerializeField] protected PowerUpsDetector powerUpsDetector;
@@ -15,6 +16,7 @@ namespace BossRushJam25.Character
         [SerializeField] protected DebugActionsTrigger actionsTrigger;
 
         public NavMeshAgent NavMeshAgent => navMeshAgent;
+        public HexLink HexLink => hexLink;
         public ActionPriorityHandler ActionPriorityHandler => actionPriorityHandler;
         public PowerUpsDetector PowerUpsDetector => powerUpsDetector;
         public BossPatternDetector BossPatternDetector => bossPatternDetector;
