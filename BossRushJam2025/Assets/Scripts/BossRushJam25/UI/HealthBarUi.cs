@@ -1,8 +1,9 @@
-﻿using BossRushJam25.Character;
+﻿using BossRushJam25.Health;
 using UnityEngine;
 using UnityEngine.UI;
 
 namespace BossRushJam25.UI {
+   [RequireComponent(typeof(RectTransform))]
    public class HealthBarUi : MonoBehaviour {
       [SerializeField] protected Image healthBarFillImage;
       [SerializeField] protected Image healthBarDiffImage;
@@ -10,6 +11,7 @@ namespace BossRushJam25.UI {
 
       private HealthSystem ObservedHealthSystem { get; set; }
       private float AdjustmentStartTime { get; set; }
+      public RectTransform RectTransform => transform as RectTransform;
 
       public void Setup(HealthSystem healthSystem) {
          ObservedHealthSystem?.OnHealthChanged.RemoveListener(HandleHealthChanged);

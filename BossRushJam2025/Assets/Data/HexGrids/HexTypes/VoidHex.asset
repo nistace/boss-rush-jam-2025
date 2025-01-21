@@ -12,6 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c8c165fb50eb4be6ae182ddbf7342891, type: 3}
   m_Name: VoidHex
   m_EditorClassIdentifier: 
+  rotationSteps: 6
+  alwaysAnObstacle: 1
   neighbours:
   - prefab: {fileID: 6811911467666851820, guid: af1925ec07f0f904694c16f2b291fd77, type: 3}
     probability: 1

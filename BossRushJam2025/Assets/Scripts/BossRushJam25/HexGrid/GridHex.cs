@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using BossRushJam25.Health;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.Events;
@@ -12,8 +13,8 @@ namespace BossRushJam25.HexGrid {
       [SerializeField] protected MeshRenderer highlightRenderer;
       [SerializeField] protected NavMeshObstacle navMeshObstacle;
 
-      private List<GridHexContent> Contents { get; } = new List<GridHexContent>();
-      public IReadOnlyList<GridHexContent> HexContents => Contents;
+      private HashSet<GridHexContent> Contents { get; } = new HashSet<GridHexContent>();
+      public IReadOnlyCollection<GridHexContent> HexContents => Contents;
 
       public GridHexType Type => type;
       public Vector2Int Coordinates { get; private set; }
@@ -28,7 +29,10 @@ namespace BossRushJam25.HexGrid {
 
       private void Start() {
          SetNoHighlight();
-         Setup();
+
+         foreach (var alreadyAttachedContents in GetComponentsInChildren<GridHexContent>()) {
+            Contents.Add(alreadyAttachedContents);
+         }
       }
 
       public void SetNoHighlight() => SetHighlighted(null);
@@ -43,28 +47,34 @@ namespace BossRushJam25.HexGrid {
          name = $"{InitialName}@{coordinates.x:00}{coordinates.y:00}";
       }
 
-      private void Setup() {
+      public void Setup(GridHexContent contentInfo) {
          var rotationSteps = Mathf.Max(type.RotationSteps, 1);
          var rotation = Random.Range(0, Mathf.Max(type.RotationSteps, 1)) * 360f / rotationSteps;
          transform.rotation = Quaternion.Euler(0, rotation, 0);
 
-         SetupContent();
+         SetupContent(contentInfo);
       }
 
-      private void SetupContent() {
-         foreach (var content in Contents) {
-            Destroy(content.gameObject);
-         }
-         Contents.Clear();
-         var contentPrefab = type.RollContentPrefab();
-         if (!contentPrefab) return;
+      private void SetupContent(GridHexContent contentInfo) {
+         if (!contentInfo) return;
 
-         var rotationOptionsCount = Mathf.Max(contentPrefab.Type.RotationStepsInHex, 1);
+         var rotationOptionsCount = Mathf.Max(contentInfo.Type.RotationStepsInHex, 1);
          var rotationPerStep = 360f / rotationOptionsCount;
-         foreach (var rotationStep in Enumerable.Range(0, rotationOptionsCount).OrderBy(_ => Random.value).Take(contentPrefab.Type.MaxToSpawn)) {
-            var newContent = Instantiate(contentPrefab, hexContentParent);
+         foreach (var rotationStep in Enumerable.Range(0, rotationOptionsCount).OrderBy(_ => Random.value).Take(contentInfo.Type.MaxToSpawn)) {
+            var newContent = Instantiate(contentInfo, hexContentParent);
             newContent.transform.localRotation = Quaternion.Euler(0, rotationPerStep * rotationStep, 0);
             Contents.Add(newContent);
+         }
+      }
+
+      public void ParentTransformToHexContent(Transform transform, bool resetPosition, bool resetRotation) {
+         if (!transform) return;
+         transform.SetParent(hexContentParent);
+         if (resetPosition) {
+            transform.localPosition = Vector3.zero;
+         }
+         if (resetRotation) {
+            transform.localRotation = Quaternion.identity;
          }
       }
 
@@ -77,6 +87,21 @@ namespace BossRushJam25.HexGrid {
          navMeshObstacle.enabled = IsMoving || type.AlwaysAnObstacle;
 
          OnMovingChanged.Invoke(IsMoving);
+      }
+
+      public void TryDamageContents(int damageDealt, DamageType damageType) {
+         var anyContentDestroyed = false;
+         foreach (var content in Contents) {
+            content.TryDamage(damageDealt, damageType);
+            anyContentDestroyed |= content.HealthSystem.Empty;
+         }
+
+         if (anyContentDestroyed) {
+            foreach (var contentToDestroy in Contents.Where(t => t.HealthSystem.Empty).ToArray()) {
+               Destroy(contentToDestroy.gameObject);
+               Contents.Remove(contentToDestroy);
+            }
+         }
       }
    }
 }

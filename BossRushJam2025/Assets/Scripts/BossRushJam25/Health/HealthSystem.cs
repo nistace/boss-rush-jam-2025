@@ -1,22 +1,31 @@
 ﻿using UnityEngine;
 using UnityEngine.Events;
 
-namespace BossRushJam25.Character {
+namespace BossRushJam25.Health {
    public class HealthSystem {
       public int MaxHealth { get; }
       public int Health { get; private set; }
+      public float HealthRatio => (float)Health / MaxHealth;
+      public DamageTypes Vulnerabilities { get; }
 
       /// <summary> Invoked when health changed. Notifies, in this order, the new Health value and the change</summary>
       public UnityEvent<int, int> OnHealthChanged { get; } = new UnityEvent<int, int>();
 
-      public float HealthRatio => (float)Health / MaxHealth;
+      public bool Empty => Health == 0;
+      public bool Full => Health == MaxHealth;
 
-      public HealthSystem(int maxHealth) {
+      public HealthSystem(int maxHealth, DamageTypes vulnerabilities = (DamageTypes)~0) {
          MaxHealth = maxHealth;
          Health = maxHealth;
+         Vulnerabilities = vulnerabilities;
       }
 
-      public bool Damage(int amount) => ChangeHealth(-amount);
+      public bool Damage(int amount, DamageType damageType) {
+         if (!Vulnerabilities.Contains(damageType)) return false;
+         return ChangeHealth(-amount);
+      }
+
+      public bool DamagePure(int amount) => ChangeHealth(-amount);
 
       public bool Heal(int amount, bool canRevive = false) {
          if (!canRevive && Health == 0) return false;
