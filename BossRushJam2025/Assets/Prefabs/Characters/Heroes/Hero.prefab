@@ -223,6 +223,9 @@ MonoBehaviour:
     KeyValueList:
     - Key: 1
       Value: {fileID: 11400000, guid: 1e2fbd3a7b25d7f44b4aa6a029c95ed8, type: 2}
+  actionTriggers:
+  - {fileID: 11400000, guid: 884b25917a194654bb620af916a010f8, type: 2}
+  - {fileID: 11400000, guid: 5744230e845f8fa4fb2eb7153d75e0c0, type: 2}
 --- !u!114 &2398727888956531791
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -400,6 +403,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   keepVertical: 1
+  strategy: 0
+  minAngleWithForward: 30
+  maxAngleWithForward: 60
 --- !u!114 &1753004295836447033
 MonoBehaviour:
   m_ObjectHideFlags: 0

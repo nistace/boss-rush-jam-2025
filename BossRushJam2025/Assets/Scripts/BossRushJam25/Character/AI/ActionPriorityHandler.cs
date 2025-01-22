@@ -14,6 +14,9 @@ namespace BossRushJam25.Character.AI
         [SerializeField] private int queueSize = 3;
         [SerializeField] private SerializableDictionary<EActionType, AActionData> actionDataMap;
 
+        [Header("Action triggers")]
+        [SerializeField] private List<AActionTrigger> actionTriggers;
+
         protected CharacterCore character;
         protected List<AAction> plannedActions = new();
 
@@ -25,6 +28,11 @@ namespace BossRushJam25.Character.AI
             this.character = character;
             character.PowerUpsDetector.OnDetectedPowerUpsChanged.AddListener(PowerUpsDetector_OnDetectedPowerUpChanged);
             character.BossPatternDetector.OnSuccessfulAttackDetected.AddListener(BossPatternDetector_OnSuccessfulAttackDetected);
+
+            foreach (AActionTrigger actionTrigger in actionTriggers)
+            {
+                actionTrigger.Initialize(character);
+            }
         }
 
         public void PlanAction(AAction action)
@@ -110,19 +118,14 @@ namespace BossRushJam25.Character.AI
         {
             RemoveAllActions();
 
-            if(character.BossPatternDetector.CurrentPattern != null)
-            {
-                HashSet<Vector2Int> affectedHexes = character.BossPatternDetector.CurrentPattern.GetAffectedHexes();
+            actionTriggers.Sort();
 
-                if(affectedHexes.Contains(character.HexLink.LinkedHex.Coordinates))
+            foreach(AActionTrigger actionTrigger in actionTriggers)
+            {
+                if(actionTrigger.IsActive)
                 {
-                    new TakeCoverAction(character).Assign();
+                    actionTrigger.Assess();
                 }
-            }
-
-            if(character.PowerUpsDetector.NearestPowerUp != null)
-            {
-                new CollectPowerUpAction(character, character.PowerUpsDetector.NearestPowerUp.gameObject).Assign();
             }
         }
 
