@@ -20,6 +20,7 @@ namespace BossRushJam25.Character.AI.Actions
                 if(status == EActionStatus.Started && destination_is_reached)
                 {
                     status = EActionStatus.Finished;
+                    Character.NavMeshAgent.ResetPath();
                 }
 
                 return status;
@@ -50,7 +51,7 @@ namespace BossRushJam25.Character.AI.Actions
         {
             base.CleanUp();
 
-            Object.Destroy(pathLine);
+            Object.Destroy(pathLine.gameObject);
         }
 
         public override void DrawPreview(float priorityValue01)

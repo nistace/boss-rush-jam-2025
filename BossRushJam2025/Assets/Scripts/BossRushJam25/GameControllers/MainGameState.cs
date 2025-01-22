@@ -82,7 +82,7 @@ namespace BossRushJam25.GameControllers {
 
          if (!Boss.PatternManager.IsExecutingAttack) {
             DelayBeforeNextAttack -= Time.deltaTime;
-            if (DelayBeforeNextAttack < 0) {
+            if (DelayBeforeNextAttack < 0 && Boss.PatternManager.HasPatterns()) {
                Boss.PatternManager.ExecuteNextAttack(null);
                DelayBeforeNextAttack = 2;
             }
