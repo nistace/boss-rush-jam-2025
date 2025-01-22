@@ -50,7 +50,7 @@ namespace BossRushJam25.Character.AI.Actions
         {
             base.CleanUp();
 
-            Object.Destroy(pathLine);
+            Object.Destroy(pathLine.gameObject);
         }
 
         public override void DrawPreview(float priorityValue01)
