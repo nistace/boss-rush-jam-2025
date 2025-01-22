@@ -93,13 +93,31 @@ namespace BossRushJam25.Character.AI.Actions
             GridHex nearestCoverHex = nearbyHexes
                 .Where(hex => hex.HexContents.Any(content => GameConfig.Instance.CoverTypes.Contains(content.Type)))
                 .OrderBy(hex => (hex.transform.position - Character.transform.position).sqrMagnitude)
-                .First();
+                .FirstOrDefault();
 
             targetedCover = nearestCoverHex;
 
-            Vector3 opponentPosition = BossFightInfo.Boss.transform.position;
-            Vector3 oppositeDirection = (targetedCover.transform.position - opponentPosition).normalized;
-            Vector3 targetPosition = targetedCover.transform.position + oppositeDirection * data.DistanceWithCover;
+            Vector3 threatOrigin = BossFightInfo.Boss.PatternManager.CurrentAttack.transform.position;
+
+            if(targetedCover != null)
+            {
+                Vector3 hexPosition = targetedCover.transform.position;
+
+                return GetCoverPositionOnHex(hexPosition, threatOrigin);
+            }
+            else
+            {
+                //TODO: improve this use case
+                Vector3 threatPerpendicular = new(threatOrigin.z, 0f, -threatOrigin.x);
+
+                return Character.transform.position + threatPerpendicular.normalized * 3f;
+            }
+        }
+
+        private Vector3 GetCoverPositionOnHex(Vector3 hexPosition, Vector3 threatOrigin)
+        {
+            Vector3 oppositeDirection = (hexPosition - threatOrigin).normalized;
+            Vector3 targetPosition = hexPosition + oppositeDirection * data.DistanceWithCover;
 
             return targetPosition;
         }
