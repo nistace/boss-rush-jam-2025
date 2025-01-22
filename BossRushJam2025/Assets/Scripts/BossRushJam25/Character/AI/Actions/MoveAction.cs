@@ -20,6 +20,7 @@ namespace BossRushJam25.Character.AI.Actions
                 if(status == EActionStatus.Started && destination_is_reached)
                 {
                     status = EActionStatus.Finished;
+                    Character.NavMeshAgent.ResetPath();
                 }
 
                 return status;
