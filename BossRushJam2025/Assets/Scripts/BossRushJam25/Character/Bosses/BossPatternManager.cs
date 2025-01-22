@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
@@ -12,8 +12,6 @@ namespace BossRushJam25.Character.Bosses {
       private UnityAction CurrentAttackCallback { get; set; }
       public bool IsExecutingAttack => CurrentAttack;
 
-      public UnityEvent OnAttackStarted { get; } = new();
-
       private void Start() {
          AttackPatterns.Clear();
          foreach (var attackPattern in GetComponentsInChildren<BossAttackPattern>()) {
@@ -26,7 +24,6 @@ namespace BossRushJam25.Character.Bosses {
          CurrentAttack = AttackPatterns.OrderBy(_ => Random.value).First();
          CurrentAttack.OnExecuted.AddListener(HandleAttackExecuted);
          CurrentAttack.Execute();
-         OnAttackStarted.Invoke();
       }
 
       private void HandleAttackExecuted() {

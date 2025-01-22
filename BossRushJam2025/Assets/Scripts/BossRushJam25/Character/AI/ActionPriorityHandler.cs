@@ -27,7 +27,7 @@ namespace BossRushJam25.Character.AI
         {
             this.character = character;
             character.PowerUpsDetector.OnDetectedPowerUpsChanged.AddListener(PowerUpsDetector_OnDetectedPowerUpChanged);
-            character.BossPatternDetector.OnSuccessfulAttackDetected.AddListener(BossPatternDetector_OnSuccessfulAttackDetected);
+            character.BossPatternDetector.OnDetectedSuccessfulAttackChanged.AddListener(BossPatternDetector_OnSuccessfulAttackDetected);
 
             foreach (AActionTrigger actionTrigger in actionTriggers)
             {

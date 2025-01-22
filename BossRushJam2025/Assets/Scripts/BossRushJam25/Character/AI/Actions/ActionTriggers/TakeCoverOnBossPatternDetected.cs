@@ -7,9 +7,9 @@ public class TakeCoverOnBossPatternDetected : AActionTrigger
 {
     public override void Assess()
     {
-        if(character.BossPatternDetector.CurrentPattern != null)
+        if(character.BossPatternDetector.CurrentThreateningPattern != null)
         {
-            HashSet<Vector2Int> affectedHexes = character.BossPatternDetector.CurrentPattern.GetAffectedHexes();
+            HashSet<Vector2Int> affectedHexes = character.BossPatternDetector.CurrentThreateningPattern.GetAffectedHexes();
 
             if(affectedHexes.Contains(character.HexLink.LinkedHex.Coordinates))
             {
