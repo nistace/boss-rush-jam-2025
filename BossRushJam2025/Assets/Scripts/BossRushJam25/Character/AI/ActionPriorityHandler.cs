@@ -117,17 +117,29 @@ namespace BossRushJam25.Character.AI
 
         private void EvaluateActionsProbability()
         {
-            RemoveAllActions();
-
             actionTriggers.Sort();
+
+            bool newActionAssigned = false;
 
             foreach(AActionTrigger actionTrigger in actionTriggers)
             {
                 if(actionTrigger.IsActive)
                 {
-                    actionTrigger.Assess();
+                    AAction newAction = actionTrigger.Assess();
+
+                    if(newAction != null)
+                    {
+                        if(!newActionAssigned)
+                        {
+                            RemoveAllActions();
+                        }
+
+                        newAction.Assign();
+                        newActionAssigned = true;
+                    }
                 }
             }
+
         }
 
         private void PowerUpsDetector_OnDetectedPowerUpChanged()

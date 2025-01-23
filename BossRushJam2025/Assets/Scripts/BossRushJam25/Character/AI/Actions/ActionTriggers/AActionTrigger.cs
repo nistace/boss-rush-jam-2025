@@ -18,7 +18,7 @@ namespace BossRushJam25.Character.AI.Actions.ActionTriggers
             this.character = character;
         }
 
-        public abstract void Assess();
+        public abstract AAction Assess();
 
         public int CompareTo(AActionTrigger other)
         {

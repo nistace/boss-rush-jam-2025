@@ -6,7 +6,7 @@ namespace BossRushJam25.Character.AI.Actions.ActionTriggers
     [CreateAssetMenu(fileName = "TakeCoverOnBossPatternDetected", menuName = "ActionTriggers/TakeCoverOnBossPatternDetected")]
     public class TakeCoverOnBossPatternDetected : AActionTrigger
     {
-        public override void Assess()
+        public override AAction Assess()
         {
             if(character.BossPatternDetector.CurrentThreateningPattern != null)
             {
@@ -14,9 +14,11 @@ namespace BossRushJam25.Character.AI.Actions.ActionTriggers
 
                 if(affectedHexes.Contains(character.HexLink.LinkedHex.Coordinates))
                 {
-                    new TakeCoverAction(character).Assign();
+                    return new TakeCoverAction(character);
                 }
             }
+
+            return null;
         }
     }
 }
