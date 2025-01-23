@@ -28,7 +28,9 @@ namespace BossRushJam25.Character.AI
         {
             this.character = character;
             character.PowerUpsDetector.OnDetectedPowerUpsChanged.AddListener(PowerUpsDetector_OnDetectedPowerUpChanged);
+            character.BatteryDetector.OnDetectedBatteryHexesChanged.AddListener(BatteryDetector_OnDetecteBatteryChanged);
             character.BossPatternDetector.OnDetectedSuccessfulAttackChanged.AddListener(BossPatternDetector_OnSuccessfulAttackDetected);
+            character.Health.OnHealthChanged.AddListener(Health_OnHealthChanged);
 
             foreach (AActionTrigger actionTrigger in actionTriggers)
             {
@@ -153,7 +155,17 @@ namespace BossRushJam25.Character.AI
             EvaluateActionsProbability();
         }
 
+        private void BatteryDetector_OnDetecteBatteryChanged()
+        {
+            EvaluateActionsProbability();
+        }
+
         private void BossPatternDetector_OnSuccessfulAttackDetected()
+        {
+            EvaluateActionsProbability();
+        }
+
+        private void Health_OnHealthChanged(int newHealthValue, int change)
         {
             EvaluateActionsProbability();
         }

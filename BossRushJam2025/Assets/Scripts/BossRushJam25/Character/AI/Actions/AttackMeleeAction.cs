@@ -75,6 +75,7 @@ namespace BossRushJam25.Character.AI.Actions
             moveAction.CleanUp();
         }
 
+        //TODO: move in BatteryDetector if we want the hero to automatically attack the batteries when only passing by
         private bool TryAttack()
         {
             if(moveAction.Status != EActionStatus.Finished)
