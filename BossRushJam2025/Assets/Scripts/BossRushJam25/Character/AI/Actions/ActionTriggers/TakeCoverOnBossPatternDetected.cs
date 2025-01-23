@@ -1,19 +1,21 @@
 using System.Collections.Generic;
-using BossRushJam25.Character.AI.Actions;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "TakeCoverOnBossPatternDetected", menuName = "ActionTriggers/TakeCoverOnBossPatternDetected")]
-public class TakeCoverOnBossPatternDetected : AActionTrigger
+namespace BossRushJam25.Character.AI.Actions.ActionTriggers
 {
-    public override void Assess()
+    [CreateAssetMenu(fileName = "TakeCoverOnBossPatternDetected", menuName = "ActionTriggers/TakeCoverOnBossPatternDetected")]
+    public class TakeCoverOnBossPatternDetected : AActionTrigger
     {
-        if(character.BossPatternDetector.CurrentThreateningPattern != null)
+        public override void Assess()
         {
-            HashSet<Vector2Int> affectedHexes = character.BossPatternDetector.CurrentThreateningPattern.GetAffectedHexes();
-
-            if(affectedHexes.Contains(character.HexLink.LinkedHex.Coordinates))
+            if(character.BossPatternDetector.CurrentThreateningPattern != null)
             {
-                new TakeCoverAction(character).Assign();
+                HashSet<Vector2Int> affectedHexes = character.BossPatternDetector.CurrentThreateningPattern.GetAffectedHexes();
+
+                if(affectedHexes.Contains(character.HexLink.LinkedHex.Coordinates))
+                {
+                    new TakeCoverAction(character).Assign();
+                }
             }
         }
     }
