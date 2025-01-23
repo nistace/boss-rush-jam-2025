@@ -1,3 +1,4 @@
+using BossRushJam25.BossFights;
 using BossRushJam25.Character.Bosses;
 using BossRushJam25.HexGrid;
 using UnityEngine;
@@ -9,20 +10,9 @@ namespace BossRushJam25.Character.AI.Actions
         protected MoveAction moveAction;
         protected GridHex targetHex;
         protected BossAttackPattern targetBossPattern;
+        protected float attackTimer;
 
         protected override EActionType Type => EActionType.AttackMelee;
-        public override EActionStatus Status
-        {
-            get
-            {
-                if (status == EActionStatus.Started && moveAction.Status == EActionStatus.Finished)
-                {
-                    status = EActionStatus.Finished;
-                }
-
-                return status;
-            }
-        }
 
         public AttackMeleeAction(CharacterCore character, GridHex targetHex) : base(character)
         {
@@ -64,6 +54,13 @@ namespace BossRushJam25.Character.AI.Actions
             moveAction.Execute();
         }
 
+        public override void Update()
+        {
+            base.Update();
+
+            TryAttack();
+        }
+
         public override void Cancel()
         {
             base.Cancel();
@@ -76,6 +73,61 @@ namespace BossRushJam25.Character.AI.Actions
             base.CleanUp();
 
             moveAction.CleanUp();
+        }
+
+        private bool TryAttack()
+        {
+            if(moveAction.Status != EActionStatus.Finished)
+            {
+                return false;
+            }
+
+            if(!TargetIsInRange())
+            {
+                return false;
+            }
+
+            attackTimer += Time.deltaTime;
+
+            if(attackTimer > Character.Type.DamageInfo.DamageTick)
+            {
+                DoAttack();
+                attackTimer = 0f;
+            }
+
+            return true;
+        }
+
+        private void DoAttack()
+        {
+            if(targetHex != null)
+            {
+                targetHex.TryDamageContents(Character.Type.DamageInfo.Damage, Character.Type.DamageInfo.DamageType);
+            }
+
+            if(targetBossPattern != null)
+            {
+                BossFightInfo.Hero.Health.Damage(Character.Type.DamageInfo.Damage, Character.Type.DamageInfo.DamageType);
+            }
+        }
+
+        private bool TargetIsInRange()
+        {
+            Vector3 targetPosition = Vector3.negativeInfinity;
+
+            if(targetHex != null)
+            {
+                targetPosition = targetHex.transform.position;
+            }
+
+            if(targetBossPattern != null)
+            {
+                targetPosition = targetBossPattern.transform.position;
+            }
+
+            float sqrDistance = (targetPosition - Character.transform.position).sqrMagnitude;
+
+            return targetPosition != Vector3.negativeInfinity && sqrDistance < Character.Type.SqrMaxAttackDistance;
         }
 
         public override void DrawPreview(float priorityValue01)

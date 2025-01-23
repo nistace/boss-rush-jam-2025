@@ -92,6 +92,12 @@ namespace BossRushJam25.Character.AI
 
                     break;
                 }
+                case EActionStatus.Started:
+                {
+                    ActiveAction.Update();
+
+                    break;
+                }
                 case EActionStatus.Finished:
                 {
                     RemoveAction(ActiveAction);

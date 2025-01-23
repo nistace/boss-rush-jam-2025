@@ -23,6 +23,11 @@ namespace BossRushJam25.Character.AI.Actions
             status = EActionStatus.Started;
         }
 
+        public virtual void Update()
+        {
+
+        }
+
         public virtual void Cancel()
         {
             status = EActionStatus.Pending;
