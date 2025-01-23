@@ -15,7 +15,7 @@ namespace BossRushJam25.Character.AI.Actions
         {
             get
             {
-                bool destination_is_reached = Character.NavMeshAgent.remainingDistance <= 0.01f;
+                bool destination_is_reached = !Character.NavMeshAgent.pathPending && Character.NavMeshAgent.remainingDistance <= 0.01f;
 
                 if(status == EActionStatus.Started && destination_is_reached)
                 {
