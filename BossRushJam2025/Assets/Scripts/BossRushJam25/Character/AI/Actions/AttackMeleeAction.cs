@@ -58,6 +58,16 @@ namespace BossRushJam25.Character.AI.Actions
         {
             base.Update();
 
+            if(targetBossPattern == null
+                && targetHex != null
+                && !targetHex.ContentsAreDamageable(Character.Type.DamageInfo.DamageType)
+                )
+            {
+                status = EActionStatus.Finished;
+
+                return;
+            }
+
             TryAttack();
         }
 
