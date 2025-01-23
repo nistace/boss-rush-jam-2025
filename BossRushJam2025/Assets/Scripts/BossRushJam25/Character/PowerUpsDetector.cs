@@ -10,6 +10,7 @@ namespace BossRushJam25.Character
         [SerializeField] protected float collectionRadius = 1f;
         [SerializeField] protected SphereCollider detectionCollider;
 
+        protected CharacterCore character;
         protected List<Collider> detectedPowerUps = new();
 
         public Collider NearestPowerUp { get; private set; }
@@ -17,6 +18,10 @@ namespace BossRushJam25.Character
         public UnityEvent OnNearestPowerUpChanged { get; } = new();
         public UnityEvent OnPowerUpCollected { get; } = new();
 
+        public void Initialize(CharacterCore character)
+        {
+            this.character = character;
+        }
         private void CollectNearPowerUps()
         {
             for(int powerUpIndex = detectedPowerUps.Count - 1; powerUpIndex > -1; powerUpIndex--)
@@ -27,6 +32,7 @@ namespace BossRushJam25.Character
                 if(sqrDistance - collectionRadius < 0.01f)
                 {
                     OnPowerUpCollected.Invoke();
+                    character.Health.Heal(10);
                     detectedPowerUps.Remove(powerUp);
                     Destroy(powerUp.gameObject);
 
