@@ -44,7 +44,7 @@ namespace BossRushJam25.SpinStrategies {
             }
          }
          else {
-            IsHoveringOverTile = GameStrategyUtils.IsHoveringOverTile(out var newHexCoordinates);
+            IsHoveringOverTile = GameStrategyUtils.IsHoveringOverTile(out var newHexCoordinates, out _);
             if (IsHoveringOverTile) {
                if (newHexCoordinates != InteractionHexCoordinates) {
                   HexGridController.Instance.UnHighlightAllHexes();
