@@ -16,7 +16,7 @@ namespace BossRushJam25.Character
 
         public GridHex NearestBatteryHex { get; private set; }
 
-        public UnityEvent OnDetectedBatteryHexesChanged { get; } = new();
+        public UnityEvent OnNearestBatteryHexChanged { get; } = new();
 
         public void Initialize(CharacterCore character)
         {
@@ -26,6 +26,7 @@ namespace BossRushJam25.Character
         private void CheckNearestBatteryHex()
         {
             float nearestBatteryHexDistance = float.MaxValue;
+            GridHex newNearestBatteryHex = null;
 
             foreach(GridHex batteryHex in detectedBatteryHexes)
             {
@@ -34,8 +35,14 @@ namespace BossRushJam25.Character
                 if(sqrDistance < nearestBatteryHexDistance)
                 {
                     nearestBatteryHexDistance = sqrDistance;
-                    NearestBatteryHex = batteryHex;
+                    newNearestBatteryHex = batteryHex;
                 }
+            }
+
+            if(newNearestBatteryHex != NearestBatteryHex)
+            {
+                NearestBatteryHex = newNearestBatteryHex;
+                OnNearestBatteryHexChanged.Invoke();
             }
         }
 
@@ -48,8 +55,6 @@ namespace BossRushJam25.Character
                 if(!hex.ContentsAreDamageable(character.Type.DamageInfo.DamageType))
                 {
                     detectedBatteryHexes.Remove(hex);
-                    CheckNearestBatteryHex();
-                    OnDetectedBatteryHexesChanged.Invoke();
                 }
             }
         }
@@ -63,8 +68,6 @@ namespace BossRushJam25.Character
                 if(hex.ContentsAreDamageable(character.Type.DamageInfo.DamageType))
                 {
                     detectedBatteryHexes.Add(hex);
-                    CheckNearestBatteryHex();
-                    OnDetectedBatteryHexesChanged.Invoke();
                 }
             }
         }
@@ -78,8 +81,6 @@ namespace BossRushJam25.Character
                 if(hex.ContentsAreDamageable(character.Type.DamageInfo.DamageType))
                 {
                     detectedBatteryHexes.Remove(hex);
-                    CheckNearestBatteryHex();
-                    OnDetectedBatteryHexesChanged.Invoke();
                 }
             }
         }

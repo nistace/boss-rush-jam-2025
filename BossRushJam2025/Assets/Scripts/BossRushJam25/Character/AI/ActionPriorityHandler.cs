@@ -27,8 +27,8 @@ namespace BossRushJam25.Character.AI
         public void Initialize(CharacterCore character)
         {
             this.character = character;
-            character.PowerUpsDetector.OnDetectedPowerUpsChanged.AddListener(PowerUpsDetector_OnDetectedPowerUpChanged);
-            character.BatteryDetector.OnDetectedBatteryHexesChanged.AddListener(BatteryDetector_OnDetecteBatteryChanged);
+            character.PowerUpsDetector.OnNearestPowerUpChanged.AddListener(PowerUpsDetector_OnNearestPowerUpChanged);
+            character.BatteryDetector.OnNearestBatteryHexChanged.AddListener(BatteryDetector_OnNearestBatteryChanged);
             character.BossPatternDetector.OnDetectedSuccessfulAttackChanged.AddListener(BossPatternDetector_OnSuccessfulAttackDetected);
             character.Health.OnHealthChanged.AddListener(Health_OnHealthChanged);
 
@@ -137,6 +137,7 @@ namespace BossRushJam25.Character.AI
 
                     if(newAction != null)
                     {
+                        //TODO: ne pas annuler l’action en cours si c’est la même
                         if(!newActionAssigned)
                         {
                             RemoveAllActions();
@@ -147,15 +148,14 @@ namespace BossRushJam25.Character.AI
                     }
                 }
             }
-
         }
 
-        private void PowerUpsDetector_OnDetectedPowerUpChanged()
+        private void PowerUpsDetector_OnNearestPowerUpChanged()
         {
             EvaluateActionsProbability();
         }
 
-        private void BatteryDetector_OnDetecteBatteryChanged()
+        private void BatteryDetector_OnNearestBatteryChanged()
         {
             EvaluateActionsProbability();
         }
