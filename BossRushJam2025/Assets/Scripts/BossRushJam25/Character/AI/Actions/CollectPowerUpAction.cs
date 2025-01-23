@@ -52,14 +52,20 @@ namespace BossRushJam25.Character.AI.Actions
         {
             base.DrawPreview(priorityValue01);
 
-            moveAction.DrawPreview(priorityValue01);
+            if (moveAction.Status != EActionStatus.Finished)
+            {
+                moveAction.DrawPreview(priorityValue01);
+            }
         }
 
         public override void DrawGizmos()
         {
             base.DrawGizmos();
 
-            moveAction.DrawGizmos();
+            if (moveAction.Status != EActionStatus.Finished)
+            {
+                moveAction.DrawGizmos();
+            }
         }
 
         public override string ToString()

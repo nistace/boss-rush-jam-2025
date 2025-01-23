@@ -39,9 +39,8 @@ namespace BossRushJam25.Character
         {
             float nearestPowerUpDistance = float.MaxValue;
 
-            for (int powerUpIndex = detectedPowerUps.Count - 1; powerUpIndex > -1; powerUpIndex--)
+            foreach(Collider powerUp in detectedPowerUps)
             {
-                Collider powerUp = detectedPowerUps[powerUpIndex];
                 float sqrDistance = (powerUp.transform.position - transform.position).sqrMagnitude;
 
                 if (sqrDistance < nearestPowerUpDistance)

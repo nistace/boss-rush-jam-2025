@@ -27,12 +27,11 @@ namespace BossRushJam25.Character
         {
             float nearestBatteryHexDistance = float.MaxValue;
 
-            for (int hexIndex = detectedBatteryHexes.Count - 1; hexIndex > -1; hexIndex--)
+            foreach(GridHex batteryHex in detectedBatteryHexes)
             {
-                GridHex batteryHex = detectedBatteryHexes[hexIndex];
                 float sqrDistance = (batteryHex.transform.position - transform.position).sqrMagnitude;
 
-                if (sqrDistance < nearestBatteryHexDistance)
+                if(sqrDistance < nearestBatteryHexDistance)
                 {
                     nearestBatteryHexDistance = sqrDistance;
                     NearestBatteryHex = batteryHex;
@@ -40,9 +39,24 @@ namespace BossRushJam25.Character
             }
         }
 
+        private void CheckHexDestroyedContents()
+        {
+            for(int hexIndex = detectedBatteryHexes.Count - 1; hexIndex > -1; hexIndex--)
+            {
+                GridHex hex = detectedBatteryHexes[hexIndex];
+
+                if(!hex.ContentsAreDamageable(character.Type.DamageInfo.DamageType))
+                {
+                    detectedBatteryHexes.Remove(hex);
+                    CheckNearestBatteryHex();
+                    OnDetectedBatteryHexesChanged.Invoke();
+                }
+            }
+        }
+
         private void OnTriggerEnter(Collider collider)
         {
-            if (collider.gameObject.layer == LayerMask.NameToLayer("Ground"))
+            if(collider.gameObject.layer == LayerMask.NameToLayer("Ground"))
             {
                 GridHex hex = collider.GetComponentInParent<GridHex>();
 
@@ -57,7 +71,7 @@ namespace BossRushJam25.Character
 
         private void OnTriggerExit(Collider collider)
         {
-            if (collider.gameObject.layer == LayerMask.NameToLayer("Ground"))
+            if(collider.gameObject.layer == LayerMask.NameToLayer("Ground"))
             {
                 GridHex hex = collider.GetComponentInParent<GridHex>();
 
@@ -72,6 +86,7 @@ namespace BossRushJam25.Character
 
         private void FixedUpdate()
         {
+            CheckHexDestroyedContents();
             CheckNearestBatteryHex();
         }
 

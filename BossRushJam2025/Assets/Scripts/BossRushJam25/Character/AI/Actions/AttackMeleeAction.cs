@@ -135,7 +135,10 @@ namespace BossRushJam25.Character.AI.Actions
         {
             base.DrawPreview(priorityValue01);
 
-            moveAction.DrawPreview(priorityValue01);
+            if(moveAction.Status != EActionStatus.Finished)
+            {
+                moveAction.DrawPreview(priorityValue01);
+            }
         }
 
         public override void DrawGizmos()
@@ -160,7 +163,10 @@ namespace BossRushJam25.Character.AI.Actions
                 Gizmos.DrawCube(targetPosition + Vector3.up * 1f, new Vector3(0.2f, 2f, 0.2f));
             }
 
-            moveAction.DrawGizmos();
+            if(moveAction.Status != EActionStatus.Finished)
+            {
+                moveAction.DrawGizmos();
+            }
         }
 
         public override string ToString()
