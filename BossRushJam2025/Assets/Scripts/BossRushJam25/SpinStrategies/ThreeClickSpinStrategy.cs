@@ -69,7 +69,7 @@ namespace BossRushJam25.SpinStrategies {
             return;
          }
 
-         var newHoveringOverHex = GameStrategyUtils.IsHoveringOverTile(out var newHoveringCoordinates);
+         var newHoveringOverHex = GameStrategyUtils.IsHoveringOverTile(out var newHoveringCoordinates, out _);
          if (newHoveringCoordinates == HoveringCoordinates && newHoveringOverHex == HoveringOverHex) return;
 
          HoveringCoordinates = newHoveringCoordinates;

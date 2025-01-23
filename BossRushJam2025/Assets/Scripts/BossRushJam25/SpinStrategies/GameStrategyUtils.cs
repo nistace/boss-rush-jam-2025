@@ -9,10 +9,12 @@ namespace BossRushJam25.SpinStrategies {
 
       private static LayerMask ClickLayerMask => 1 << LayerMask.NameToLayer("InputClickLayer");
 
-      public static bool IsHoveringOverTile(out Vector2Int hoveredCoordinates) {
+      public static bool IsHoveringOverTile(out Vector2Int hoveredCoordinates, out Vector3 hitWorldPosition) {
          hoveredCoordinates = default;
+         hitWorldPosition = default;
          if (Physics.Raycast(MainCamera.ScreenPointToRay(GameInputs.Controls.Player.Aim.ReadValue<Vector2>()), out var hit, Mathf.Infinity, ClickLayerMask)) {
             hoveredCoordinates = HexGridController.Instance.WorldToCoordinates(hit.point);
+            hitWorldPosition = hit.point;
             return true;
          }
          return false;
