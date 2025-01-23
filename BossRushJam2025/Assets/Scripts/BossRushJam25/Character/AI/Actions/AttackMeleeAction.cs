@@ -40,7 +40,6 @@ namespace BossRushJam25.Character.AI.Actions
             //TODO: attack
         }
 
-
         private Vector3 ComputeClosestAttackSpot(Vector3 targetPosition)
         {
             return targetPosition;
@@ -93,7 +92,7 @@ namespace BossRushJam25.Character.AI.Actions
             if(targetPosition != Vector3.negativeInfinity)
             {
                 Gizmos.color = Color.red;
-                Gizmos.DrawCube(targetPosition, Vector3.one * 0.2f);
+                Gizmos.DrawCube(targetPosition + Vector3.up * 1f, new Vector3(0.2f, 2f, 0.2f));
             }
 
             moveAction.DrawGizmos();

@@ -75,7 +75,7 @@ namespace BossRushJam25.Character.AI.Actions
             if(targetedCover != null)
             {
                 Gizmos.color = Color.magenta;
-                Gizmos.DrawCube(targetedCover.transform.position, Vector3.one * 0.2f);
+                Gizmos.DrawCube(targetedCover.transform.position + Vector3.up * 1f, new Vector3(0.2f, 2f, 0.2f));
             }
 
             moveAction.DrawGizmos();
