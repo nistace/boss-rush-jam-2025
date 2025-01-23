@@ -11,7 +11,7 @@ namespace BossRushJam25.Character.Bosses {
       public BossPatternManager PatternManager => patternManager;
 
       public void Initialize() {
-         Health = new HealthSystem(type.MaxHealth);
+         Health = new HealthSystem(type.MaxHealth, type.Vulnerabilities);
       }
    }
 }

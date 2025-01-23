@@ -25,7 +25,7 @@ namespace BossRushJam25.Character
 
         public void Initialize()
         {
-            Health = new HealthSystem(type.MaxHealth);
+            Health = new HealthSystem(type.MaxHealth, type.Vulnerabilities);
             actionPriorityHandler.Initialize(this);
             actionsTrigger?.Initialize(this);
             bossPatternDetector?.Initialize(this);

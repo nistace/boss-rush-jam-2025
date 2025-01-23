@@ -1,12 +1,17 @@
-﻿using UnityEngine;
+﻿using BossRushJam25.Health;
+using UnityEngine;
 
 namespace BossRushJam25.Character {
    [CreateAssetMenu]
    public class CharacterType : ScriptableObject {
-      [SerializeField] protected Vector2Int spawnPosition;
+      [SerializeField] protected bool isInvincible;
       [SerializeField] protected int maxHealth = 10;
+      [SerializeField] protected DamageTypes vulnerabilities;
+      [SerializeField] protected Vector2Int spawnPosition;
 
-      public Vector2Int SpawnPosition => spawnPosition;
+      public bool IsInvincible => isInvincible;
       public int MaxHealth => maxHealth;
+      public DamageTypes Vulnerabilities => isInvincible ? DamageTypes.Nothing : vulnerabilities;
+      public Vector2Int SpawnPosition => spawnPosition;
    }
 }

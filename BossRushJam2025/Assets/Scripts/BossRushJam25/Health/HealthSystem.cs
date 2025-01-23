@@ -14,7 +14,7 @@ namespace BossRushJam25.Health {
       public bool Empty => Health == 0;
       public bool Full => Health == MaxHealth;
 
-      public HealthSystem(int maxHealth, DamageTypes vulnerabilities = (DamageTypes)~0) {
+      public HealthSystem(int maxHealth, DamageTypes vulnerabilities = DamageTypes.Everything) {
          MaxHealth = maxHealth;
          Health = maxHealth;
          Vulnerabilities = vulnerabilities;

@@ -12,5 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 35329ec5045f465b93c615561ed3677e, type: 3}
   m_Name: GoldFist
   m_EditorClassIdentifier: 
+  isInvincible: 0
   maxHealth: 200
+  vulnerabilities: -1
   hexGridPreset: {fileID: 11400000, guid: ae8775c342164f042807ad760390666a, type: 2}

@@ -10,7 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b9022d219eec489ba65a1550949d206d, type: 3}
-  m_Name: HeroType
+  m_Name: Hero
   m_EditorClassIdentifier: 
-  spawnPosition: {x: 0, y: 0}
+  isInvincible: 1
   maxHealth: 20
+  vulnerabilities: -1
+  spawnPosition: {x: 0, y: 0}

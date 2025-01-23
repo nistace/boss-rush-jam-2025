@@ -6,11 +6,13 @@ namespace BossRushJam25.HexGrid {
    public class GridHexContentType : ScriptableObject {
       [SerializeField] protected int maxToSpawn = 1;
       [SerializeField] protected int rotationStepsInHex = 1;
+      [SerializeField] protected bool isInvincible;
       [SerializeField] protected int maxHealth = 10;
       [SerializeField] protected DamageTypes vulnerabilities = 0;
 
       public int MaxToSpawn => maxToSpawn;
       public int RotationStepsInHex => rotationStepsInHex;
-      public HealthSystem NewHealthSystem => new HealthSystem(maxHealth, vulnerabilities);
+      protected DamageTypes Vulnerabilities => isInvincible ? DamageTypes.Nothing : vulnerabilities;
+      public HealthSystem NewHealthSystem => new(maxHealth, Vulnerabilities);
    }
 }
