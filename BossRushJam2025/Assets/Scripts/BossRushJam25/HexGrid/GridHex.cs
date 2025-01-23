@@ -103,5 +103,18 @@ namespace BossRushJam25.HexGrid {
             }
          }
       }
+
+      public bool ContentsAreDamageable(DamageType damageType)
+      {
+         foreach(var content in Contents)
+         {
+            if(content.IsDamageable(damageType))
+            {
+               return true;
+            }
+         }
+
+         return false;
+      }
    }
 }

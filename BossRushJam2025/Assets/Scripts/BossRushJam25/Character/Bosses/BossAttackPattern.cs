@@ -13,6 +13,7 @@ namespace BossRushJam25.Character.Bosses {
 
       public bool IsExecuting { get; private set; }
       protected bool InterruptAsap { get; private set; }
+      public bool IsAttackable { get; private set; }
 
       private UnityEvent OnExecuting { get; } = new UnityEvent();
       public UnityEvent OnExecuted { get; } = new UnityEvent();

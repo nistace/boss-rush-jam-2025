@@ -26,18 +26,30 @@ namespace BossRushJam25.Character.AI.Actions
 
         public AttackMeleeAction(CharacterCore character, GridHex targetHex) : base(character)
         {
+            if(!targetHex.ContentsAreDamageable(character.Type.DamageInfo.DamageType))
+            {
+                Debug.Log("Nothing is attackable on this hex tile");
+
+                return;
+            }
+
             this.targetHex = targetHex;
             Vector3 attackSpot = ComputeClosestAttackSpot(targetHex.transform.position);
             moveAction = new(Character, attackSpot);
-            //TODO: attack
         }
 
         public AttackMeleeAction(CharacterCore character, BossAttackPattern targetBossPattern) : base(character)
         {
+            if(!targetBossPattern.IsAttackable)
+            {
+                Debug.Log("Boss is not attackable");
+
+                return;
+            }
+
             this.targetBossPattern = targetBossPattern;
             Vector3 attackSpot = ComputeClosestAttackSpot(targetBossPattern.transform.position);
             moveAction = new(Character, attackSpot);
-            //TODO: attack
         }
 
         private Vector3 ComputeClosestAttackSpot(Vector3 targetPosition)

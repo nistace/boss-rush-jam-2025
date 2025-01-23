@@ -59,9 +59,13 @@ namespace BossRushJam25.Character
                 SpawnProjectile();
             }
 
-            if(Input.GetKeyDown(KeyCode.Alpha5))
+            if(Input.GetKeyDown(KeyCode.Alpha5)
+                && Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hit, maxDistance: 500, layerMask: ~0, queryTriggerInteraction: QueryTriggerInteraction.Ignore)
+                && HexGridController.Instance.TryGetHex(hit.point, out GridHex hex)
+                && hex.ContentsAreDamageable(character.Type.DamageInfo.DamageType)
+                )
             {
-                character.ActionPriorityHandler.ForceAction(new AttackMeleeAction(character, HexGridController.Instance.GetRandomGridHex()));
+                character.ActionPriorityHandler.ForceAction(new AttackMeleeAction(character, hex));
             }
         }
 

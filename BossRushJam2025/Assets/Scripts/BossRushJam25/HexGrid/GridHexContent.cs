@@ -22,5 +22,6 @@ namespace BossRushJam25.HexGrid {
 
       private void HandleHealthChanged(int newValue, int damageDelta) => OnAnyContentHealthChanged.Invoke(this, HealthSystem);
       public void TryDamage(int damageDealt, DamageType damageType) => HealthSystem.Damage(damageDealt, damageType);
+      public bool IsDamageable(DamageType damageType) => HealthSystem.Vulnerabilities.Contains(damageType);
    }
 }

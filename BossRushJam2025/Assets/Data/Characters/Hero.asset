@@ -15,4 +15,9 @@ MonoBehaviour:
   isInvincible: 1
   maxHealth: 20
   vulnerabilities: -1
+  damageInfo:
+    damage: 1
+    damageType: 0
+    damageTick: 1
+    damageDuration: 0
   spawnPosition: {x: 0, y: 0}

@@ -7,11 +7,14 @@ namespace BossRushJam25.Character {
       [SerializeField] protected bool isInvincible;
       [SerializeField] protected int maxHealth = 10;
       [SerializeField] protected DamageTypes vulnerabilities;
+      //TODO: replace with weapon
+      [SerializeField] protected DamageInfo damageInfo;
       [SerializeField] protected Vector2Int spawnPosition;
 
       public bool IsInvincible => isInvincible;
       public int MaxHealth => maxHealth;
       public DamageTypes Vulnerabilities => isInvincible ? DamageTypes.Nothing : vulnerabilities;
+      public DamageInfo DamageInfo => damageInfo;
       public Vector2Int SpawnPosition => spawnPosition;
    }
 }
