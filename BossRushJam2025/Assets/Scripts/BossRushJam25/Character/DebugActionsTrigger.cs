@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using BossRushJam25.Character.AI.Actions;
 using BossRushJam25.GameControllers;
+using BossRushJam25.HexGrid;
 using UnityEngine;
 using Utils;
 
@@ -56,6 +57,11 @@ namespace BossRushJam25.Character
                 // }
 
                 SpawnProjectile();
+            }
+
+            if(Input.GetKeyDown(KeyCode.Alpha5))
+            {
+                character.ActionPriorityHandler.ForceAction(new AttackMeleeAction(character, HexGridController.Instance.GetRandomGridHex()));
             }
         }
 
