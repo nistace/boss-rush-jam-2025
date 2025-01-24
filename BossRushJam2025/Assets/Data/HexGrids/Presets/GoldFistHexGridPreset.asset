@@ -16,7 +16,7 @@ MonoBehaviour:
   - definition: {fileID: 11400000, guid: 179b343bba4dd684fa9e57d3e1e076ed, type: 2}
     castingTime: 3
     objectToSpawn: {fileID: 7395046468507608522, guid: 10b31b09c8861f74b810adac8484f8c7, type: 3}
-  - definition: {fileID: 11400000, guid: 179b343bba4dd684fa9e57d3e1e076ed, type: 2}
+  - definition: {fileID: 11400000, guid: bedfd6194d9c3d34bac901ccb7ea6326, type: 2}
     castingTime: 3
     objectToSpawn: {fileID: 7395046468507608522, guid: 10b31b09c8861f74b810adac8484f8c7, type: 3}
   - definition: {fileID: 11400000, guid: efeb7020e9ef90c44b0678dbcdfd628a, type: 2}

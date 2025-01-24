@@ -1,0 +1,32 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d67ac51dd9d6487aa921bad60e69d820, type: 3}
+  m_Name: Glyph_Heart
+  m_EditorClassIdentifier: 
+  originGlyphChunk: {fileID: 4966646679731647644, guid: c1782be4177014442a87ae5a6c2e57ef, type: 3}
+  spawnOffsetWithOrigin: {x: 1.736, y: 0.2863, z: 1}
+  otherGlyphParts:
+  - glyphChunk: {fileID: 4966646679731647644, guid: c1782be4177014442a87ae5a6c2e57ef, type: 3}
+    offsetWithOrigin: {x: 3.4641016, y: 0, z: 0}
+    rotationWithOrigin: -119.99999
+  - glyphChunk: {fileID: 4966646679731647644, guid: c1782be4177014442a87ae5a6c2e57ef, type: 3}
+    offsetWithOrigin: {x: 1.7320508, y: 0, z: 3}
+    rotationWithOrigin: 120.00001
+  - glyphChunk: {fileID: 4966646679731647644, guid: 01b19855ffe222949ba979b18d485188, type: 3}
+    offsetWithOrigin: {x: 0.8660254, y: 0, z: 1.5}
+    rotationWithOrigin: 0
+  - glyphChunk: {fileID: 4966646679731647644, guid: 01b19855ffe222949ba979b18d485188, type: 3}
+    offsetWithOrigin: {x: 1.7320508, y: 0, z: 0}
+    rotationWithOrigin: 60.000004
+  - glyphChunk: {fileID: 4966646679731647644, guid: 9f7d4f8bf719a874e92c72c360a7ad58, type: 3}
+    offsetWithOrigin: {x: 2.598076, y: 0, z: 1.5}
+    rotationWithOrigin: -60.000008
