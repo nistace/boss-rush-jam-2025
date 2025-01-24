@@ -391,6 +391,6 @@ MonoBehaviour:
   type: {fileID: 11400000, guid: e6d71943b5a94f74baff67659b889694, type: 2}
   hex: {fileID: 476166157801653829}
   glyphRenderers:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 6289061970516698688}
+  - {fileID: 5948239583653652838}
+  - {fileID: 4321895450202632379}
