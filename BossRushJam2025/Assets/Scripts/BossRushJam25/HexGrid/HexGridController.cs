@@ -23,6 +23,7 @@ namespace BossRushJam25.HexGrid {
       private Dictionary<Vector2Int, GridHex> Hexes { get; } = new Dictionary<Vector2Int, GridHex>();
 
       private float InnerRadius { get; set; }
+      public int GridRadius => gridRadius;
       public ICollection<GridHex> AllHexes => Hexes.Values;
 
       public static Vector2Int Center => Vector2Int.zero;
