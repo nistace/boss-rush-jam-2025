@@ -52,6 +52,7 @@ namespace BossRushJam25.Character.AI.Actions
             base.Execute();
 
             moveAction.Execute();
+            attackTimer = character.Type.DamageInfo.DamageTick;
         }
 
         public override void Update()
@@ -68,7 +69,17 @@ namespace BossRushJam25.Character.AI.Actions
                 return;
             }
 
-            TryAttack();
+            if(moveAction.Status == EActionStatus.Finished
+                && !TargetIsInRange()
+                )
+            {
+                status = EActionStatus.Finished;
+
+                return;
+            }
+
+            bool isAttacking = TryAttack();
+            character.Animator.SetAttackParameter(isAttacking);
         }
 
         public override void Cancel()
@@ -76,6 +87,7 @@ namespace BossRushJam25.Character.AI.Actions
             base.Cancel();
 
             moveAction.Cancel();
+            character.Animator.SetAttackParameter(false);
         }
 
         public override void CleanUp()
@@ -83,17 +95,15 @@ namespace BossRushJam25.Character.AI.Actions
             base.CleanUp();
 
             moveAction.CleanUp();
+            character.Animator.SetAttackParameter(false);
         }
 
         //TODO: move in BatteryDetector if we want the hero to automatically attack the batteries when only passing by
         private bool TryAttack()
         {
-            if(moveAction.Status != EActionStatus.Finished)
-            {
-                return false;
-            }
-
-            if(!TargetIsInRange())
+            if(moveAction.Status != EActionStatus.Finished
+                || !TargetIsInRange()
+                )
             {
                 return false;
             }

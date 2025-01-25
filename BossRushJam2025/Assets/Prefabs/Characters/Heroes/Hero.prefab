@@ -170,6 +170,7 @@ MonoBehaviour:
   batteryDetector: {fileID: 8354294903565279185}
   bossPatternDetector: {fileID: 3854413985686711417}
   actionsTrigger: {fileID: 2398727888956531791}
+  animator: {fileID: 1753004295836447033}
 --- !u!195 &4036202868100558749
 NavMeshAgent:
   m_ObjectHideFlags: 0
