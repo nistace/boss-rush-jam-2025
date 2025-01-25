@@ -16,6 +16,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: CopperHex
       objectReference: {fileID: 0}
+    - target: {fileID: 6412482090819818382, guid: e952fc5b3b026234c9e736305db12c46, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.11
+      objectReference: {fileID: 0}
     - target: {fileID: 7513845610245741955, guid: e952fc5b3b026234c9e736305db12c46, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
       value: 0

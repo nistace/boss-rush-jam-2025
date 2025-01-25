@@ -1,30 +1,28 @@
-using System;
 using UnityEngine;
 
-public class AlignWithCameraForward : MonoBehaviour {
+namespace BossRushJam25.Common {
+   public class AlignWithCameraForward : MonoBehaviour {
+      protected enum EStrategy {
+         Clamp = 0,
+         Remap = 1,
+      }
 
-   public enum EStrategy {
-      Clamp = 0,
-      Remap = 1,
-   }
+      [SerializeField] protected EStrategy strategy;
+      [SerializeField] protected float minAngleWithForward = 30;
+      [SerializeField] protected float maxAngleWithForward = 60;
 
-   [SerializeField] protected bool keepVertical;
+      private void Update() {
+         var cameraForward = Camera.main.transform.forward;
 
-   [SerializeField] protected EStrategy strategy;
-   [SerializeField] protected float minAngleWithForward = 30;
-   [SerializeField] protected float maxAngleWithForward = 60;
+         var angleBetweenForwards = Vector3.Angle(cameraForward, Vector3.forward);
 
-   private void Update() {
-      var cameraForward = Camera.main.transform.forward;
+         var selfAngleWithForward = strategy switch {
+            EStrategy.Clamp => Mathf.Clamp(angleBetweenForwards, minAngleWithForward, maxAngleWithForward),
+            EStrategy.Remap => minAngleWithForward + Mathf.InverseLerp(0, 90, angleBetweenForwards) * (maxAngleWithForward - minAngleWithForward),
+            _ => angleBetweenForwards
+         };
 
-      var angleBetweenForwards = Vector3.Angle(cameraForward, Vector3.forward);
-
-      var selfAngleWithForward = strategy switch {
-         EStrategy.Clamp => Mathf.Clamp(angleBetweenForwards, minAngleWithForward, maxAngleWithForward),
-         EStrategy.Remap => minAngleWithForward + Mathf.InverseLerp(0, 90, angleBetweenForwards) * (maxAngleWithForward - minAngleWithForward),
-         _ => angleBetweenForwards
-      };
-
-      transform.forward = Vector3.Slerp(Vector3.forward, Vector3.down, selfAngleWithForward / 90);
+         transform.forward = Vector3.Slerp(Vector3.forward, Vector3.down, selfAngleWithForward / 90);
+      }
    }
 }

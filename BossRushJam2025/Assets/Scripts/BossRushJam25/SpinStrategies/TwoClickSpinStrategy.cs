@@ -61,15 +61,18 @@ namespace BossRushJam25.SpinStrategies {
 
          if (!HoveringOverHex) return;
          if (CurrentStep == EStep.SelectOrigin) {
-            if (!HexGridController.Instance.IsCellInGrid(HoveringCoordinates)) return;
+            if (!HexGridController.Instance.TryGetHex(HoveringCoordinates, out var hex)) return;
+            if (hex.LockedInPlace) return;
             Origin = HoveringCoordinates;
             HexGridController.Instance.SetHighlightedHexAt(Origin, originHighlight);
+            HexGridController.Instance.SetAllLockedInPlaceRenderingEnabled(true);
             CurrentStep = EStep.SelectDestination;
          }
          else if (CurrentStep == EStep.SelectDestination) {
             if (HoveringCoordinates == Origin) return;
             if (!CurrentCenterIsSolution) return;
 
+            HexGridController.Instance.SetAllLockedInPlaceRenderingEnabled(false);
             HexGridController.Instance.SetHighlightedHexAt(HoveringCoordinates, ringHighlight);
             HexGridController.Instance.TranslateRingAround(Center, RingRadius, Steps, HandleTranslationDone);
             CurrentStep = EStep.TranslatingRing;
@@ -122,7 +125,11 @@ namespace BossRushJam25.SpinStrategies {
             return;
          }
 
-         if (HoveringOverHex && IsInteracting && Time.time > CurrentInteractStartTime + holdDurationToRotateOneHex && HexGridController.Instance.TryGetHex(HoveringCoordinates, out var hex)) {
+         if (HoveringOverHex
+             && IsInteracting
+             && Time.time > CurrentInteractStartTime + holdDurationToRotateOneHex
+             && HexGridController.Instance.TryGetHex(HoveringCoordinates, out var hex)
+             && !hex.LockedInPlace) {
             CurrentStep = EStep.HoldingToRotateSingleHex;
             DelayBeforeNextSingleHexRotation = delayBetweenOneHexRotations;
             hex.SetAsMoving(true);
@@ -134,13 +141,16 @@ namespace BossRushJam25.SpinStrategies {
          var newHoveringOverHex = GameStrategyUtils.IsHoveringOverTile(out var newHoveringCoordinates, out var hitWorldPosition);
 
          if (CurrentStep == EStep.SelectOrigin) {
-            if (HoveringCoordinates == newHoveringCoordinates && HoveringOverHex == newHoveringOverHex) return;
+            if (HexGridController.Instance.TryGetHex(HoveringCoordinates, out var hoveredHex)) hoveredHex.SetLockedInPlaceRenderingEnabled(false);
+            if (HexGridController.Instance.TryGetHex(newHoveringCoordinates, out hoveredHex)) hoveredHex.SetLockedInPlaceRenderingEnabled(true);
 
-            HoveringCoordinates = newHoveringCoordinates;
-            HoveringOverHex = newHoveringOverHex;
-            HexGridController.Instance.UnHighlightAllHexes();
-            if (HoveringOverHex) {
-               HexGridController.Instance.SetHighlightedHexAt(HoveringCoordinates, hoverHighlight);
+            if (HoveringCoordinates != newHoveringCoordinates || HoveringOverHex != newHoveringOverHex) {
+               HoveringCoordinates = newHoveringCoordinates;
+               HoveringOverHex = newHoveringOverHex;
+               HexGridController.Instance.UnHighlightAllHexes();
+               if (HoveringOverHex) {
+                  HexGridController.Instance.SetHighlightedHexAt(HoveringCoordinates, hoverHighlight);
+               }
             }
          }
          else if (CurrentStep == EStep.SelectDestination) {

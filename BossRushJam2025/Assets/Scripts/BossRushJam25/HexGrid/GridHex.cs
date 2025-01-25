@@ -9,8 +9,8 @@ namespace BossRushJam25.HexGrid {
    public class GridHex : MonoBehaviour {
       [SerializeField] protected GridHexType type;
       [SerializeField] protected Transform hexContentParent;
-
       [SerializeField] protected MeshRenderer highlightRenderer;
+      [SerializeField] protected GameObject lockedRenderer;
       [SerializeField] protected NavMeshObstacle navMeshObstacle;
 
       private HashSet<GridHexContent> Contents { get; } = new HashSet<GridHexContent>();
@@ -22,7 +22,8 @@ namespace BossRushJam25.HexGrid {
       public bool IsMoving { get; private set; }
 
       public UnityEvent<bool> OnMovingChanged { get; } = new UnityEvent<bool>();
-      public bool LockedInPlace { get; set; }
+      public bool LockedInPlace { get; private set; }
+      private bool LockedInPlaceRenderingEnabled { get; set; }
 
       private void Awake() {
          navMeshObstacle.enabled = type.AlwaysAnObstacle;
@@ -30,6 +31,7 @@ namespace BossRushJam25.HexGrid {
 
       private void Start() {
          SetNoHighlight();
+         RefreshLockedInPlaceRenderer();
 
          foreach (var alreadyAttachedContents in GetComponentsInChildren<GridHexContent>()) {
             Contents.Add(alreadyAttachedContents);
@@ -114,5 +116,17 @@ namespace BossRushJam25.HexGrid {
 
          return false;
       }
+
+      public void SetLockedInPlace(bool lockedInPlace) {
+         LockedInPlace = lockedInPlace;
+         RefreshLockedInPlaceRenderer();
+      }
+
+      public void SetLockedInPlaceRenderingEnabled(bool enabled) {
+         LockedInPlaceRenderingEnabled = enabled;
+         RefreshLockedInPlaceRenderer();
+      }
+
+      private void RefreshLockedInPlaceRenderer() => lockedRenderer.SetActive(LockedInPlaceRenderingEnabled && LockedInPlace);
    }
 }

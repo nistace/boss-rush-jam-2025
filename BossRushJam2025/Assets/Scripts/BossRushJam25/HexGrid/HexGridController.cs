@@ -379,11 +379,16 @@ namespace BossRushJam25.HexGrid {
          return Hexes.ElementAt(Random.Range(0, Hexes.Count)).Value;
       }
 
-      public IEnumerable<GridHex> GetGridHexesInArea(Vector3 origin, float radius)
-      {
+      public IEnumerable<GridHex> GetGridHexesInArea(Vector3 origin, float radius) {
          IEnumerable<GridHex> hexesInArea = Hexes.Values.Where(hex => (hex.transform.position - origin).sqrMagnitude - radius * radius < 0.01f);
 
          return hexesInArea;
+      }
+
+      public void SetAllLockedInPlaceRenderingEnabled(bool enabled) {
+         foreach (var hex in Hexes.Values) {
+            hex.SetLockedInPlaceRenderingEnabled(enabled);
+         }
       }
    }
 }
