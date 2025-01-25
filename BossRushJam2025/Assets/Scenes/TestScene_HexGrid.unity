@@ -2206,7 +2206,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 20348894f03ea1f41973ce894d7f2b95, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  powerUpPrefab: {fileID: 7395046468507608522, guid: 10b31b09c8861f74b810adac8484f8c7, type: 3}
+  powerUpPrefab: {fileID: 289316297623735088, guid: 383ec63dfb1404d4d94e0b86f773701a, type: 3}
 --- !u!4 &1802581950
 Transform:
   m_ObjectHideFlags: 0
@@ -2875,6 +2875,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c3b95acdb5c14371b519a4180961eabf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  powerUpsManager: {fileID: 1802581949}
   deactivatingChunkDuration: 0.2
 --- !u!1001 &508766729229454340
 PrefabInstance:

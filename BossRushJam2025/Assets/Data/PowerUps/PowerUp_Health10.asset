@@ -9,13 +9,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9ac717a7dd5e4e5190dd4bf1ef4fc1fd, type: 3}
-  m_Name: Battery
+  m_Script: {fileID: 11500000, guid: c49b7cb4e09f460e81078705abfac454, type: 3}
+  m_Name: PowerUp_Health10
   m_EditorClassIdentifier: 
-  maxToSpawn: 1
-  rotationStepsInHex: 1
-  isInvincible: 0
-  preventPowerUpSpawning: 1
-  locksHexInPlace: 1
-  maxHealth: 60
-  vulnerabilities: -1
+  spawnZOffset: 0
+  healAmount: 10
+  damageUpAmount: 0
+  damageSpeedUpAmount: 0

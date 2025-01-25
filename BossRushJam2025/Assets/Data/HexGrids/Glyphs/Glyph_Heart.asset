@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Glyph_Heart
   m_EditorClassIdentifier: 
   originGlyphChunk: {fileID: 4966646679731647644, guid: c1782be4177014442a87ae5a6c2e57ef, type: 3}
-  spawnOffsetWithOrigin: {x: 1.736, y: 0.2863, z: 1}
+  spawnOffsetWithOrigin: {x: 2.55, y: 0, z: 1.5}
   otherGlyphParts:
   - glyphChunk: {fileID: 4966646679731647644, guid: c1782be4177014442a87ae5a6c2e57ef, type: 3}
     offsetWithOrigin: {x: 3.4641016, y: 0, z: 0}

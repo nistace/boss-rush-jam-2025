@@ -24,6 +24,7 @@ namespace BossRushJam25.Character
         public PowerUpsDetector PowerUpsDetector => powerUpsDetector;
         public BatteryDetector BatteryDetector => batteryDetector;
         public BossPatternDetector BossPatternDetector => bossPatternDetector;
+        public DamageInfo DamageInfo { get; private set; }
         public HealthSystem Health { get; private set; }
         public CharacterType Type => type;
         public HeroAnimator Animator => animator;
@@ -31,11 +32,14 @@ namespace BossRushJam25.Character
         public void Initialize()
         {
             Health = new HealthSystem(type.MaxHealth, type.Vulnerabilities);
+            DamageInfo = type.DamageInfo;
             actionPriorityHandler.Initialize(this);
             powerUpsDetector.Initialize(this);
             batteryDetector.Initialize(this);
             actionsTrigger?.Initialize(this);
             bossPatternDetector?.Initialize(this);
         }
+
+        public void ChangeDamageInfo(DamageInfo newDamageInfo) => DamageInfo = newDamageInfo;
     }
 }

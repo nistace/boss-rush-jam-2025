@@ -375,9 +375,8 @@ namespace BossRushJam25.HexGrid {
          return GetRandomPositionOnNavMesh();
       }
 
-      public GridHex GetRandomGridHex() {
-         return Hexes.ElementAt(Random.Range(0, Hexes.Count)).Value;
-      }
+      public bool TryGetRandomGridHex(out GridHex gridHex) => gridHex = Hexes.Values.OrderBy(t => Random.value).FirstOrDefault();
+      public bool TryGetRandomGridHex(Func<GridHex, bool> predicate, out GridHex gridHex) => gridHex = Hexes.Values.Where(predicate).OrderBy(t => Random.value).FirstOrDefault();
 
       public IEnumerable<GridHex> GetGridHexesInArea(Vector3 origin, float radius) {
          IEnumerable<GridHex> hexesInArea = Hexes.Values.Where(hex => (hex.transform.position - origin).sqrMagnitude - radius * radius < 0.01f);

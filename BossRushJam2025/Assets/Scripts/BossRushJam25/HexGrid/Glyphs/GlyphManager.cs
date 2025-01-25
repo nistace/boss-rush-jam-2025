@@ -1,9 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using BossRushJam25.PowerUps;
 using UnityEngine;
 
 namespace BossRushJam25.HexGrid.Glyphs {
    public class GlyphManager : MonoBehaviour {
+      [SerializeField] protected PowerUpsManager powerUpsManager;
       [SerializeField] protected float deactivatingChunkDuration = .2f;
 
       private struct ActivatingGlyphInfo {
@@ -145,7 +147,11 @@ namespace BossRushJam25.HexGrid.Glyphs {
                chunk.SetActivationProgress(progress);
             }
             if (Mathf.Approximately(progress, 1)) {
-               activatingGlyph.Key.Spawn(activatingGlyph.Value.origin.transform);
+               var spawnLocation = activatingGlyph.Value.origin.transform.TransformPoint(activatingGlyph.Key.Definition.SpawnOffsetWithOrigin);
+               if (!HexGridController.Instance.TryGetHex(spawnLocation, out var spawnHex)) {
+                  spawnHex = activatingGlyph.Value.origin.Hex;
+               }
+               powerUpsManager.SpawnPowerUp(spawnHex, activatingGlyph.Key.PowerUpToSpawn);
                activatedGlyphs.Add(activatingGlyph.Key);
             }
          }

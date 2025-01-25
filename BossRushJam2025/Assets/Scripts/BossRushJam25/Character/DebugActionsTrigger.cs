@@ -46,7 +46,7 @@ namespace BossRushJam25.Character
 
             if(Input.GetKeyDown(KeyCode.Alpha3))
             {
-                GameConfig.Instance.PowerUpsManager.SpawnPowerUp();
+                GameConfig.Instance.PowerUpsManager.SpawnDefaultPowerUpOnRandomEmptyHex();
             }
 
             if(Input.GetKeyDown(KeyCode.Alpha4))

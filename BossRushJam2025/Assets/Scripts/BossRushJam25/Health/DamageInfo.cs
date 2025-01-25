@@ -22,5 +22,8 @@ namespace BossRushJam25.Health {
          this.damageTick = damageTick;
          this.damageDuration = damageDuration;
       }
+
+      public DamageInfo WithIncreasedDamage(int increase) => new DamageInfo(damage + increase, damageType, damageTick, damageDuration);
+      public DamageInfo WithIncreasedSpeed(float increase) => new DamageInfo(damage, damageType, damageTick * (1 - increase), damageDuration);
    }
 }

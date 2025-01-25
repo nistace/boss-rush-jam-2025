@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Glyph_Diamond
   m_EditorClassIdentifier: 
   originGlyphChunk: {fileID: 4966646679731647644, guid: 407f46cbad46d9644b99e05756574b39, type: 3}
-  spawnOffsetWithOrigin: {x: 0.87, y: 0, z: 0}
+  spawnOffsetWithOrigin: {x: 0, y: 0, z: 0}
   otherGlyphParts:
   - glyphChunk: {fileID: 4966646679731647644, guid: c1782be4177014442a87ae5a6c2e57ef, type: 3}
     offsetWithOrigin: {x: 0.8660254, y: 0, z: -1.5}

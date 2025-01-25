@@ -16,12 +16,12 @@ namespace BossRushJam25.Character {
 
       private void Update() {
          if (LinkedHex) {
-            LinkedHex.SetLockedInPlace(false);
+            LinkedHex.SetLockedInPlaceBy(this, false);
          }
 
          if (HexGridController.Instance.TryGetHex(HexGridController.Instance.WorldToCoordinates(transform.position), out var hex)) {
             LinkedHex = hex;
-            LinkedHex.SetLockedInPlace(lockHex);
+            LinkedHex.SetLockedInPlaceBy(this, lockHex);
 
             agent.obstacleAvoidanceType = LinkedHex.IsMoving ? ObstacleAvoidanceType.NoObstacleAvoidance : ObstacleAvoidanceType.HighQualityObstacleAvoidance;
             agent.isStopped = LinkedHex.IsMoving;

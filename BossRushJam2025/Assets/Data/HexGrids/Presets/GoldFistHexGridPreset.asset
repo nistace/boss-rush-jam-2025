@@ -15,13 +15,13 @@ MonoBehaviour:
   glyphs:
   - definition: {fileID: 11400000, guid: 179b343bba4dd684fa9e57d3e1e076ed, type: 2}
     castingTime: 3
-    objectToSpawn: {fileID: 7395046468507608522, guid: 10b31b09c8861f74b810adac8484f8c7, type: 3}
+    powerUpToSpawn: {fileID: 289316297623735088, guid: 383ec63dfb1404d4d94e0b86f773701a, type: 3}
   - definition: {fileID: 11400000, guid: bedfd6194d9c3d34bac901ccb7ea6326, type: 2}
     castingTime: 3
-    objectToSpawn: {fileID: 7395046468507608522, guid: 10b31b09c8861f74b810adac8484f8c7, type: 3}
+    powerUpToSpawn: {fileID: 289316297623735088, guid: a492c4ce90511ee44a6a5f614ef11e82, type: 3}
   - definition: {fileID: 11400000, guid: efeb7020e9ef90c44b0678dbcdfd628a, type: 2}
     castingTime: 3
-    objectToSpawn: {fileID: 7395046468507608522, guid: 10b31b09c8861f74b810adac8484f8c7, type: 3}
+    powerUpToSpawn: {fileID: 289316297623735088, guid: 730c821e2062be541b4a4a4736aebf1e, type: 3}
   presets:
   - gridHexPreset:
       hexPrefab: {fileID: 6811911467666851820, guid: af1925ec07f0f904694c16f2b291fd77, type: 3}

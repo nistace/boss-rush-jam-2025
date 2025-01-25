@@ -22,7 +22,8 @@ namespace BossRushJam25.HexGrid {
       public bool IsMoving { get; private set; }
 
       public UnityEvent<bool> OnMovingChanged { get; } = new UnityEvent<bool>();
-      public bool LockedInPlace { get; private set; }
+      public HashSet<object> SourcesLockingInPlace { get; } = new HashSet<object>();
+      public bool LockedInPlace => SourcesLockingInPlace.Count > 0;
       private bool LockedInPlaceRenderingEnabled { get; set; }
 
       private void Awake() {
@@ -35,6 +36,7 @@ namespace BossRushJam25.HexGrid {
 
          foreach (var alreadyAttachedContents in GetComponentsInChildren<GridHexContent>()) {
             Contents.Add(alreadyAttachedContents);
+            SetLockedInPlaceBy(alreadyAttachedContents, alreadyAttachedContents.Type.LocksHexInPlace);
          }
       }
 
@@ -67,6 +69,7 @@ namespace BossRushJam25.HexGrid {
             var newContent = Instantiate(contentInfo, hexContentParent);
             newContent.transform.localRotation = Quaternion.Euler(0, rotationPerStep * rotationStep, 0);
             Contents.Add(newContent);
+            SetLockedInPlaceBy(newContent, newContent.Type.LocksHexInPlace);
          }
       }
 
@@ -103,6 +106,7 @@ namespace BossRushJam25.HexGrid {
             foreach (var contentToDestroy in Contents.Where(t => t.HealthSystem.Empty).ToArray()) {
                Destroy(contentToDestroy.gameObject);
                Contents.Remove(contentToDestroy);
+               SetLockedInPlaceBy(contentToDestroy, false);
             }
          }
       }
@@ -117,8 +121,13 @@ namespace BossRushJam25.HexGrid {
          return false;
       }
 
-      public void SetLockedInPlace(bool lockedInPlace) {
-         LockedInPlace = lockedInPlace;
+      public void SetLockedInPlaceBy(object source, bool lockedInPlaceByThisSource) {
+         if (lockedInPlaceByThisSource) {
+            SourcesLockingInPlace.Add(source);
+         }
+         else {
+            SourcesLockingInPlace.Remove(source);
+         }
          RefreshLockedInPlaceRenderer();
       }
 
