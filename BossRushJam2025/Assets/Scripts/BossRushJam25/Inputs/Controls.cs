@@ -48,6 +48,15 @@ namespace BossRushJam25.Inputs
                     ""initialStateCheck"": false
                 },
                 {
+                    ""name"": ""Cancel"",
+                    ""type"": ""Button"",
+                    ""id"": ""49ce2991-1e5c-4181-ba4c-848a968ed99a"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
                     ""name"": ""DamageHero"",
                     ""type"": ""Button"",
                     ""id"": ""3c53a50f-36bb-4fed-ab97-09de7ec60af9"",
@@ -110,6 +119,28 @@ namespace BossRushJam25.Inputs
                     ""action"": ""DamageBoss"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""9fd3bbe9-87a2-4054-9312-69f3052f07ad"",
+                    ""path"": """",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Cancel"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""fb28be42-4fde-41f9-bd56-216096deb106"",
+                    ""path"": ""<Mouse>/rightButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Cancel"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -120,6 +151,7 @@ namespace BossRushJam25.Inputs
             m_Player = asset.FindActionMap("Player", throwIfNotFound: true);
             m_Player_Aim = m_Player.FindAction("Aim", throwIfNotFound: true);
             m_Player_Interact = m_Player.FindAction("Interact", throwIfNotFound: true);
+            m_Player_Cancel = m_Player.FindAction("Cancel", throwIfNotFound: true);
             m_Player_DamageHero = m_Player.FindAction("DamageHero", throwIfNotFound: true);
             m_Player_DamageBoss = m_Player.FindAction("DamageBoss", throwIfNotFound: true);
         }
@@ -190,6 +222,7 @@ namespace BossRushJam25.Inputs
         private List<IPlayerActions> m_PlayerActionsCallbackInterfaces = new List<IPlayerActions>();
         private readonly InputAction m_Player_Aim;
         private readonly InputAction m_Player_Interact;
+        private readonly InputAction m_Player_Cancel;
         private readonly InputAction m_Player_DamageHero;
         private readonly InputAction m_Player_DamageBoss;
         public struct PlayerActions
@@ -198,6 +231,7 @@ namespace BossRushJam25.Inputs
             public PlayerActions(@Controls wrapper) { m_Wrapper = wrapper; }
             public InputAction @Aim => m_Wrapper.m_Player_Aim;
             public InputAction @Interact => m_Wrapper.m_Player_Interact;
+            public InputAction @Cancel => m_Wrapper.m_Player_Cancel;
             public InputAction @DamageHero => m_Wrapper.m_Player_DamageHero;
             public InputAction @DamageBoss => m_Wrapper.m_Player_DamageBoss;
             public InputActionMap Get() { return m_Wrapper.m_Player; }
@@ -215,6 +249,9 @@ namespace BossRushJam25.Inputs
                 @Interact.started += instance.OnInteract;
                 @Interact.performed += instance.OnInteract;
                 @Interact.canceled += instance.OnInteract;
+                @Cancel.started += instance.OnCancel;
+                @Cancel.performed += instance.OnCancel;
+                @Cancel.canceled += instance.OnCancel;
                 @DamageHero.started += instance.OnDamageHero;
                 @DamageHero.performed += instance.OnDamageHero;
                 @DamageHero.canceled += instance.OnDamageHero;
@@ -231,6 +268,9 @@ namespace BossRushJam25.Inputs
                 @Interact.started -= instance.OnInteract;
                 @Interact.performed -= instance.OnInteract;
                 @Interact.canceled -= instance.OnInteract;
+                @Cancel.started -= instance.OnCancel;
+                @Cancel.performed -= instance.OnCancel;
+                @Cancel.canceled -= instance.OnCancel;
                 @DamageHero.started -= instance.OnDamageHero;
                 @DamageHero.performed -= instance.OnDamageHero;
                 @DamageHero.canceled -= instance.OnDamageHero;
@@ -258,6 +298,7 @@ namespace BossRushJam25.Inputs
         {
             void OnAim(InputAction.CallbackContext context);
             void OnInteract(InputAction.CallbackContext context);
+            void OnCancel(InputAction.CallbackContext context);
             void OnDamageHero(InputAction.CallbackContext context);
             void OnDamageBoss(InputAction.CallbackContext context);
         }

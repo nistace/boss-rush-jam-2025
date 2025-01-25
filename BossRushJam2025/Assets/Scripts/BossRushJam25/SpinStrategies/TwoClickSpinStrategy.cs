@@ -39,11 +39,20 @@ namespace BossRushJam25.SpinStrategies {
       public void Enable() {
          GameInputs.Controls.Player.Interact.performed += HandleInteractPerformed;
          GameInputs.Controls.Player.Interact.canceled += HandleInteractCanceled;
+         GameInputs.Controls.Player.Cancel.performed += HandleCancelPerformed;
       }
 
       public void Disable() {
          GameInputs.Controls.Player.Interact.performed -= HandleInteractPerformed;
          GameInputs.Controls.Player.Interact.canceled -= HandleInteractCanceled;
+         GameInputs.Controls.Player.Cancel.performed -= HandleCancelPerformed;
+      }
+
+      private void HandleCancelPerformed(InputAction.CallbackContext obj) {
+         if (CurrentStep == EStep.SelectDestination) {
+            CurrentStep = EStep.SelectOrigin;
+            HoveringOverHex = false;
+         }
       }
 
       private void HandleInteractCanceled(InputAction.CallbackContext obj) {
