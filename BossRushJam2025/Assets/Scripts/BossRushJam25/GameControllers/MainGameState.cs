@@ -18,6 +18,10 @@ namespace BossRushJam25.GameControllers {
       private float DelayBeforeNextAttack { get; set; }
 
       public override void Enable() {
+         HexGridController.Instance.ClearGrid();
+         if (Hero) Object.Destroy(Hero.gameObject);
+         if (Boss) Object.Destroy(Boss.gameObject);
+
          HexGridController.Instance.Build(GameConfig.Instance.BossPrefab.Type.HexGridPreset, new[] { GameConfig.Instance.HeroPrefab.Type.SpawnPosition });
          GameConfig.Instance.PowerUpsManager.Initialize();
          Hero = Object.Instantiate(GameConfig.Instance.HeroPrefab, HexGridController.Instance.CoordinatesToWorldPosition(GameConfig.Instance.HeroPrefab.Type.SpawnPosition), Quaternion.identity);
@@ -66,13 +70,11 @@ namespace BossRushJam25.GameControllers {
          GameInputs.Controls.Player.DamageHero.performed -= HandleDamageHeroPerformed;
          GameInputs.Controls.Player.DamageBoss.performed -= HandleDamageBossPerformed;
 
-         if(Hero != null)
-         {
+         if (Hero != null) {
             Hero.Health.OnHealthChanged.RemoveListener(HandleHeroHealthChanged);
          }
 
-         if(Boss != null)
-         {
+         if (Boss != null) {
             Boss.Health.OnHealthChanged.RemoveListener(HandleBossHealthChanged);
          }
       }
