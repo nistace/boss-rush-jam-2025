@@ -15,12 +15,12 @@ namespace BossRushJam25.Character.AI.Actions
         {
             get
             {
-                bool destination_is_reached = !Character.NavMeshAgent.pathPending && Character.NavMeshAgent.remainingDistance <= 0.01f;
+                bool destination_is_reached = !character.NavMeshAgent.pathPending && character.NavMeshAgent.remainingDistance <= 0.01f;
 
                 if(status == EActionStatus.Started && destination_is_reached)
                 {
                     status = EActionStatus.Finished;
-                    Character.NavMeshAgent.ResetPath();
+                    character.NavMeshAgent.ResetPath();
                 }
 
                 return status;
@@ -30,21 +30,21 @@ namespace BossRushJam25.Character.AI.Actions
         public MoveAction(CharacterCore character, Vector3 destination) : base(character)
         {
             Destination = destination;
-            pathLine = Object.Instantiate(GameConfig.Instance.PathLinePrefab, Character.transform);
+            pathLine = Object.Instantiate(GameConfig.Instance.PathLinePrefab, base.character.transform);
         }
 
         public override void Execute()
         {
             base.Execute();
 
-            Character.NavMeshAgent.SetDestination(Destination);
+            character.NavMeshAgent.SetDestination(Destination);
         }
 
         public override void Cancel()
         {
             base.Cancel();
 
-            Character.NavMeshAgent.ResetPath();
+            character.NavMeshAgent.ResetPath();
         }
 
         public override void CleanUp()
@@ -62,13 +62,13 @@ namespace BossRushJam25.Character.AI.Actions
 
             if(Mathf.Approximately(priorityValue01, 0f))
             {
-                path = Character.NavMeshAgent.path;
+                path = character.NavMeshAgent.path;
             }
             else
             {
                 path = new();
                 //TODO: really necessary? with raw positions CalculatePath don't return anything
-                NavMesh.SamplePosition(Character.transform.position, out NavMeshHit hit, 10f, NavMesh.AllAreas);
+                NavMesh.SamplePosition(character.transform.position, out NavMeshHit hit, 10f, NavMesh.AllAreas);
                 Vector3 source = hit.position;
                 NavMesh.SamplePosition(Destination, out hit, 10f, NavMesh.AllAreas);
                 Vector3 destination = hit.position;
@@ -76,7 +76,7 @@ namespace BossRushJam25.Character.AI.Actions
                 NavMesh.CalculatePath(source, destination, NavMesh.AllAreas, path);
             }
 
-            PathDrawer.UpdatePath(pathLine, Character.transform.position, path);
+            PathDrawer.UpdatePath(pathLine, character.transform.position, path);
 
             //TODO:no color is visible
             Color color = GameConfig.Instance.ActionPreviewsGradient.Evaluate(priorityValue01);
@@ -88,10 +88,10 @@ namespace BossRushJam25.Character.AI.Actions
         {
             base.DrawGizmos();
 
-            if (Character.NavMeshAgent.hasPath)
+            if (character.NavMeshAgent.hasPath)
             {
                 Gizmos.color = Color.blue;
-                Gizmos.DrawSphere(Character.NavMeshAgent.destination, 0.2f);
+                Gizmos.DrawSphere(character.NavMeshAgent.destination, 0.2f);
             }
         }
 

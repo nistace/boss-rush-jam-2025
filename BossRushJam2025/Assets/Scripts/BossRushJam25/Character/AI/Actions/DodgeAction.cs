@@ -31,8 +31,8 @@ namespace BossRushJam25.Character.AI.Actions
         private void DoDodgeAnimation(Vector3 dodgeDirection)
         {
             //TODO: animate
-            Vector3 targetPosition = Character.transform.position + dodgeDirection * 1f;
-            Character.transform.position = targetPosition;
+            Vector3 targetPosition = character.transform.position + dodgeDirection * 1f;
+            character.transform.position = targetPosition;
 
             status = EActionStatus.Finished;
         }

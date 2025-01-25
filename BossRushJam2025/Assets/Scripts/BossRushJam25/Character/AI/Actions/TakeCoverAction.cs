@@ -30,10 +30,10 @@ namespace BossRushJam25.Character.AI.Actions
 
         public TakeCoverAction(CharacterCore character) : base(character)
         {
-            data = (TakeCoverData)Character.ActionPriorityHandler.ActionDataMap[EActionType.TakeCover];
+            data = (TakeCoverData)base.character.ActionPriorityHandler.ActionDataMap[EActionType.TakeCover];
 
             Vector3 coverPosition = FindCoverFromOpponent();
-            moveAction = new(Character, coverPosition);
+            moveAction = new(base.character, coverPosition);
         }
 
         public override void Execute()
@@ -88,11 +88,11 @@ namespace BossRushJam25.Character.AI.Actions
 
         private Vector3 FindCoverFromOpponent()
         {
-            IEnumerable<GridHex> nearbyHexes = HexGridController.Instance.GetGridHexesInArea(Character.transform.position, data.CoverDetectionRadius);
+            IEnumerable<GridHex> nearbyHexes = HexGridController.Instance.GetGridHexesInArea(character.transform.position, data.CoverDetectionRadius);
 
             GridHex nearestCoverHex = nearbyHexes
                 .Where(hex => hex.HexContents.Any(content => GameConfig.Instance.CoverTypes.Contains(content.Type)))
-                .OrderBy(hex => (hex.transform.position - Character.transform.position).sqrMagnitude)
+                .OrderBy(hex => (hex.transform.position - character.transform.position).sqrMagnitude)
                 .FirstOrDefault();
 
             targetedCover = nearestCoverHex;
@@ -110,7 +110,7 @@ namespace BossRushJam25.Character.AI.Actions
                 //TODO: improve this use case
                 Vector3 threatPerpendicular = new(threatOrigin.z, 0f, -threatOrigin.x);
 
-                return Character.transform.position + threatPerpendicular.normalized * 3f;
+                return character.transform.position + threatPerpendicular.normalized * 3f;
             }
         }
 

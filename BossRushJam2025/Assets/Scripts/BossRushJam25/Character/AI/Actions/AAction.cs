@@ -4,13 +4,13 @@ namespace BossRushJam25.Character.AI.Actions
     {
         protected EActionStatus status;
 
-        public CharacterCore Character { get; protected set; }
+        protected CharacterCore character;
         protected abstract EActionType Type { get; }
         public virtual EActionStatus Status => status;
 
         public AAction(CharacterCore character)
         {
-            Character = character;
+            this.character = character;
         }
 
         public virtual void Assign()

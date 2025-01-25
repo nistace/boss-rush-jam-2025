@@ -25,7 +25,7 @@ namespace BossRushJam25.Character.AI.Actions
 
             this.targetHex = targetHex;
             Vector3 attackSpot = ComputeClosestAttackSpot(targetHex.transform.position);
-            moveAction = new(Character, attackSpot);
+            moveAction = new(base.character, attackSpot);
         }
 
         public AttackMeleeAction(CharacterCore character, BossAttackPattern targetBossPattern) : base(character)
@@ -39,7 +39,7 @@ namespace BossRushJam25.Character.AI.Actions
 
             this.targetBossPattern = targetBossPattern;
             Vector3 attackSpot = ComputeClosestAttackSpot(targetBossPattern.transform.position);
-            moveAction = new(Character, attackSpot);
+            moveAction = new(base.character, attackSpot);
         }
 
         private Vector3 ComputeClosestAttackSpot(Vector3 targetPosition)
@@ -60,7 +60,7 @@ namespace BossRushJam25.Character.AI.Actions
 
             if(targetBossPattern == null
                 && targetHex != null
-                && !targetHex.ContentsAreDamageable(Character.Type.DamageInfo.DamageType)
+                && !targetHex.ContentsAreDamageable(character.Type.DamageInfo.DamageType)
                 )
             {
                 status = EActionStatus.Finished;
@@ -100,7 +100,7 @@ namespace BossRushJam25.Character.AI.Actions
 
             attackTimer += Time.deltaTime;
 
-            if(attackTimer > Character.Type.DamageInfo.DamageTick)
+            if(attackTimer > character.Type.DamageInfo.DamageTick)
             {
                 DoAttack();
                 attackTimer = 0f;
@@ -113,12 +113,12 @@ namespace BossRushJam25.Character.AI.Actions
         {
             if(targetHex != null)
             {
-                targetHex.TryDamageContents(Character.Type.DamageInfo.Damage, Character.Type.DamageInfo.DamageType);
+                targetHex.TryDamageContents(character.Type.DamageInfo.Damage, character.Type.DamageInfo.DamageType);
             }
 
             if(targetBossPattern != null)
             {
-                BossFightInfo.Hero.Health.Damage(Character.Type.DamageInfo.Damage, Character.Type.DamageInfo.DamageType);
+                BossFightInfo.Hero.Health.Damage(character.Type.DamageInfo.Damage, character.Type.DamageInfo.DamageType);
             }
         }
 
@@ -136,9 +136,9 @@ namespace BossRushJam25.Character.AI.Actions
                 targetPosition = targetBossPattern.transform.position;
             }
 
-            float sqrDistance = (targetPosition - Character.transform.position).sqrMagnitude;
+            float sqrDistance = (targetPosition - character.transform.position).sqrMagnitude;
 
-            return targetPosition != Vector3.negativeInfinity && sqrDistance < Character.Type.SqrMaxAttackDistance;
+            return targetPosition != Vector3.negativeInfinity && sqrDistance < character.Type.SqrMaxAttackDistance;
         }
 
         public override void DrawPreview(float priorityValue01)
