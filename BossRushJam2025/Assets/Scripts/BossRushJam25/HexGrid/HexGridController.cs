@@ -257,7 +257,7 @@ namespace BossRushJam25.HexGrid {
          OnBuilt.Invoke();
       }
 
-      private void ClearGrid() {
+      public void ClearGrid() {
          OnClearingGrid.Invoke();
 
          foreach (var hex in Hexes.Values) {
