@@ -207,6 +207,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   agent: {fileID: 4036202868100558749}
   hexHighlight: {fileID: 1965005867052186366}
+  lockHex: 1
 --- !u!114 &8323066234089659036
 MonoBehaviour:
   m_ObjectHideFlags: 0

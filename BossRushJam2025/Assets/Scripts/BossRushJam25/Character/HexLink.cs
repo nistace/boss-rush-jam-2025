@@ -6,6 +6,7 @@ namespace BossRushJam25.Character {
    public class HexLink : MonoBehaviour {
       [SerializeField] protected NavMeshAgent agent;
       [SerializeField] protected Transform hexHighlight;
+      [SerializeField] protected bool lockHex;
 
       public GridHex LinkedHex { get; private set; }
 
@@ -14,10 +15,17 @@ namespace BossRushJam25.Character {
       }
 
       private void Update() {
+         if (LinkedHex) {
+            LinkedHex.LockedInPlace = false;
+         }
+
          if (HexGridController.Instance.TryGetHex(HexGridController.Instance.WorldToCoordinates(transform.position), out var hex)) {
             LinkedHex = hex;
+            LinkedHex.LockedInPlace = lockHex;
+
             agent.obstacleAvoidanceType = LinkedHex.IsMoving ? ObstacleAvoidanceType.NoObstacleAvoidance : ObstacleAvoidanceType.HighQualityObstacleAvoidance;
             agent.isStopped = LinkedHex.IsMoving;
+
             LinkedHex.ParentTransformToHexContent(transform, false, false);
             if (hexHighlight) {
                LinkedHex.ParentTransformToHexContent(hexHighlight, true, true);

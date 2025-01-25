@@ -122,10 +122,7 @@ namespace BossRushJam25.SpinStrategies {
             return;
          }
 
-         if (HoveringOverHex
-            && IsInteracting
-            && Time.time > CurrentInteractStartTime + holdDurationToRotateOneHex
-            && HexGridController.Instance.TryGetHex(HoveringCoordinates, out var hex)) {
+         if (HoveringOverHex && IsInteracting && Time.time > CurrentInteractStartTime + holdDurationToRotateOneHex && HexGridController.Instance.TryGetHex(HoveringCoordinates, out var hex)) {
             CurrentStep = EStep.HoldingToRotateSingleHex;
             DelayBeforeNextSingleHexRotation = delayBetweenOneHexRotations;
             hex.SetAsMoving(true);
@@ -147,31 +144,28 @@ namespace BossRushJam25.SpinStrategies {
             }
          }
          else if (CurrentStep == EStep.SelectDestination) {
-            if (HoveringCoordinates != newHoveringCoordinates || HoveringOverHex != newHoveringOverHex || HitWorldPosition != hitWorldPosition) {
-               HexGridController.Instance.UnHighlightAllHexes();
-               HoveringCoordinates = newHoveringCoordinates;
-               HoveringOverHex = newHoveringOverHex;
-               HitWorldPosition = hitWorldPosition;
+            HexGridController.Instance.UnHighlightAllHexes();
+            HoveringCoordinates = newHoveringCoordinates;
+            HoveringOverHex = newHoveringOverHex;
+            HitWorldPosition = hitWorldPosition;
 
-               if (HoveringOverHex) {
-                  CurrentCenterIsSolution =
-                     EvaluateBestRingToMoveHex(Origin, HoveringCoordinates, HitWorldPosition, out var center, out var ringRadius, out var steps, out var ring);
-                  if (CurrentCenterIsSolution) {
-                     Center = center;
-                     RingRadius = ringRadius;
-                     Steps = steps;
+            if (HoveringOverHex) {
+               CurrentCenterIsSolution = EvaluateBestRingToMoveHex(Origin, HoveringCoordinates, HitWorldPosition, out var center, out var ringRadius, out var steps, out var ring);
+               if (CurrentCenterIsSolution) {
+                  Center = center;
+                  RingRadius = ringRadius;
+                  Steps = steps;
 
-                     foreach (var ringCoordinate in ring) {
-                        HexGridController.Instance.SetHighlightedHexAt(ringCoordinate, ringHighlight);
-                     }
+                  foreach (var ringCoordinate in ring) {
+                     HexGridController.Instance.SetHighlightedHexAt(ringCoordinate, ringHighlight);
                   }
                }
+            }
 
-               HexGridController.Instance.SetHighlightedHexAt(Origin, originHighlight);
+            HexGridController.Instance.SetHighlightedHexAt(Origin, originHighlight);
 
-               if (HoveringOverHex) {
-                  HexGridController.Instance.SetHighlightedHexAt(HoveringCoordinates, hoverHighlight);
-               }
+            if (HoveringOverHex) {
+               HexGridController.Instance.SetHighlightedHexAt(HoveringCoordinates, hoverHighlight);
             }
          }
       }
@@ -183,7 +177,6 @@ namespace BossRushJam25.SpinStrategies {
          out int ringRadius,
          out int steps,
          out IReadOnlyList<Vector2Int> ring) {
-
          var cubeOrigin = HexCoordinates.OffsetCoordinatesToCubeCoordinates(origin);
          var cubeHover = HexCoordinates.OffsetCoordinatesToCubeCoordinates(destination);
 
@@ -216,13 +209,12 @@ namespace BossRushJam25.SpinStrategies {
          var centersForOrigin = HexGridController.GetRingClockwiseCoordinates(origin, ringRadius);
          var centersForDestination = HexGridController.GetRingClockwiseCoordinates(destination, ringRadius);
 
-         var candidateRingsPerCenter = centersForOrigin
-            .Intersect(centersForDestination)
+         var candidateRingsPerCenter = centersForOrigin.Intersect(centersForDestination)
             .SelectMany(t => new[] {
                (center: t, ring: HexGridController.GetRingClockwiseCoordinates(t, ringRadius), direction: 1),
                (center: t, ring: HexGridController.GetRingAntiClockwiseCoordinates(t, ringRadius), direction: -1),
             })
-            .Where(t => t.ring.All(r => HexGridController.Instance.IsCellInGrid(r)))
+            .Where(t => t.ring.All(r => HexGridController.Instance.TryGetHex(r, out var hex) && !hex.LockedInPlace))
             .Select(t => (t.center, t.ring, t.direction, absoluteStepCount: (t.ring.IndexOf(destination) + t.ring.Count - t.ring.IndexOf(origin)) % t.ring.Count))
             .OrderBy(t => t.absoluteStepCount)
             .ThenBy(t => (HexGridController.Instance.CoordinatesToWorldPosition(t.center) - preferredWorldPosition).sqrMagnitude)

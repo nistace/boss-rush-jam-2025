@@ -22,6 +22,7 @@ namespace BossRushJam25.HexGrid {
       public bool IsMoving { get; private set; }
 
       public UnityEvent<bool> OnMovingChanged { get; } = new UnityEvent<bool>();
+      public bool LockedInPlace { get; set; }
 
       private void Awake() {
          navMeshObstacle.enabled = type.AlwaysAnObstacle;
@@ -104,12 +105,9 @@ namespace BossRushJam25.HexGrid {
          }
       }
 
-      public bool ContentsAreDamageable(DamageType damageType)
-      {
-         foreach(var content in Contents)
-         {
-            if(content.IsDamageable(damageType))
-            {
+      public bool ContentsAreDamageable(DamageType damageType) {
+         foreach (var content in Contents) {
+            if (content.IsDamageable(damageType)) {
                return true;
             }
          }
