@@ -140,7 +140,7 @@ namespace BossRushJam25.SpinStrategies {
              && HexGridController.Instance.TryGetHex(HoveringCoordinates, out var hex)
              && !hex.LockedInPlace) {
             CurrentStep = EStep.HoldingToRotateSingleHex;
-            DelayBeforeNextSingleHexRotation = delayBetweenOneHexRotations;
+            DelayBeforeNextSingleHexRotation += delayBetweenOneHexRotations;
             hex.SetAsMoving(true);
             return;
          }

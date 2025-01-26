@@ -113,7 +113,7 @@ namespace BossRushJam25.Character.AI.Actions
             if(attackTimer > character.Type.DamageInfo.DamageTick)
             {
                 DoAttack();
-                attackTimer = 0f;
+                attackTimer -= character.Type.DamageInfo.DamageTick;
             }
 
             return true;
