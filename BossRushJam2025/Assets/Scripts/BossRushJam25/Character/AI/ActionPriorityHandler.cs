@@ -12,6 +12,7 @@ namespace BossRushJam25.Character.AI
     {
         [SerializeField] private bool displayDebugGUI;
         [SerializeField] private bool drawPreviews;
+        [SerializeField] private float evaluationTickPeriod = 0.2f;
         [SerializeField] private int queueSize = 3;
         [SerializeField] private SerializableDictionary<EActionType, AActionData> actionDataMap;
 
@@ -20,6 +21,7 @@ namespace BossRushJam25.Character.AI
 
         protected CharacterCore character;
         protected List<AAction> plannedActions = new();
+        protected float evaluationTickTimer;
 
         protected AAction ActiveAction => plannedActions.Count > 0 ? plannedActions[0] : null;
         public SerializableDictionary<EActionType, AActionData> ActionDataMap => actionDataMap;
@@ -27,15 +29,13 @@ namespace BossRushJam25.Character.AI
         public void Initialize(CharacterCore character)
         {
             this.character = character;
-            character.PowerUpsDetector.OnNearestPowerUpChanged.AddListener(PowerUpsDetector_OnNearestPowerUpChanged);
-            character.BatteryDetector.OnNearestBatteryHexChanged.AddListener(BatteryDetector_OnNearestBatteryChanged);
-            character.BossPatternDetector.OnDetectedSuccessfulAttackChanged.AddListener(BossPatternDetector_OnSuccessfulAttackDetected);
-            character.Health.OnHealthChanged.AddListener(Health_OnHealthChanged);
 
             foreach (AActionTrigger actionTrigger in actionTriggers)
             {
                 actionTrigger.Initialize(character);
             }
+
+            evaluationTickTimer = evaluationTickPeriod;
         }
 
         public void PlanAction(AAction action)
@@ -123,6 +123,17 @@ namespace BossRushJam25.Character.AI
             }
         }
 
+        private void CheckEvaluationTick()
+        {
+            if(evaluationTickTimer > evaluationTickPeriod)
+            {
+                EvaluateActionsProbability();
+                evaluationTickTimer -= evaluationTickPeriod;
+            }
+
+            evaluationTickTimer += Time.deltaTime;
+        }
+
         private void EvaluateActionsProbability()
         {
             actionTriggers.Sort();
@@ -150,30 +161,11 @@ namespace BossRushJam25.Character.AI
             }
         }
 
-        private void PowerUpsDetector_OnNearestPowerUpChanged()
-        {
-            EvaluateActionsProbability();
-        }
-
-        private void BatteryDetector_OnNearestBatteryChanged()
-        {
-            EvaluateActionsProbability();
-        }
-
-        private void BossPatternDetector_OnSuccessfulAttackDetected()
-        {
-            EvaluateActionsProbability();
-        }
-
-        private void Health_OnHealthChanged(int newHealthValue, int change)
-        {
-            EvaluateActionsProbability();
-        }
-
         private void Update()
         {
             ProcessActivePlannedAction();
             DrawPreviews();
+            CheckEvaluationTick();
         }
 
         private void OnGUI()
