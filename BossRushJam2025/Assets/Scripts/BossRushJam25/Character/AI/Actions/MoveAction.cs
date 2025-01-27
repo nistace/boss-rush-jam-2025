@@ -35,7 +35,6 @@ namespace BossRushJam25.Character.AI.Actions
             data = (MoveData)base.character.ActionPriorityHandler.ActionDataMap[EActionType.Move];
 
             Destination = destination;
-            pathLine = Object.Instantiate(GameConfig.Instance.PathLinePrefab, base.character.transform);
         }
 
         public override void Execute()
@@ -57,12 +56,20 @@ namespace BossRushJam25.Character.AI.Actions
         {
             base.CleanUp();
 
-            Object.Destroy(pathLine.gameObject);
+            if(pathLine != null)
+            {
+                Object.Destroy(pathLine.gameObject);
+            }
         }
 
         public override void DrawPreview(float priorityValue01)
         {
             base.DrawPreview(priorityValue01);
+
+            if(pathLine == null)
+            {
+                pathLine = Object.Instantiate(GameConfig.Instance.PathLinePrefab, base.character.transform);
+            }
 
             PathDrawer.UpdatePath(pathLine, character.transform.position, path);
 
