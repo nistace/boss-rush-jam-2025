@@ -2585,8 +2585,8 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  minPitch: 30
-  maxPitch: 65
+  minPitch: 50
+  maxPitch: 60
   cameraRotation: {fileID: 526158571}
 --- !u!1001 &2074489545
 PrefabInstance:

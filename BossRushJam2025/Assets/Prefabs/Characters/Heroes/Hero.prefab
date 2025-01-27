@@ -411,8 +411,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   strategy: 0
-  minAngleWithForward: 20
-  maxAngleWithForward: 20
+  minAngleWithForward: 30
+  maxAngleWithForward: 30
 --- !u!114 &1753004295836447033
 MonoBehaviour:
   m_ObjectHideFlags: 0
