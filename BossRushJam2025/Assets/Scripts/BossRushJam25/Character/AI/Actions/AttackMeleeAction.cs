@@ -210,7 +210,7 @@ namespace BossRushJam25.Character.AI.Actions
                 targetName = "hex";
             }
 
-            return $"Attack {targetName} at: {moveAction.Destination}";
+            return base.ToString() + $"Attack {targetName} at: {moveAction.Destination}";
         }
 
         public override bool Equals(object obj)

@@ -39,7 +39,7 @@ namespace BossRushJam25.Character.AI.Actions
 
         public override string ToString()
         {
-            return $"Dodge from: {damageSourceDirection}";
+            return base.ToString() + $"Dodge from: {damageSourceDirection}";
         }
     }
 }

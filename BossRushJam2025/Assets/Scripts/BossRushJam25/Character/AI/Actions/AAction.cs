@@ -52,6 +52,11 @@ namespace BossRushJam25.Character.AI.Actions
 
         }
 
+        public override string ToString()
+        {
+            return Priority.ToString() + " - ";
+        }
+
         public virtual int CompareTo(AAction other)
         {
             return -Priority.CompareTo(other.Priority);

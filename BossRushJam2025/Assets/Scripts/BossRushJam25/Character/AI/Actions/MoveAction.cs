@@ -97,7 +97,7 @@ namespace BossRushJam25.Character.AI.Actions
 
         public override string ToString()
         {
-            return $"Move to: {Destination}";
+            return base.ToString() + $"Move to: {Destination}";
         }
 
         public override bool Equals(object obj)

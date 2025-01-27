@@ -83,7 +83,7 @@ namespace BossRushJam25.Character.AI.Actions
 
         public override string ToString()
         {
-            return $"Take cover at: {moveAction.Destination}";
+            return base.ToString() + $"Take cover at: {moveAction.Destination}";
         }
 
         private Vector3 FindCoverFromOpponent()

@@ -70,7 +70,7 @@ namespace BossRushJam25.Character.AI.Actions
 
         public override string ToString()
         {
-            return $"Collect power up at: {moveAction.Destination}";
+            return base.ToString() + $"Collect power up at: {moveAction.Destination}";
         }
 
         public override bool Equals(object obj)
