@@ -5,14 +5,18 @@ namespace BossRushJam25.Character.AI.Actions.ActionTriggers
     [CreateAssetMenu(fileName = "CollectNearestPowerUp", menuName = "ActionTriggers/CollectNearestPowerUp")]
     public class CollectNearestPowerUp : AActionTrigger
     {
-        public override AAction Assess()
+        public override bool TryGet(out AAction action)
         {
-            if(character.PowerUpsDetector.NearestPowerUp != null)
+            action = null;
+
+            if(character.PowerUpsDetector.NearestPowerUp == null)
             {
-                return new CollectPowerUpAction(character, character.PowerUpsDetector.NearestPowerUp.gameObject);
+                return false;
             }
 
-            return null;
+            action = new CollectPowerUpAction(character, priority, character.PowerUpsDetector.NearestPowerUp.gameObject);
+
+            return true;
         }
     }
 }

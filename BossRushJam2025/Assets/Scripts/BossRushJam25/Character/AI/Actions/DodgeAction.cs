@@ -2,13 +2,13 @@ using UnityEngine;
 
 namespace BossRushJam25.Character.AI.Actions
 {
-    public class DodgeAction : AReflexAction
+    public class DodgeAction : AAction
     {
         protected Vector3 damageSourceDirection;
 
         protected override EActionType Type => EActionType.Dodge;
 
-        public DodgeAction(CharacterCore character, Vector3 damageSourceDirection) : base(character)
+        public DodgeAction(CharacterCore character, int basePriority, Vector3 damageSourceDirection) : base(character, basePriority)
         {
             this.damageSourceDirection = damageSourceDirection;
         }

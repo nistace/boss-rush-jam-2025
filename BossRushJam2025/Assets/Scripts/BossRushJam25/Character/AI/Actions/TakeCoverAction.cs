@@ -8,7 +8,7 @@ using UnityEngine;
 
 namespace BossRushJam25.Character.AI.Actions
 {
-    public class TakeCoverAction : APlannedAction
+    public class TakeCoverAction : AAction
     {
         protected TakeCoverData data;
         protected MoveAction moveAction;
@@ -28,12 +28,12 @@ namespace BossRushJam25.Character.AI.Actions
             }
         }
 
-        public TakeCoverAction(CharacterCore character) : base(character)
+        public TakeCoverAction(CharacterCore character, int basePriority) : base(character, basePriority)
         {
             data = (TakeCoverData)base.character.ActionPriorityHandler.ActionDataMap[EActionType.TakeCover];
 
             Vector3 coverPosition = FindCoverFromOpponent();
-            moveAction = new(base.character, coverPosition);
+            moveAction = new(base.character, Priority, coverPosition);
         }
 
         public override void Execute()
@@ -120,6 +120,21 @@ namespace BossRushJam25.Character.AI.Actions
             Vector3 targetPosition = hexPosition + oppositeDirection * data.DistanceWithCover;
 
             return targetPosition;
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (obj == null || obj is not TakeCoverAction action)
+            {
+                return false;
+            }
+
+            return action.targetedCover == targetedCover;
+        }
+
+        public override int GetHashCode()
+        {
+            return targetedCover.GetHashCode();
         }
     }
 }

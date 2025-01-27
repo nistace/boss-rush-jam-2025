@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 namespace BossRushJam25.Character.AI.Actions.ActionTriggers
@@ -8,19 +9,23 @@ namespace BossRushJam25.Character.AI.Actions.ActionTriggers
         //TODO: make SO for each condition type to make it modular throughout all triggers
         [SerializeField] private float minHealthRatio = 0.5f;
 
-        public override AAction Assess()
+        public override bool TryGet(out AAction action)
         {
+            action = null;
+
             if(character.Health.HealthRatio < minHealthRatio)
             {
-                return null;
+                return false;
             }
 
-            if(character.BatteryDetector.NearestBatteryHex != null)
+            if(character.BatteryDetector.NearestBatteryHex == null)
             {
-                return new AttackMeleeAction(character, character.BatteryDetector.NearestBatteryHex);
+                return false;
             }
 
-            return null;
+            action = new AttackMeleeAction(character, priority, character.BatteryDetector.NearestBatteryHex);
+
+            return true;
         }
     }
 }

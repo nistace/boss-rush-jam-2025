@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using BossRushJam25.Character.AI.Actions;
 using BossRushJam25.Character.AI.Actions.ActionData;
@@ -13,17 +14,18 @@ namespace BossRushJam25.Character.AI
         [SerializeField] private bool displayDebugGUI;
         [SerializeField] private bool drawPreviews;
         [SerializeField] private float evaluationTickPeriod = 0.2f;
-        [SerializeField] private int queueSize = 3;
+        [SerializeField] private int maxViableActionsCount = 3;
         [SerializeField] private SerializableDictionary<EActionType, AActionData> actionDataMap;
 
         [Header("Action triggers")]
         [SerializeField] private List<AActionTrigger> actionTriggers;
 
         protected CharacterCore character;
-        protected List<AAction> plannedActions = new();
+        protected List<AAction> viableActions = new();
+        protected List<AAction> previouslyViableActions = new();
         protected float evaluationTickTimer;
 
-        protected AAction ActiveAction => plannedActions.Count > 0 ? plannedActions[0] : null;
+        protected AAction ActiveAction => viableActions.Count > 0 ? viableActions[0] : null;
         public SerializableDictionary<EActionType, AActionData> ActionDataMap => actionDataMap;
 
         public void Initialize(CharacterCore character)
@@ -38,48 +40,32 @@ namespace BossRushJam25.Character.AI
             evaluationTickTimer = evaluationTickPeriod;
         }
 
-        public void PlanAction(AAction action)
-        {
-            if(plannedActions.Count >= queueSize)
-            {
-                return;
-            }
-
-            plannedActions.Add(action);
-        }
-
         public void ForceAction(AAction action)
         {
-            ActiveAction?.Cancel();
-
-            if (plannedActions.Count >= queueSize)
-            {
-                RemoveAction(plannedActions[^1]);
-            }
-
-            plannedActions.Insert(0, action);
+            viableActions.Add(action);
+            RefreshPriorities();
         }
 
         public void RemoveAction(AAction action)
         {
-            if(action == ActiveAction && action.Status == EActionStatus.Started)
+            if(action.Status == EActionStatus.Started)
             {
                 action.Cancel();
             }
 
             action.CleanUp();
-            plannedActions.Remove(action);
+            viableActions.Remove(action);
         }
 
         public void RemoveAllActions()
         {
-            for(int actionIndex = plannedActions.Count - 1;  actionIndex > -1; actionIndex--)
+            for(int actionIndex = viableActions.Count - 1;  actionIndex > -1; actionIndex--)
             {
-                RemoveAction(plannedActions[actionIndex]);
+                RemoveAction(viableActions[actionIndex]);
             }
         }
 
-        private void ProcessActivePlannedAction()
+        private void ProcessActiveAction()
         {
             if(ActiveAction == null)
             {
@@ -88,7 +74,7 @@ namespace BossRushJam25.Character.AI
 
             switch(ActiveAction.Status)
             {
-                case EActionStatus.Pending:
+                case EActionStatus.NotStarted:
                 {
                     ActiveAction.Execute();
 
@@ -103,7 +89,7 @@ namespace BossRushJam25.Character.AI
                 case EActionStatus.Finished:
                 {
                     RemoveAction(ActiveAction);
-                    ProcessActivePlannedAction();
+                    ProcessActiveAction();
 
                     break;
                 }
@@ -117,9 +103,9 @@ namespace BossRushJam25.Character.AI
                 return;
             }
 
-            for(int actionIndex = 0; actionIndex < plannedActions.Count; actionIndex++)
+            for(int actionIndex = 0; actionIndex < viableActions.Count; actionIndex++)
             {
-                plannedActions[actionIndex].DrawPreview(priorityValue01: (float)actionIndex / queueSize);
+                viableActions[actionIndex].DrawPreview(priorityValue01: (float)actionIndex / maxViableActionsCount);
             }
         }
 
@@ -127,43 +113,88 @@ namespace BossRushJam25.Character.AI
         {
             if(evaluationTickTimer > evaluationTickPeriod)
             {
-                EvaluateActionsProbability();
+                EvaluateActions();
                 evaluationTickTimer -= evaluationTickPeriod;
             }
 
             evaluationTickTimer += Time.deltaTime;
         }
 
-        private void EvaluateActionsProbability()
+        private void EvaluateActions()
         {
-            actionTriggers.Sort();
-
-            bool newActionAssigned = false;
+            previouslyViableActions.Clear();
+            previouslyViableActions.AddRange(viableActions);
+            viableActions.Clear();
 
             foreach(AActionTrigger actionTrigger in actionTriggers)
             {
                 if(actionTrigger.IsActive)
                 {
-                    AAction newAction = actionTrigger.Assess();
-
-                    if(newAction != null)
+                    if(!actionTrigger.TryGet(out AAction newAction))
                     {
-                        //TODO: ne pas annuler l’action en cours si c’est la même
-                        if(!newActionAssigned)
-                        {
-                            RemoveAllActions();
-                        }
-
-                        newAction.Assign();
-                        newActionAssigned = true;
+                        continue;
                     }
+
+                    AAction alreadyExistingAction = previouslyViableActions.Where(action => action.Equals(newAction)).FirstOrDefault();
+
+                    if(alreadyExistingAction != null)
+                    {
+                        viableActions.Add(alreadyExistingAction);
+                        previouslyViableActions.Remove(alreadyExistingAction);
+                    }
+                    else
+                    {
+                        viableActions.Add(newAction);
+                    }
+                }
+            }
+
+            foreach (AAction action in previouslyViableActions)
+            {
+                //HACK to keep forced actions
+                if(action.Priority == 100)
+                {
+                    viableActions.Add(action);
+                }
+                else
+                {
+                    RemoveAction(action);
+                }
+            }
+
+            RefreshPriorities();
+        }
+
+        private void RefreshPriorities()
+        {
+            foreach(AAction action in viableActions)
+            {
+                action.ComputePriority();
+            }
+
+            viableActions.Sort();
+
+            for(int actionIndex = viableActions.Count - 1; actionIndex > 0; actionIndex--)
+            {
+                AAction action = viableActions[actionIndex];
+
+                if(actionIndex >= maxViableActionsCount)
+                {
+                    RemoveAction(action);
+
+                    continue;
+                }
+
+                if(action.Status == EActionStatus.Started)
+                {
+                    action.Cancel();
                 }
             }
         }
 
         private void Update()
         {
-            ProcessActivePlannedAction();
+            ProcessActiveAction();
             DrawPreviews();
             CheckEvaluationTick();
         }
@@ -178,33 +209,31 @@ namespace BossRushJam25.Character.AI
             GUIStyle pendingActionStyle = new(GUI.skin.label) { fontSize = 25, alignment = TextAnchor.UpperLeft };
             pendingActionStyle.normal.textColor = Color.black;
 
-            if (plannedActions.Count > 0)
+            if(viableActions.Count > 0)
             {
-                GUIStyle reflexActionStyle = new(pendingActionStyle);
-                reflexActionStyle.normal.textColor = Color.blue;
-                GUIStyle activeActionStyle = new(reflexActionStyle);
+                GUIStyle activeActionStyle = new(pendingActionStyle);
                 activeActionStyle.normal.textColor = Color.red;
 
-                GUI.Label(new Rect(10, 10, 400, 30), ActiveAction.ToString(), ActiveAction is AReflexAction ? reflexActionStyle : activeActionStyle);
+                GUI.Label(new Rect(10, 10, 400, 30), ActiveAction.ToString(), activeActionStyle);
 
                 StringBuilder builder = new();
 
-                for(int actionIndex = 1; actionIndex < plannedActions.Count; actionIndex++)
+                for(int actionIndex = 1; actionIndex < viableActions.Count; actionIndex++)
                 {
-                    builder.AppendLine(plannedActions[actionIndex].ToString());
+                    builder.AppendLine(viableActions[actionIndex].ToString());
                 }
 
                 GUI.Label(new Rect(10, 40, 400, 60), builder.ToString(), pendingActionStyle);
             }
             else
             {
-                GUI.Label(new Rect(10, 10, 400, 30), "No action assigned", pendingActionStyle);
+                GUI.Label(new Rect(10, 10, 400, 30), "No viable action", pendingActionStyle);
             }
         }
 
         private void OnDrawGizmos()
         {
-            foreach(AAction action in plannedActions)
+            foreach(AAction action in viableActions)
             {
                 action.DrawGizmos();
             }

@@ -1,9 +1,8 @@
-using System;
 using UnityEngine;
 
 namespace BossRushJam25.Character.AI.Actions.ActionTriggers
 {
-    public abstract class AActionTrigger : ScriptableObject, IComparable<AActionTrigger>
+    public abstract class AActionTrigger : ScriptableObject
     {
         [SerializeField] protected bool isActive;
         //TODO: the priority could be affected by internal modifiers
@@ -18,11 +17,6 @@ namespace BossRushJam25.Character.AI.Actions.ActionTriggers
             this.character = character;
         }
 
-        public abstract AAction Assess();
-
-        public int CompareTo(AActionTrigger other)
-        {
-            return -priority.CompareTo(other.priority);
-        }
+        public abstract bool TryGet(out AAction action);
     }
 }

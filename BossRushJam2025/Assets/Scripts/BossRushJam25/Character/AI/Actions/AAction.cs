@@ -1,21 +1,20 @@
+using System;
+
 namespace BossRushJam25.Character.AI.Actions
 {
-    public abstract class AAction
+    public abstract class AAction : IComparable<AAction>
     {
         protected EActionStatus status;
 
         protected CharacterCore character;
         protected abstract EActionType Type { get; }
         public virtual EActionStatus Status => status;
+        public int Priority { get; protected set; }
 
-        public AAction(CharacterCore character)
+        public AAction(CharacterCore character, int basePriority)
         {
             this.character = character;
-        }
-
-        public virtual void Assign()
-        {
-            status = EActionStatus.Pending;
+            Priority = basePriority;
         }
 
         public virtual void Execute()
@@ -30,7 +29,7 @@ namespace BossRushJam25.Character.AI.Actions
 
         public virtual void Cancel()
         {
-            status = EActionStatus.Pending;
+            status = EActionStatus.NotStarted;
         }
 
         public virtual void CleanUp()
@@ -47,11 +46,21 @@ namespace BossRushJam25.Character.AI.Actions
         {
 
         }
+
+        public virtual void ComputePriority()
+        {
+
+        }
+
+        public virtual int CompareTo(AAction other)
+        {
+            return -Priority.CompareTo(other.Priority);
+        }
     }
 
     public enum EActionStatus
     {
-        Pending = 0,
+        NotStarted = 0,
         Started = 1,
         Finished = 2,
     }

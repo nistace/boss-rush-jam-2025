@@ -4,7 +4,7 @@ using UnityEngine.AI;
 
 namespace BossRushJam25.Character.AI.Actions
 {
-    public class MoveAction : APlannedAction
+    public class MoveAction : AAction
     {
         protected LineRenderer pathLine;
 
@@ -27,7 +27,7 @@ namespace BossRushJam25.Character.AI.Actions
             }
         }
 
-        public MoveAction(CharacterCore character, Vector3 destination) : base(character)
+        public MoveAction(CharacterCore character, int basePriority, Vector3 destination) : base(character, basePriority)
         {
             Destination = destination;
             pathLine = Object.Instantiate(GameConfig.Instance.PathLinePrefab, base.character.transform);
@@ -98,6 +98,21 @@ namespace BossRushJam25.Character.AI.Actions
         public override string ToString()
         {
             return $"Move to: {Destination}";
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (obj == null || obj is not MoveAction action)
+            {
+                return false;
+            }
+
+            return action.Destination == Destination;
+        }
+
+        public override int GetHashCode()
+        {
+            return Destination.GetHashCode();
         }
     }
 }

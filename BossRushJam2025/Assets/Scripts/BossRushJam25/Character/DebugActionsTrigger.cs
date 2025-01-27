@@ -27,21 +27,12 @@ namespace BossRushJam25.Character
                 && hit.collider.gameObject.layer == LayerMask.NameToLayer("Ground")
                 )
             {
-                AAction action = new MoveAction(character, hit.point);
-
-                if(Input.GetKey(KeyCode.LeftControl))
-                {
-                    character.ActionPriorityHandler.ForceAction(action);
-                }
-                else
-                {
-                    character.ActionPriorityHandler.PlanAction(action);
-                }
+                character.ActionPriorityHandler.ForceAction(new MoveAction(character, basePriority: 100, hit.point));
             }
 
             if(Input.GetKeyDown(KeyCode.Alpha2))
             {
-                character.ActionPriorityHandler.ForceAction(new TakeCoverAction(character));
+                character.ActionPriorityHandler.ForceAction(new TakeCoverAction(character, basePriority: 100));
             }
 
             if(Input.GetKeyDown(KeyCode.Alpha3))
@@ -65,7 +56,7 @@ namespace BossRushJam25.Character
                 && hex.ContentsAreDamageable(character.Type.DamageInfo.DamageType)
                 )
             {
-                character.ActionPriorityHandler.ForceAction(new AttackMeleeAction(character, hex));
+                character.ActionPriorityHandler.ForceAction(new AttackMeleeAction(character, basePriority: 100, hex));
             }
         }
 
@@ -76,7 +67,7 @@ namespace BossRushJam25.Character
             projectile.transform.forward = character.transform.position - projectile.transform.position;
             projectile.transform.localScale = Vector3.one * 0.3f;
             projectiles.Add(projectile.transform);
-            new DodgeAction(character, projectile.transform.forward).Assign();
+            character.ActionPriorityHandler.ForceAction(new DodgeAction(character, basePriority: 100, projectile.transform.forward));
         }
 
         private void MoveProjectiles()

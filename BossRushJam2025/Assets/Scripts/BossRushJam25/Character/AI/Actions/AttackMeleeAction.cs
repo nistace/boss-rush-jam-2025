@@ -1,3 +1,4 @@
+using System;
 using BossRushJam25.BossFights;
 using BossRushJam25.Character.Bosses;
 using BossRushJam25.HexGrid;
@@ -5,7 +6,7 @@ using UnityEngine;
 
 namespace BossRushJam25.Character.AI.Actions
 {
-    public class AttackMeleeAction : APlannedAction
+    public class AttackMeleeAction : AAction
     {
         protected MoveAction moveAction;
         protected GridHex targetHex;
@@ -14,7 +15,7 @@ namespace BossRushJam25.Character.AI.Actions
 
         protected override EActionType Type => EActionType.AttackMelee;
 
-        public AttackMeleeAction(CharacterCore character, GridHex targetHex) : base(character)
+        public AttackMeleeAction(CharacterCore character, int basePriority, GridHex targetHex) : base(character, basePriority)
         {
             if(!targetHex.ContentsAreDamageable(character.Type.DamageInfo.DamageType))
             {
@@ -25,10 +26,10 @@ namespace BossRushJam25.Character.AI.Actions
 
             this.targetHex = targetHex;
             Vector3 attackSpot = ComputeClosestAttackSpot(targetHex.transform.position);
-            moveAction = new(base.character, attackSpot);
+            moveAction = new(base.character, Priority, attackSpot);
         }
 
-        public AttackMeleeAction(CharacterCore character, BossAttackPattern targetBossPattern) : base(character)
+        public AttackMeleeAction(CharacterCore character, int basePriority, BossAttackPattern targetBossPattern) : base(character, basePriority)
         {
             if(!targetBossPattern.IsAttackable)
             {
@@ -39,7 +40,7 @@ namespace BossRushJam25.Character.AI.Actions
 
             this.targetBossPattern = targetBossPattern;
             Vector3 attackSpot = ComputeClosestAttackSpot(targetBossPattern.transform.position);
-            moveAction = new(base.character, attackSpot);
+            moveAction = new(base.character, Priority, attackSpot);
         }
 
         private Vector3 ComputeClosestAttackSpot(Vector3 targetPosition)
@@ -189,6 +190,13 @@ namespace BossRushJam25.Character.AI.Actions
             }
         }
 
+        public override void ComputePriority()
+        {
+            base.ComputePriority();
+
+            //TODO: compute path and modify priority;
+        }
+
         public override string ToString()
         {
             string targetName = string.Empty;
@@ -203,6 +211,21 @@ namespace BossRushJam25.Character.AI.Actions
             }
 
             return $"Attack {targetName} at: {moveAction.Destination}";
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (obj == null || obj is not AttackMeleeAction action)
+            {
+                return false;
+            }
+
+            return action.targetHex == targetHex && action.targetBossPattern == targetBossPattern;
+        }
+
+        public override int GetHashCode()
+        {
+            return targetHex.GetHashCode() * targetBossPattern.GetHashCode();
         }
     }
 }

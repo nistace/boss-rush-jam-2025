@@ -222,7 +222,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   displayDebugGUI: 1
   drawPreviews: 1
-  queueSize: 3
+  evaluationTickPeriod: 0.2
+  maxViableActionsCount: 3
   actionDataMap:
     KeyValueList:
     - Key: 1
@@ -407,7 +408,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8005ccb984b679941b89f618425559f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  keepVertical: 1
   strategy: 0
   minAngleWithForward: 30
   maxAngleWithForward: 60

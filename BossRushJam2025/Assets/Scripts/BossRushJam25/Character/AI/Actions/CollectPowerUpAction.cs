@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace BossRushJam25.Character.AI.Actions
 {
-    public class CollectPowerUpAction : APlannedAction
+    public class CollectPowerUpAction : AAction
     {
         protected GameObject powerUp;
         protected MoveAction moveAction;
@@ -21,10 +21,10 @@ namespace BossRushJam25.Character.AI.Actions
             }
         }
 
-        public CollectPowerUpAction(CharacterCore character, GameObject powerUp) : base(character)
+        public CollectPowerUpAction(CharacterCore character, int basePriority, GameObject powerUp) : base(character, basePriority)
         {
             this.powerUp = powerUp;
-            moveAction = new(base.character, powerUp.transform.position);
+            moveAction = new(base.character, Priority, powerUp.transform.position);
         }
 
         public override void Execute()
@@ -71,6 +71,21 @@ namespace BossRushJam25.Character.AI.Actions
         public override string ToString()
         {
             return $"Collect power up at: {moveAction.Destination}";
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (obj == null || obj is not CollectPowerUpAction action)
+            {
+                return false;
+            }
+
+            return action.powerUp == powerUp;
+        }
+
+        public override int GetHashCode()
+        {
+            return powerUp.GetHashCode();
         }
     }
 }
