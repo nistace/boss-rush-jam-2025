@@ -26,7 +26,7 @@ namespace BossRushJam25.Character
         }
         private void CollectNearPowerUps() {
             PowerUp powerUpToCollect = detectedPowerUps.FirstOrDefault(t => (t.transform.position - transform.position).sqrMagnitude - collectionRadius < .01f);
-            if (powerUpToCollect) 
+            if(powerUpToCollect)
             {
                 OnPowerUpCollected.Invoke();
                 powerUpToCollect.Collect(character);
@@ -37,7 +37,7 @@ namespace BossRushJam25.Character
         private void CheckNearestPowerUp()
         {
             float nearestPowerUpDistance = float.MaxValue;
-            PowerUp newNearestPowerUp = NearestPowerUp;
+            PowerUp newNearestPowerUp = null;
 
             foreach(PowerUp powerUp in detectedPowerUps)
             {
