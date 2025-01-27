@@ -5,16 +5,18 @@ namespace BossRushJam25.Character.AI.Actions
     public abstract class AAction : IComparable<AAction>
     {
         protected EActionStatus status;
-
         protected CharacterCore character;
+        protected int basePriority;
+
         protected abstract EActionType Type { get; }
         public virtual EActionStatus Status => status;
         public int Priority { get; protected set; }
+        public bool IsForced { get; set; }
 
         public AAction(CharacterCore character, int basePriority)
         {
             this.character = character;
-            Priority = basePriority;
+            this.basePriority = basePriority;
         }
 
         public virtual void Execute()
@@ -49,12 +51,17 @@ namespace BossRushJam25.Character.AI.Actions
 
         public virtual void ComputePriority()
         {
+            Priority = basePriority;
 
+            if(IsForced)
+            {
+                Priority += 10000;
+            }
         }
 
         public override string ToString()
         {
-            return Priority.ToString() + " - ";
+            return IsForced ? "Forced " : Priority.ToString() + "P ";
         }
 
         public virtual int CompareTo(AAction other)

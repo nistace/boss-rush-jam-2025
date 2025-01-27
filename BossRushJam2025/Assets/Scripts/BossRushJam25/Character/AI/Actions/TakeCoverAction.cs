@@ -28,12 +28,12 @@ namespace BossRushJam25.Character.AI.Actions
             }
         }
 
-        public TakeCoverAction(CharacterCore character, int basePriority) : base(character, basePriority)
+        public TakeCoverAction(CharacterCore character, int basePriority = 0) : base(character, basePriority)
         {
             data = (TakeCoverData)base.character.ActionPriorityHandler.ActionDataMap[EActionType.TakeCover];
 
             Vector3 coverPosition = FindCoverFromOpponent();
-            moveAction = new(base.character, Priority, coverPosition);
+            moveAction = new(base.character, coverPosition);
         }
 
         public override void Execute()
@@ -79,6 +79,15 @@ namespace BossRushJam25.Character.AI.Actions
             }
 
             moveAction.DrawGizmos();
+        }
+
+        public override void ComputePriority()
+        {
+            base.ComputePriority();
+
+            moveAction.ComputePriority();
+
+            Priority += moveAction.Priority;
         }
 
         public override string ToString()

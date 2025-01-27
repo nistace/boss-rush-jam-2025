@@ -42,6 +42,7 @@ namespace BossRushJam25.Character.AI
 
         public void ForceAction(AAction action)
         {
+            action.IsForced = true;
             viableActions.Add(action);
             RefreshPriorities();
         }
@@ -151,8 +152,7 @@ namespace BossRushJam25.Character.AI
 
             foreach (AAction action in previouslyViableActions)
             {
-                //HACK to keep forced actions
-                if(action.Priority == 100)
+                if(action.IsForced)
                 {
                     viableActions.Add(action);
                 }
@@ -214,7 +214,7 @@ namespace BossRushJam25.Character.AI
                 GUIStyle activeActionStyle = new(pendingActionStyle);
                 activeActionStyle.normal.textColor = Color.red;
 
-                GUI.Label(new Rect(10, 10, 400, 30), ActiveAction.ToString(), activeActionStyle);
+                GUI.Label(new Rect(10, 10, 500, 30), ActiveAction.ToString(), activeActionStyle);
 
                 StringBuilder builder = new();
 
@@ -223,11 +223,11 @@ namespace BossRushJam25.Character.AI
                     builder.AppendLine(viableActions[actionIndex].ToString());
                 }
 
-                GUI.Label(new Rect(10, 40, 400, 60), builder.ToString(), pendingActionStyle);
+                GUI.Label(new Rect(10, 40, 500, 60), builder.ToString(), pendingActionStyle);
             }
             else
             {
-                GUI.Label(new Rect(10, 10, 400, 30), "No viable action", pendingActionStyle);
+                GUI.Label(new Rect(10, 10, 500, 30), "No viable action", pendingActionStyle);
             }
         }
 

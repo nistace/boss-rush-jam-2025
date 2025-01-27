@@ -14,7 +14,7 @@ namespace BossRushJam25.Character.AI.Actions.ActionTriggers
                 return false;
             }
 
-            action = new CollectPowerUpAction(character, priority, character.PowerUpsDetector.NearestPowerUp.gameObject);
+            action = new CollectPowerUpAction(character, character.PowerUpsDetector.NearestPowerUp.gameObject, priority);
 
             return true;
         }

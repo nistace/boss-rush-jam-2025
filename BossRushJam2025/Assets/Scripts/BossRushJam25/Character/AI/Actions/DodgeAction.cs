@@ -8,7 +8,7 @@ namespace BossRushJam25.Character.AI.Actions
 
         protected override EActionType Type => EActionType.Dodge;
 
-        public DodgeAction(CharacterCore character, int basePriority, Vector3 damageSourceDirection) : base(character, basePriority)
+        public DodgeAction(CharacterCore character, Vector3 damageSourceDirection, int basePriority = 0) : base(character, basePriority)
         {
             this.damageSourceDirection = damageSourceDirection;
         }

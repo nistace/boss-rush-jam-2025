@@ -15,7 +15,7 @@ namespace BossRushJam25.Character.AI.Actions
 
         protected override EActionType Type => EActionType.AttackMelee;
 
-        public AttackMeleeAction(CharacterCore character, int basePriority, GridHex targetHex) : base(character, basePriority)
+        public AttackMeleeAction(CharacterCore character, GridHex targetHex, int basePriority = 0) : base(character, basePriority)
         {
             if(!targetHex.ContentsAreDamageable(character.Type.DamageInfo.DamageType))
             {
@@ -26,7 +26,7 @@ namespace BossRushJam25.Character.AI.Actions
 
             this.targetHex = targetHex;
             Vector3 attackSpot = ComputeClosestAttackSpot(targetHex.transform.position);
-            moveAction = new(base.character, Priority, attackSpot);
+            moveAction = new(base.character, attackSpot, Priority);
         }
 
         public AttackMeleeAction(CharacterCore character, int basePriority, BossAttackPattern targetBossPattern) : base(character, basePriority)
@@ -40,7 +40,7 @@ namespace BossRushJam25.Character.AI.Actions
 
             this.targetBossPattern = targetBossPattern;
             Vector3 attackSpot = ComputeClosestAttackSpot(targetBossPattern.transform.position);
-            moveAction = new(base.character, Priority, attackSpot);
+            moveAction = new(base.character, attackSpot);
         }
 
         private Vector3 ComputeClosestAttackSpot(Vector3 targetPosition)
@@ -194,7 +194,9 @@ namespace BossRushJam25.Character.AI.Actions
         {
             base.ComputePriority();
 
-            //TODO: compute path and modify priority;
+            moveAction.ComputePriority();
+
+            Priority += moveAction.Priority;
         }
 
         public override string ToString()

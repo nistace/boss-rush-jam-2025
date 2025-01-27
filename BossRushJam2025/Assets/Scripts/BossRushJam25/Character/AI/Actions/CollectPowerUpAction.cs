@@ -21,10 +21,10 @@ namespace BossRushJam25.Character.AI.Actions
             }
         }
 
-        public CollectPowerUpAction(CharacterCore character, int basePriority, GameObject powerUp) : base(character, basePriority)
+        public CollectPowerUpAction(CharacterCore character, GameObject powerUp, int basePriority = 0) : base(character, basePriority)
         {
             this.powerUp = powerUp;
-            moveAction = new(base.character, Priority, powerUp.transform.position);
+            moveAction = new(base.character, powerUp.transform.position);
         }
 
         public override void Execute()
@@ -66,6 +66,15 @@ namespace BossRushJam25.Character.AI.Actions
             {
                 moveAction.DrawGizmos();
             }
+        }
+
+        public override void ComputePriority()
+        {
+            base.ComputePriority();
+
+            moveAction.ComputePriority();
+
+            Priority += moveAction.Priority;
         }
 
         public override string ToString()

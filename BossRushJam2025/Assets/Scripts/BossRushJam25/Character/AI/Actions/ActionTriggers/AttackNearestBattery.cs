@@ -23,7 +23,7 @@ namespace BossRushJam25.Character.AI.Actions.ActionTriggers
                 return false;
             }
 
-            action = new AttackMeleeAction(character, priority, character.BatteryDetector.NearestBatteryHex);
+            action = new AttackMeleeAction(character, character.BatteryDetector.NearestBatteryHex, priority);
 
             return true;
         }
