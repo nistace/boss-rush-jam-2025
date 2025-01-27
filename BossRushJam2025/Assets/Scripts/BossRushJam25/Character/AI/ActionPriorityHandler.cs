@@ -106,7 +106,7 @@ namespace BossRushJam25.Character.AI
 
             for(int actionIndex = 0; actionIndex < viableActions.Count; actionIndex++)
             {
-                viableActions[actionIndex].DrawPreview(priorityValue01: (float)actionIndex / maxViableActionsCount);
+                viableActions[actionIndex].DrawPreview(priorityValue01: (float)actionIndex / (maxViableActionsCount - 1));
             }
         }
 

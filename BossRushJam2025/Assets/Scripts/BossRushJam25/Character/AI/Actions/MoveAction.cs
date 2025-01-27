@@ -73,10 +73,9 @@ namespace BossRushJam25.Character.AI.Actions
 
             PathDrawer.UpdatePath(pathLine, character.transform.position, path);
 
-            //TODO:no color is visible
             Color color = GameConfig.Instance.ActionPreviewsGradient.Evaluate(priorityValue01);
             pathLine.startColor = color;
-            pathLine.startColor = color;
+            pathLine.endColor = color;
         }
 
         public override void DrawGizmos()

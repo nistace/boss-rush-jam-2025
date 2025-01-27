@@ -9,15 +9,15 @@ namespace BossRushJam25.Character.AI
         {
             Vector3[] positions = new Vector3[path.corners.Length + 1];
 
-            positions[0] = origin;
-
-            for(int cornerIndex = 0; cornerIndex < path.corners.Length; cornerIndex++)
+            for(int positionIndex = 0; positionIndex < path.corners.Length; positionIndex++)
             {
-                positions[cornerIndex + 1] = path.corners[cornerIndex];
+                positions[positionIndex] = path.corners[path.corners.Length - 1 - positionIndex];
             }
 
+            positions[^1] = origin;
+
             pathLine.positionCount = path.corners.Length;
-            pathLine.SetPositions(path.corners);
+            pathLine.SetPositions(positions);
         }
     }
 }

@@ -2066,8 +2066,8 @@ MonoBehaviour:
   pathLinePrefab: {fileID: 4152763838001735776, guid: 2c23048632097174a9543c519a0cd828, type: 3}
   actionPreviewsGradient:
     serializedVersion: 2
-    key0: {r: 1, g: 0.8520418, b: 0, a: 1}
-    key1: {r: 1, g: 1, b: 1, a: 1}
+    key0: {r: 0.509434, g: 0.051287785, b: 0, a: 1}
+    key1: {r: 1, g: 0.8600629, b: 0.5801887, a: 1}
     key2: {r: 0, g: 0, b: 0, a: 0}
     key3: {r: 0, g: 0, b: 0, a: 0}
     key4: {r: 0, g: 0, b: 0, a: 0}
@@ -2075,7 +2075,7 @@ MonoBehaviour:
     key6: {r: 0, g: 0, b: 0, a: 0}
     key7: {r: 0, g: 0, b: 0, a: 0}
     ctime0: 0
-    ctime1: 65535
+    ctime1: 46838
     ctime2: 0
     ctime3: 0
     ctime4: 0
