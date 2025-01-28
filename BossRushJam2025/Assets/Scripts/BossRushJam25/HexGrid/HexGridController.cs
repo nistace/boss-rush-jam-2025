@@ -15,8 +15,6 @@ namespace BossRushJam25.HexGrid {
 
       [SerializeField] protected int gridRadius = 10;
       [SerializeField] protected float hexRadius = 1;
-      [SerializeField] protected GridHex clearHexPrefab;
-      [SerializeField] protected GridHex[] firstTilesPrefabs;
       [SerializeField] protected GridHexRotationConfig rotationConfig;
       [SerializeField] protected NavMeshSurface navMeshSurface;
 
@@ -96,7 +94,9 @@ namespace BossRushJam25.HexGrid {
       public static IReadOnlyList<Vector2Int> GetRingClockwiseCoordinates(Vector2Int center, int radius) => GetRingCoordinates(center, radius, t => t.RotateClockwise());
       public static IReadOnlyList<Vector2Int> GetRingAntiClockwiseCoordinates(Vector2Int center, int radius) => GetRingCoordinates(center, radius, t => t.RotateAntiClockwise());
 
-      public static IReadOnlyList<Vector2Int> GetRingCoordinates(Vector2Int center, int ringRadius, Func<HexCoordinates.EDirection, HexCoordinates.EDirection> rotateDirectionFunc) {
+      public static IReadOnlyList<Vector2Int> GetRingCoordinates(Vector2Int center,
+         int ringRadius,
+         Func<HexCoordinates.EDirection, HexCoordinates.EDirection> rotateDirectionFunc) {
          var result = new List<Vector2Int>();
          var hex = center.Left(ringRadius);
          var initialDirection = rotateDirectionFunc(rotateDirectionFunc(HexCoordinates.EDirection.Left));
@@ -107,7 +107,8 @@ namespace BossRushJam25.HexGrid {
                hex = hex.Neighbour(direction);
             }
             direction = rotateDirectionFunc(direction);
-         } while (direction != initialDirection);
+         }
+         while (direction != initialDirection);
 
          return result;
       }
@@ -234,30 +235,6 @@ namespace BossRushJam25.HexGrid {
       public HashSet<GridHex> GetNeighbours(Vector2Int hexCoordinates, int steps = 1) =>
          GetRingClockwiseCoordinates(hexCoordinates, steps).Where(t => Hexes.ContainsKey(t)).Select(t => Hexes[t]).ToHashSet();
 
-      public HashSet<GridHex> GetNeighbours(GridHex hex, int steps = 1) => GetNeighbours(hex.Coordinates, steps);
-
-      public void Build(IReadOnlyCollection<Vector2Int> requiredClearHexes) {
-         ClearGrid();
-         RefreshInnerRadius();
-
-         foreach (var requiredClearHex in requiredClearHexes) {
-            InstantiateHex(requiredClearHex, clearHexPrefab, null);
-         }
-
-         for (var x = -gridRadius; x <= gridRadius; x++) {
-            for (var z = -gridRadius; z <= gridRadius; z++) {
-               var coordinates = new Vector2Int(x, z);
-               if (IsCellInGrid(coordinates) && !Hexes.ContainsKey(coordinates)) {
-                  var randomTile = RollRandomTile(coordinates);
-                  InstantiateHex(coordinates, randomTile, randomTile.Type.RollContentPrefab());
-               }
-            }
-         }
-
-         navMeshSurface.BuildNavMesh();
-         OnBuilt.Invoke();
-      }
-
       public void ClearGrid() {
          OnClearingGrid.Invoke();
 
@@ -268,12 +245,12 @@ namespace BossRushJam25.HexGrid {
          Hexes.Clear();
       }
 
-      public void Build(HexGridPreset preset, IReadOnlyCollection<Vector2Int> requiredClearHexes) {
+      public void Build(HexGridPreset preset) {
          ClearGrid();
          RefreshInnerRadius();
 
-         foreach (var requiredClearHex in requiredClearHexes) {
-            InstantiateHex(requiredClearHex, clearHexPrefab, null);
+         foreach (var requiredClearHex in preset.GetRequiredHexes()) {
+            InstantiateHex(requiredClearHex.Key, requiredClearHex.Value);
          }
 
          var randomHexesQueue = GenerateRandomQueueOfMissingHexes();
@@ -322,28 +299,6 @@ namespace BossRushJam25.HexGrid {
          hex.Setup(content);
          hex.InitialName = $"Hex{coordinates.x:00}{coordinates.y:00}";
          hex.SetCoordinates(coordinates);
-      }
-
-      private GridHex RollRandomTile(Vector2Int coordinates) {
-         var neighbours = GetNeighbours(coordinates);
-         var distinctNeighbourCandidates = neighbours.SelectMany(t => t.Type.Neighbours.Select(u => u.Prefab)).Distinct().ToArray();
-
-         if (distinctNeighbourCandidates.Length == 0) return firstTilesPrefabs[Random.Range(0, firstTilesPrefabs.Length)];
-         if (distinctNeighbourCandidates.Length == 1) return distinctNeighbourCandidates[0];
-
-         var neighbourProbabilities = new int [distinctNeighbourCandidates.Length];
-         for (var i = 0; i < neighbourProbabilities.Length; ++i) {
-            neighbourProbabilities[i] = neighbours.SelectMany(t => t.Type.Neighbours).Where(t => t.Prefab == distinctNeighbourCandidates[i]).Sum(t => t.Probability);
-         }
-
-         var random = Random.Range(0, neighbourProbabilities.Sum());
-
-         for (var i = 0; i < neighbourProbabilities.Length; ++i) {
-            random -= neighbourProbabilities[i];
-            if (random <= 0) return distinctNeighbourCandidates[i];
-         }
-
-         return distinctNeighbourCandidates.Last();
       }
 
       public bool IsCellInGrid(Vector2Int coordinates) => HexCoordinates.HexDistance(coordinates, Vector2Int.zero) <= gridRadius;

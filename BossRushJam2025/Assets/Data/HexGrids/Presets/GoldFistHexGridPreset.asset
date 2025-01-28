@@ -12,6 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 655781bb1eca4d94928e5049554d8d38, type: 3}
   m_Name: GoldFistHexGridPreset
   m_EditorClassIdentifier: 
+  heroSpawnPosition: {x: 1, y: 0}
+  heroControlHexPosition: {x: 0, y: 0}
+  heroSpawnHexPreset:
+    hexPrefab: {fileID: 6811911467666851820, guid: af1925ec07f0f904694c16f2b291fd77, type: 3}
+    contentPrefab: {fileID: 0}
+  heroControlHexPreset:
+    hexPrefab: {fileID: 6811911467666851820, guid: 5387d539bb711fa40b48932c854a0a35, type: 3}
+    contentPrefab: {fileID: 0}
   glyphs:
   - definition: {fileID: 11400000, guid: 179b343bba4dd684fa9e57d3e1e076ed, type: 2}
     castingTime: 3
