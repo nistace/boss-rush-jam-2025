@@ -92,21 +92,29 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 3979943096918847423}
     m_Modifications:
+    - target: {fileID: 415198591481076975, guid: 7c560584b5b3d494989805ad8f383c49, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 080ab072f857e90408a21c612afbe5a1, type: 2}
     - target: {fileID: 2216871196074933562, guid: 7c560584b5b3d494989805ad8f383c49, type: 3}
       propertyPath: m_Layer
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2461186009097316389, guid: 7c560584b5b3d494989805ad8f383c49, type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 4638669813555061213, guid: 0a1910a8948428b47b5e6bb1dca02ddb, type: 3}
     - target: {fileID: 6751834172687525990, guid: 7c560584b5b3d494989805ad8f383c49, type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.8
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6751834172687525990, guid: 7c560584b5b3d494989805ad8f383c49, type: 3}
       propertyPath: m_LocalScale.y
-      value: 8
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6751834172687525990, guid: 7c560584b5b3d494989805ad8f383c49, type: 3}
       propertyPath: m_LocalScale.z
-      value: 0.8
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6751834172687525990, guid: 7c560584b5b3d494989805ad8f383c49, type: 3}
       propertyPath: m_LocalPosition.x
@@ -114,7 +122,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6751834172687525990, guid: 7c560584b5b3d494989805ad8f383c49, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.944
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6751834172687525990, guid: 7c560584b5b3d494989805ad8f383c49, type: 3}
       propertyPath: m_LocalPosition.z

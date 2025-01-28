@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 284b0c5da62e33649b792cc296ea4ce7
+guid: 11eb0c24850c8b84da09031ef944211e
 TextureImporter:
   internalIDToNameTable:
   - first:
@@ -147,8 +147,7 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable:
-      BaseTile_Wall_DefaultMaterial_AlbedoTransparency_0: -6094884870694204514
+    nameFileIdTable: {}
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

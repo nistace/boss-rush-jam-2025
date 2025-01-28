@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: e2bc3653eb94f4a45b56df4e842b4f1f
+guid: efdf6398e89b29f448269a3568697264
 TextureImporter:
   internalIDToNameTable:
   - first:
@@ -147,7 +147,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      BaseTile_Wall_DefaultMaterial_MetallicSmoothness_0: -3501261095703230176
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: e2bc3653eb94f4a45b56df4e842b4f1f
+guid: 284b0c5da62e33649b792cc296ea4ce7
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -3501261095703230176
-    second: BaseTile_Wall_DefaultMaterial_MetallicSmoothness_0
+      213: -6094884870694204514
+    second: BaseTile_Wall_DefaultMaterial_AlbedoTransparency_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -113,7 +113,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: BaseTile_Wall_DefaultMaterial_MetallicSmoothness_0
+      name: BaseTile_Wall_DefaultMaterial_AlbedoTransparency_0
       rect:
         serializedVersion: 2
         x: 0
@@ -128,8 +128,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 029c6bc7595096fc0800000000000000
-      internalID: -3501261095703230176
+      spriteID: e9b8e5f808e9a6ba0800000000000000
+      internalID: -6094884870694204514
       vertices: []
       indices: 
       edges: []
@@ -147,7 +147,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      BaseTile_Wall_DefaultMaterial_AlbedoTransparency_0: -6094884870694204514
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
