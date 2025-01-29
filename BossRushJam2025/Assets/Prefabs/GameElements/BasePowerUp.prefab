@@ -98,6 +98,7 @@ GameObject:
   - component: {fileID: 2291728260019508305}
   - component: {fileID: 3169925597569285144}
   - component: {fileID: 3311620126488845057}
+  - component: {fileID: 530991375939776791}
   m_Layer: 8
   m_Name: BasePowerUp
   m_TagString: Untagged
@@ -177,3 +178,19 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!208 &530991375939776791
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7395046468507608522}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 0.5, y: 0.5, z: 0.5}
+  m_MoveThreshold: 0.1
+  m_Carve: 0
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0, z: 0}
+  m_TimeToStationary: 0.5

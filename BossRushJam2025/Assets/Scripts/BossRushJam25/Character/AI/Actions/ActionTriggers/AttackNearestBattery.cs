@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 namespace BossRushJam25.Character.AI.Actions.ActionTriggers

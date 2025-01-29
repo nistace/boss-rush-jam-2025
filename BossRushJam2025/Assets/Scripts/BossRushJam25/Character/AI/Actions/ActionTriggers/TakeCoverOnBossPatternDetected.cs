@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace BossRushJam25.Character.AI.Actions.ActionTriggers
@@ -10,14 +9,7 @@ namespace BossRushJam25.Character.AI.Actions.ActionTriggers
         {
             action = null;
 
-            if(character.BossPatternDetector.CurrentThreateningPattern == null)
-            {
-                return false;
-            }
-
-            HashSet<Vector2Int> affectedHexes = character.BossPatternDetector.CurrentThreateningPattern.GetAffectedHexes();
-
-            if(!affectedHexes.Contains(character.HexLink.LinkedHex.Coordinates))
+            if(!character.HexLink.LinkedHex.IsTargeted)
             {
                 return false;
             }

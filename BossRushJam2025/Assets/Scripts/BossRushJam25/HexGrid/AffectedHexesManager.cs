@@ -25,8 +25,13 @@ namespace BossRushJam25.HexGrid {
       private static void HandleClearingGrid() => HideAllAffectedHexes();
 
       public static void HideAllAffectedHexes() {
-         foreach (var activeAffectedHex in Instance.ActiveAffectedHexes.Values) {
-            Instance.PoolVisual(activeAffectedHex);
+         foreach(var activeAffectedHex in Instance.ActiveAffectedHexes)
+         {
+            Instance.PoolVisual(activeAffectedHex.Value);
+            if(HexGridController.Instance.TryGetHex(activeAffectedHex.Key, out var hex))
+            {
+               hex.SetAsTargeted(false);
+            }
          }
 
          Instance.ActiveAffectedHexes.Clear();
@@ -34,9 +39,10 @@ namespace BossRushJam25.HexGrid {
 
       public static void SetAffectedHex(Vector2Int position, bool active) {
          if (Instance.ActiveAffectedHexes.ContainsKey(position) == active) return;
-         if (active && HexGridController.Instance.TryGetHex(position, out var hex)) {
+         if (HexGridController.Instance.TryGetHex(position, out var hex) && active) {
             var visual = Instance.GetVisualInstance();
             hex.ParentTransformToHexContent(visual, true, true);
+            hex.SetAsTargeted(true);
             Instance.ActiveAffectedHexes.Add(position, visual);
          }
          else if (Instance.ActiveAffectedHexes.TryGetValue(position, out var existingVisual)) {
