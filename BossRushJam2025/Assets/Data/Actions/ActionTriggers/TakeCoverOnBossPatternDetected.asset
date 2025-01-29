@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 40a2e3cb22f683343b795c94a77f8d64, type: 3}
   m_Name: TakeCoverOnBossPatternDetected
   m_EditorClassIdentifier: 
-  isActive: 1
+  isActive: 0
   priority: 10
