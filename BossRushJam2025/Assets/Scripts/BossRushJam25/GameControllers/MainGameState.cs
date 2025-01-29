@@ -15,7 +15,6 @@ namespace BossRushJam25.GameControllers {
       private ISpinStrategy SpinStrategy { get; set; }
       private CharacterCore Hero { get; set; }
       private BossCore Boss { get; set; }
-      private float DelayBeforeNextAttack { get; set; }
 
       public override void Enable() {
          HexGridController.Instance.ClearGrid();
@@ -27,8 +26,7 @@ namespace BossRushJam25.GameControllers {
          var heroSpawnPosition = HexGridController.Instance.CoordinatesToWorldPosition(GameConfig.Instance.BossPrefab.Type.HexGridPreset.HeroSpawnPosition);
          Hero = Object.Instantiate(GameConfig.Instance.HeroPrefab, heroSpawnPosition, Quaternion.identity);
          Boss = Object.Instantiate(GameConfig.Instance.BossPrefab);
-         BossFightInfo.SetHero(Hero);
-         BossFightInfo.SetBoss(Boss);
+         BossFightInfo.Setup(Hero, Boss);
          Hero.Initialize();
          Boss.Initialize();
 
@@ -39,7 +37,6 @@ namespace BossRushJam25.GameControllers {
          SpinStrategy = GameConfig.Instance.SpinStrategy.GetComponent<ISpinStrategy>();
 
          MainCanvas.Show<GameUi>(false, HandleUiShown);
-         DelayBeforeNextAttack = 2;
       }
 
       private void HandleUiShown() {
@@ -56,11 +53,13 @@ namespace BossRushJam25.GameControllers {
 
       private static void HandleHeroHealthChanged(int newHealth, int _) {
          if (newHealth > 0) return;
+         BossFightInfo.EndBattle();
          ChangeState(new GameOverState(false));
       }
 
       private static void HandleBossHealthChanged(int newHealth, int _) {
          if (newHealth > 0) return;
+         BossFightInfo.EndBattle();
          ChangeState(new GameOverState(true));
       }
 
@@ -81,15 +80,15 @@ namespace BossRushJam25.GameControllers {
       }
 
       public override void Tick() {
-         SpinStrategy.Tick();
+         if (BossFightInfo.IsOver) return;
 
-         if (!Boss.PatternManager.IsExecutingAttack) {
-            DelayBeforeNextAttack -= Time.deltaTime;
-            if (DelayBeforeNextAttack < 0 && Boss.PatternManager.HasPatterns()) {
-               Boss.PatternManager.ExecuteNextAttack(null);
-               DelayBeforeNextAttack += 2;
-            }
+         if (!BossFightInfo.IsPlaying && CameraController.Instance.SqrDistanceWithTargetPosition < 1) {
+            BossFightInfo.StartBattle();
          }
+
+         if (!BossFightInfo.IsPlaying) return;
+
+         SpinStrategy.Tick();
       }
    }
 }
