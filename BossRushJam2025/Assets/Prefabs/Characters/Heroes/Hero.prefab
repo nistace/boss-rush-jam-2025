@@ -167,7 +167,7 @@ MonoBehaviour:
   navMeshAgent: {fileID: 4036202868100558749}
   actionPriorityHandler: {fileID: 8323066234089659036}
   powerUpsDetector: {fileID: 7704594684984199587}
-  batteryDetector: {fileID: 8354294903565279185}
+  batteryDetector: {fileID: 9138132993456523685}
   bossPatternDetector: {fileID: 3854413985686711417}
   actionsTrigger: {fileID: 2398727888956531791}
   animator: {fileID: 1753004295836447033}
@@ -870,7 +870,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4357732764964653306}
   - component: {fileID: 1123769432115928658}
-  - component: {fileID: 8354294903565279185}
+  - component: {fileID: 9138132993456523685}
   m_Layer: 0
   m_Name: BatteryDetector
   m_TagString: Untagged
@@ -914,7 +914,7 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 5
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &8354294903565279185
+--- !u!114 &9138132993456523685
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -923,12 +923,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 6700042598419130955}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b8491cc0ffa36b647a12f338cf53b1e2, type: 3}
+  m_Script: {fileID: 11500000, guid: c119c0be0a94abc40ad8b4e3af0446e1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   detectionRadius: 5
   collectionRadius: 1
   detectionCollider: {fileID: 1123769432115928658}
+  hexTypes: []
+  contentTypes:
+  - {fileID: 11400000, guid: 3f2c9c3b253a7de47a6c3313627ec346, type: 2}
 --- !u!1 &7015602461419286525
 GameObject:
   m_ObjectHideFlags: 0

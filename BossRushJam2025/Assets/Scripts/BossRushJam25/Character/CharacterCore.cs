@@ -14,7 +14,7 @@ namespace BossRushJam25.Character
         [SerializeField] protected NavMeshAgent navMeshAgent;
         [SerializeField] protected ActionPriorityHandler actionPriorityHandler;
         [SerializeField] protected PowerUpsDetector powerUpsDetector;
-        [SerializeField] protected BatteryDetector batteryDetector;
+        [SerializeField] protected HexDetector batteryDetector;
         [SerializeField] protected BossPatternDetector bossPatternDetector;
         [SerializeField] protected DebugActionsTrigger actionsTrigger;
         [SerializeField] protected HeroAnimator animator;
@@ -23,7 +23,7 @@ namespace BossRushJam25.Character
         public HexLink HexLink => hexLink;
         public ActionPriorityHandler ActionPriorityHandler => actionPriorityHandler;
         public PowerUpsDetector PowerUpsDetector => powerUpsDetector;
-        public BatteryDetector BatteryDetector => batteryDetector;
+        public HexDetector BatteryDetector => batteryDetector;
         public BossPatternDetector BossPatternDetector => bossPatternDetector;
         public DamageInfo DamageInfo { get; private set; }
         public HealthSystem Health { get; private set; }
@@ -36,13 +36,12 @@ namespace BossRushJam25.Character
             DamageInfo = type.DamageInfo;
             actionPriorityHandler.Initialize(this);
             powerUpsDetector.Initialize(this);
-            batteryDetector.Initialize(this);
             actionsTrigger?.Initialize(this);
             bossPatternDetector?.Initialize(this);
             navMeshAgent.enabled = BossFightInfo.IsPlaying;
         }
 
-        private void Start() 
+        private void Start()
         {
             BossFightInfo.OnStarted.AddListener(HandleBossFightStarted);
             BossFightInfo.OnEnded.AddListener(HandleBossFightEnded);

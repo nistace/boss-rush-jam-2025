@@ -17,12 +17,12 @@ namespace BossRushJam25.Character.AI.Actions.ActionTriggers
                 return false;
             }
 
-            if(character.BatteryDetector.NearestBatteryHex == null)
+            if(character.BatteryDetector.NearestHex == null)
             {
                 return false;
             }
 
-            action = new AttackMeleeAction(character, character.BatteryDetector.NearestBatteryHex, priority);
+            action = new AttackMeleeAction(character, character.BatteryDetector.NearestHex, priority);
 
             return true;
         }
