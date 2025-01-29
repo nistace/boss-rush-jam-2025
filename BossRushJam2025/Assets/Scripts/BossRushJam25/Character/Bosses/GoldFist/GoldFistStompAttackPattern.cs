@@ -14,20 +14,28 @@ namespace BossRushJam25.Character.Bosses.GoldFist {
       [SerializeField] protected int ringRadius = 1;
       [SerializeField] protected GridHexContent fistHexContentPrefab;
 
-      private static readonly int hitAnimParam = Animator.StringToHash("Hit");
-      private static readonly int raiseAnimParam = Animator.StringToHash("Raise");
-
       private bool HitDone { get; set; }
       private bool FistRaised { get; set; }
 
-      public void HitAnimEvent() => HitDone = true;
-      public void RaisedAnimEvent() => FistRaised = true;
+      private void HandleHitDone() => HitDone = true;
+      private void HandleRaiseDone() => FistRaised = true;
       private HashSet<GridHexContent> FistAsHexContents { get; } = new HashSet<GridHexContent>();
 
       protected override IEnumerator Play() {
+         Animator.StartAttack(GoldFistAnimator.AttackAnimation.Stomp);
+
          HitDone = false;
          FistRaised = false;
+
          transform.position = HexGridController.Instance.CoordinatesToWorldPosition(BossAttackPatternUtils.GetHeroCoordinates());
+         transform.forward = transform.position - Animator.transform.position;
+
+         while (!InterruptAsap && !Animator.IsAtTarget) {
+            transform.position = HexGridController.Instance.CoordinatesToWorldPosition(BossAttackPatternUtils.GetHeroCoordinates());
+            yield return null;
+         }
+
+         Animator.NextPhase();
 
          for (var castTime = 0f; !InterruptAsap && castTime < castDuration; castTime += Time.deltaTime) {
             transform.position = Vector3.MoveTowards(transform.position,
@@ -40,12 +48,15 @@ namespace BossRushJam25.Character.Bosses.GoldFist {
 
          if (InterruptAsap) yield break;
 
-         animator.SetTrigger(hitAnimParam);
+         Animator.NextPhase();
+         Animator.OnKeyPointReached.AddListener(HandleHitDone);
 
          while (!InterruptAsap && !HitDone) {
             RefreshAreaOfEffect();
             yield return null;
          }
+
+         Animator.OnKeyPointReached.RemoveListener(HandleHitDone);
 
          if (InterruptAsap) yield break;
 
@@ -63,13 +74,17 @@ namespace BossRushJam25.Character.Bosses.GoldFist {
             yield break;
          }
 
-         animator.SetTrigger(raiseAnimParam);
+         Animator.NextPhase();
+         Animator.OnKeyPointReached.AddListener(HandleRaiseDone);
 
          while (!InterruptAsap && !FistRaised) {
             yield return null;
          }
 
+         Animator.OnKeyPointReached.RemoveListener(HandleRaiseDone);
+
          RemoveFistAsHexContents();
+         Animator.EndAttack();
       }
 
       private void RemoveFistAsHexContents() {

@@ -19,13 +19,21 @@ namespace BossRushJam25.Character.Bosses.GoldFist {
       public Vector2Int ShotBlockingHexCoordinates { get; private set; }
 
       protected override IEnumerator Play() {
+         Animator.StartAttack(GoldFistAnimator.AttackAnimation.IndexShot);
+
          IsShooting = false;
          var target = BossAttackPatternUtils.GetHeroCoordinates();
          Direction = (HexCoordinates.EDirection)Random.Range(0, Enum.GetValues(typeof(HexCoordinates.EDirection)).Length);
          Origin = BossAttackPatternUtils.GetHexOnBorder(target, Direction.Opposite());
 
          transform.position = HexGridController.Instance.CoordinatesToWorldPosition(Origin);
-         transform.forward = HexGridController.Instance.CoordinatesToWorldPosition(target) - transform.position;
+         transform.forward = HexGridController.Instance.CoordinatesToWorldPosition(target) - HexGridController.Instance.CoordinatesToWorldPosition(Origin.Neighbour(Direction));
+
+         while (!InterruptAsap && !Animator.IsAtTarget) {
+            yield return null;
+         }
+         
+         Animator.NextPhase();
 
          for (var castTime = 0f; !InterruptAsap && castTime < castDuration; castTime += Time.deltaTime) {
             RefreshAreaOfEffect();
@@ -35,6 +43,8 @@ namespace BossRushJam25.Character.Bosses.GoldFist {
          if (InterruptAsap) yield break;
 
          IsShooting = true;
+         Animator.NextPhase();
+
          for (var damageRunner = new DamageRunner(damageInfo); !damageRunner.Done(); damageRunner.Continue(Time.deltaTime)) {
             RefreshAreaOfEffect();
             DealDamageOnAffectedHexes(damageRunner.DamageDealtThisFrame);
@@ -42,6 +52,7 @@ namespace BossRushJam25.Character.Bosses.GoldFist {
          }
 
          IsShooting = false;
+         Animator.EndAttack();
       }
 
       private void DealDamageOnAffectedHexes(int damageDealt) {
@@ -73,13 +84,11 @@ namespace BossRushJam25.Character.Bosses.GoldFist {
          ShotBlockingHexCoordinates = hexCoordinates;
       }
 
-      public override HashSet<Vector2Int> GetAffectedHexes()
-      {
+      public override HashSet<Vector2Int> GetAffectedHexes() {
          HashSet<Vector2Int> affectedHexes = new();
          var hexCoordinates = Origin;
 
-         while(HexGridController.Instance.TryGetHex(hexCoordinates, out var hex) && !hex.HexContents.Any(t => obstacles.Contains(t.Type)))
-         {
+         while (HexGridController.Instance.TryGetHex(hexCoordinates, out var hex) && !hex.HexContents.Any(t => obstacles.Contains(t.Type))) {
             affectedHexes.Add(hexCoordinates);
             hexCoordinates = hexCoordinates.Neighbour(Direction);
          }

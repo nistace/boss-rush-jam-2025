@@ -7,13 +7,18 @@ namespace BossRushJam25.HexGrid {
       [SerializeField] protected GridHexContentType type;
 
       public GridHexContentType Type => type;
+      private bool Initialized { get; set; }
       public HealthSystem HealthSystem { get; private set; }
 
       public static UnityEvent<GridHexContent, HealthSystem, int> OnAnyContentHealthChanged { get; } = new UnityEvent<GridHexContent, HealthSystem, int>();
 
-      public void Start() {
+      public void Start() => Initialize();
+
+      public void Initialize() {
+         if (Initialized) return;
          HealthSystem = Type.NewHealthSystem;
          HealthSystem.OnHealthChanged.AddListener(HandleHealthChanged);
+         Initialized = true;
       }
 
       private void OnDestroy() {
