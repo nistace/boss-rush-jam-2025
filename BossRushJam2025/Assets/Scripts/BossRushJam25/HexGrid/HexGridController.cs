@@ -23,6 +23,7 @@ namespace BossRushJam25.HexGrid {
       private float InnerRadius { get; set; }
       public int GridRadius => gridRadius;
       public ICollection<GridHex> AllHexes => Hexes.Values;
+      public Dictionary<GridHexType, GridHex> RequiredHexes = new();
 
       public static Vector2Int Center => Vector2Int.zero;
       public static UnityEvent OnBuilt { get; } = new UnityEvent();
@@ -259,6 +260,7 @@ namespace BossRushJam25.HexGrid {
          }
 
          Hexes.Clear();
+         RequiredHexes.Clear();
       }
 
       public void Build(HexGridPreset preset) {
@@ -266,7 +268,8 @@ namespace BossRushJam25.HexGrid {
          RefreshInnerRadius();
 
          foreach (var requiredClearHex in preset.GetRequiredHexes()) {
-            InstantiateHex(requiredClearHex.Key, requiredClearHex.Value);
+            GridHex requiredHex = InstantiateHex(requiredClearHex.Value, requiredClearHex.Key);
+            RequiredHexes.Add(requiredClearHex.Key.HexPrefab.Type, requiredHex);
          }
 
          var randomHexesQueue = GenerateRandomQueueOfMissingHexes();
@@ -306,15 +309,17 @@ namespace BossRushJam25.HexGrid {
          return new Queue<Vector2Int>(remainingHexes.OrderBy(_ => Random.value));
       }
 
-      private void InstantiateHex(Vector2Int coordinates, GridHexPreset preset) => InstantiateHex(coordinates, preset.HexPrefab, preset.ContentPrefab);
-      private void InstantiateHex(Vector2Int coordinates, GridHex prefab) => InstantiateHex(coordinates, prefab, null);
+      private GridHex InstantiateHex(Vector2Int coordinates, GridHexPreset preset) => InstantiateHex(coordinates, preset.HexPrefab, preset.ContentPrefab);
+      private GridHex InstantiateHex(Vector2Int coordinates, GridHex prefab) => InstantiateHex(coordinates, prefab, null);
 
-      private void InstantiateHex(Vector2Int coordinates, GridHex prefab, GridHexContent content) {
+      private GridHex InstantiateHex(Vector2Int coordinates, GridHex prefab, GridHexContent content) {
          var hex = Instantiate(prefab, CoordinatesToWorldPosition(coordinates), Quaternion.identity, transform);
          Hexes[coordinates] = hex;
          hex.Setup(content);
          hex.InitialName = $"Hex{coordinates.x:00}{coordinates.y:00}";
          hex.SetCoordinates(coordinates);
+
+         return hex;
       }
 
       public bool IsCellInGrid(Vector2Int coordinates) => HexCoordinates.HexDistance(coordinates, Vector2Int.zero) <= gridRadius;

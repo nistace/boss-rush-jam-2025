@@ -23,7 +23,7 @@ namespace BossRushJam25.GameControllers {
 
          HexGridController.Instance.Build(GameConfig.Instance.BossPrefab.Type.HexGridPreset);
          GameConfig.Instance.PowerUpsManager.Initialize();
-         var heroSpawnPosition = HexGridController.Instance.CoordinatesToWorldPosition(GameConfig.Instance.BossPrefab.Type.HexGridPreset.HeroSpawnPosition);
+         var heroSpawnPosition = HexGridController.Instance.CoordinatesToWorldPosition(HexGridController.Instance.RequiredHexes[GameConfig.Instance.HeroSpawnHexType].Coordinates);
          Hero = Object.Instantiate(GameConfig.Instance.HeroPrefab, heroSpawnPosition, Quaternion.identity);
          Boss = Object.Instantiate(GameConfig.Instance.BossPrefab);
          BossFightInfo.Setup(Hero, Boss);

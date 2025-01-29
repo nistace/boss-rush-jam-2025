@@ -16,6 +16,12 @@ MonoBehaviour:
   alwaysAnObstacle: 1
   neighbours:
   - prefab: {fileID: 6811911467666851820, guid: af1925ec07f0f904694c16f2b291fd77, type: 3}
-    probability: 10
-  noContentProbability: 1
+    probability: 15
+  - prefab: {fileID: 6811911467666851820, guid: f9cceb9f25126ba41a75a5a1bcd793a6, type: 3}
+    probability: 0
+  - prefab: {fileID: 6811911467666851820, guid: 769657ffd17b5404fa4848dfc29fadd7, type: 3}
+    probability: 0
+  - prefab: {fileID: 6811911467666851820, guid: c614a6c3010f5874eb8fef537745b8b4, type: 3}
+    probability: 1
+  noContentProbability: 10
   contents: []

@@ -231,6 +231,7 @@ MonoBehaviour:
     - Key: 0
       Value: {fileID: 11400000, guid: 85a307d1617f39449a68f38112aedca6, type: 2}
   actionTriggers:
+  - {fileID: 11400000, guid: 286d599ef0fc68d4ea7ab84cdb0886d6, type: 2}
   - {fileID: 11400000, guid: 884b25917a194654bb620af916a010f8, type: 2}
   - {fileID: 11400000, guid: 877aa8bb0933ecb4495bb74631a7db09, type: 2}
   - {fileID: 11400000, guid: 5744230e845f8fa4fb2eb7153d75e0c0, type: 2}
