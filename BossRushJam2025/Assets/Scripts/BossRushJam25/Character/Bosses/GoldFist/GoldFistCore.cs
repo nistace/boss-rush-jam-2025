@@ -1,4 +1,6 @@
-﻿using BossRushJam25.BossFights;
+﻿using System.Collections.Generic;
+using BossRushJam25.BossFights;
+using BossRushJam25.Health;
 using BossRushJam25.HexGrid;
 using UnityEngine;
 
@@ -6,6 +8,7 @@ namespace BossRushJam25.Character.Bosses.GoldFist {
    [RequireComponent(typeof(BossCore))]
    public class GoldFistCore : MonoBehaviour {
       [SerializeField] protected BossCore core;
+      [SerializeField] protected GridHexContentType fistContentType;
       [SerializeField] protected BossPatternManager patternManager;
       [SerializeField] protected BossAttackPattern[] defaultPatternSequence;
       [SerializeField] protected BossAttackPattern[] activeBatteryPatternSequence;
@@ -17,7 +20,7 @@ namespace BossRushJam25.Character.Bosses.GoldFist {
 
       private int NextAttackIndex { get; set; }
       private float NextSpawnBatteryHealthThreshold { get; set; }
-      private GridHexContent CurrentBattery { get; set; }
+      private HashSet<GridHexContent> ActiveBatteries { get; } = new HashSet<GridHexContent>();
       private float TimeBeforeNextPattern { get; set; }
 
       private void Reset() {
@@ -43,18 +46,27 @@ namespace BossRushJam25.Character.Bosses.GoldFist {
          TimeBeforeNextPattern = delayBeforeFirstAttack;
          core.Health.OnHealthChanged.AddListener(HandleBossHealthChanged);
          spawnBatteryPattern.OnBatterySpawned.AddListener(HandleBatterySpawned);
+         GridHexContent.OnAnyContentHealthChanged.AddListener(HandleAnyContentHealthChanged);
+      }
+
+      private void HandleAnyContentHealthChanged(GridHexContent content, HealthSystem health, int healthDelta) {
+         if (content.Type != fistContentType) return;
+         if (healthDelta > 0) return;
+
+         core.Health.DamagePure(-healthDelta);
       }
 
       private void HandleBatterySpawned(GridHexContent spawnedBattery) {
-         CurrentBattery = spawnedBattery;
-         CurrentBattery.HealthSystem.OnHealthChanged.AddListener(HandleBatteryHealthChanged);
+         if (ActiveBatteries.Add(spawnedBattery)) {
+            spawnedBattery.HealthSystem.OnHealthChanged.AddListener(HandleAnyBatteryHealthChanged);
+         }
       }
 
-      private void HandleBatteryHealthChanged(int newHealth, int healthDelta) {
+      private void HandleAnyBatteryHealthChanged(int newHealth, int healthDelta) {
          if (healthDelta >= 0) return;
 
-         core.Health.DamagePure(damageTakenByDestroyedBattery);
-         CurrentBattery = default;
+         var destroyedBatteries = ActiveBatteries.RemoveWhere(t => t.HealthSystem.Empty);
+         core.Health.DamagePure(destroyedBatteries * damageTakenByDestroyedBattery);
       }
 
       private void HandleBossHealthChanged(int newHealth, int delta) {
@@ -71,15 +83,15 @@ namespace BossRushJam25.Character.Bosses.GoldFist {
          TimeBeforeNextPattern -= Time.deltaTime;
 
          if (TimeBeforeNextPattern <= 0) {
-            if (core.Health.Current < NextSpawnBatteryHealthThreshold) {
+            if (core.Health.Current <= NextSpawnBatteryHealthThreshold) {
                NextSpawnBatteryHealthThreshold -= batteryAndTurretHealthThreshold;
                NextAttackIndex = 0;
-               patternManager.ExecuteAttack(spawnBatteryPattern, null);
+               patternManager.ExecuteAttack(spawnBatteryPattern);
             }
             else {
-               var sequence = CurrentBattery ? activeBatteryPatternSequence : defaultPatternSequence;
+               var sequence = ActiveBatteries.Count > 0 ? activeBatteryPatternSequence : defaultPatternSequence;
                var attackPattern = sequence[NextAttackIndex % sequence.Length];
-               patternManager.ExecuteAttack(attackPattern, null);
+               patternManager.ExecuteAttack(attackPattern);
                NextAttackIndex = (NextAttackIndex + 1) % sequence.Length;
             }
             TimeBeforeNextPattern = delayBetweenAttacksOverTime.Evaluate(BossFightInfo.BattleTime);

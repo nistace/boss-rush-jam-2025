@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: -4768754773489207537}
   - component: {fileID: 3584324377285687204}
   - component: {fileID: 7552829642282126787}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: HexGuardRail
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -92,6 +92,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 3979943096918847423}
     m_Modifications:
+    - target: {fileID: 6180125185975079362, guid: c8f4919fd2eb326468417991de5a7fea, type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
     - target: {fileID: 6751834172687525990, guid: c8f4919fd2eb326468417991de5a7fea, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -135,6 +139,10 @@ PrefabInstance:
     - target: {fileID: 7928347548520753142, guid: c8f4919fd2eb326468417991de5a7fea, type: 3}
       propertyPath: m_Name
       value: BaseTile_Guardrail
+      objectReference: {fileID: 0}
+    - target: {fileID: 7928347548520753142, guid: c8f4919fd2eb326468417991de5a7fea, type: 3}
+      propertyPath: m_Layer
+      value: 9
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

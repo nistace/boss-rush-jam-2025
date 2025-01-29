@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using UnityEngine.Events;
 using Random = UnityEngine.Random;
 
 namespace BossRushJam25.Character.Bosses {
@@ -9,7 +8,6 @@ namespace BossRushJam25.Character.Bosses {
       private HashSet<BossAttackPattern> AttackPatterns { get; } = new HashSet<BossAttackPattern>();
 
       public BossAttackPattern CurrentAttack { get; private set; }
-      private UnityAction CurrentAttackCallback { get; set; }
       public bool IsExecutingAttack => CurrentAttack;
 
       private void Start() {
@@ -19,23 +17,25 @@ namespace BossRushJam25.Character.Bosses {
          }
       }
 
-      public void ExecuteNextAttack(UnityAction callback) => ExecuteAttack(AttackPatterns.OrderBy(_ => Random.value).First(), callback);
+      public void ExecuteNextAttack() => ExecuteAttack(AttackPatterns.OrderBy(_ => Random.value).First());
 
-      public void ExecuteAttack(BossAttackPattern attack, UnityAction callback) {
-         CurrentAttackCallback = callback;
+      public void ExecuteAttack(BossAttackPattern attack) {
+         ClearCurrentAttack();
+
          CurrentAttack = attack;
          CurrentAttack.OnExecuted.AddListener(HandleAttackExecuted);
+         CurrentAttack.OnInterrupted.AddListener(HandleAttackInterrupted);
          CurrentAttack.Execute();
       }
 
-      private void HandleAttackExecuted() {
-         CurrentAttackCallback?.Invoke();
-         ClearCurrentAttack();
-      }
+      private void HandleAttackExecuted() => ClearCurrentAttack();
+      private void HandleAttackInterrupted() => ClearCurrentAttack();
 
       private void ClearCurrentAttack() {
          if (!CurrentAttack) return;
+
          CurrentAttack.OnExecuted.RemoveListener(HandleAttackExecuted);
+         CurrentAttack.OnInterrupted.RemoveListener(HandleAttackInterrupted);
          CurrentAttack = default;
       }
 

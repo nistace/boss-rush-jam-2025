@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using BossRushJam25.Character.AI.Actions;
 using BossRushJam25.GameControllers;
+using BossRushJam25.Health;
 using BossRushJam25.HexGrid;
 using UnityEngine;
 using Utils;
@@ -53,7 +54,7 @@ namespace BossRushJam25.Character
             if(Input.GetKeyDown(KeyCode.Alpha5)
                 && Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hit, maxDistance: 500, layerMask: ~0, queryTriggerInteraction: QueryTriggerInteraction.Ignore)
                 && HexGridController.Instance.TryGetHex(hit.point, out GridHex hex)
-                && hex.ContentsAreDamageable(character.Type.DamageInfo.DamageType)
+                && hex.ContentsAreDamageable(character.Type.DamageInfo.DamageType.AsFlags())
                 )
             {
                 character.ActionPriorityHandler.ForceAction(new AttackMeleeAction(character, hex));

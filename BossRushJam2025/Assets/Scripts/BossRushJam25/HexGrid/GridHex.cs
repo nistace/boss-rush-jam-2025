@@ -107,8 +107,7 @@ namespace BossRushJam25.HexGrid {
          IsDirty = true;
       }
 
-      public void UpdateHexNavigation()
-      {
+      public void UpdateHexNavigation() {
          GridHex hero_linked_hex = BossFightInfo.Hero.HexLink.LinkedHex;
          bool neighbour_is_hero_linked_hex = HexGridController.Instance.GetNeighbours(Coordinates).Any(neighbour => neighbour == hero_linked_hex);
          navMeshObstacle.enabled = this != hero_linked_hex && (IsMoving || (IsTargeted && !neighbour_is_hero_linked_hex) || type.AlwaysAnObstacle);
@@ -131,7 +130,23 @@ namespace BossRushJam25.HexGrid {
          }
       }
 
-      public bool ContentsAreDamageable(DamageType damageType) {
+      public void AddContent(GridHexContent content, bool parentAndResetPosition) {
+         if (Contents.Add(content)) {
+            SetLockedInPlaceBy(content, content.Type.LocksHexInPlace);
+         }
+
+         if (parentAndResetPosition) {
+            ParentTransformToHexContent(content.transform, true, true);
+         }
+      }
+
+      public void RemoveContent(GridHexContent content) {
+         if (Contents.Remove(content)) {
+            SetLockedInPlaceBy(content, false);
+         }
+      }
+
+      public bool ContentsAreDamageable(DamageTypes damageType) {
          foreach (var content in Contents) {
             if (content.IsDamageable(damageType)) {
                return true;

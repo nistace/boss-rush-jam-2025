@@ -196,11 +196,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   animator: {fileID: 4203490946877408150}
   gameObjectToActivationDuringExecution: {fileID: 2896652974510809707}
-  followSpeed: 1
+  followSpeed: 0.5
   castDuration: 4
   damage: 8
-  delayAfterDamageDealt: 0.5
+  delayAfterDamageDealt: 5
   ringRadius: 1
+  fistHexContentPrefab: {fileID: -4768754773489207537, guid: 82a614672ca64ca4993284e8be5ddc27, type: 3}
 --- !u!1 &1655740231146867200
 GameObject:
   m_ObjectHideFlags: 0
@@ -275,10 +276,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   core: {fileID: 6964017279168319766}
+  fistContentType: {fileID: 11400000, guid: 359b6518478f2e643b27a8c05e43ae23, type: 2}
   patternManager: {fileID: 721333850165358362}
   defaultPatternSequence:
-  - {fileID: 2696566176842927287}
-  - {fileID: 2696566176842927287}
   - {fileID: 7475422502048948632}
   activeBatteryPatternSequence:
   - {fileID: 2696566176842927287}
@@ -422,6 +422,8 @@ MonoBehaviour:
   gameObjectToActivationDuringExecution: {fileID: 2454139554986494952}
   batteryPrefab: {fileID: -4768754773489207537, guid: f73739c560fa8e041b60323f2f43e63f, type: 3}
   turretPrefab: {fileID: -4768754773489207537, guid: 8d2eedb7f32868d419010772e254a492, type: 3}
+  spawnableHexTypes:
+  - {fileID: 11400000, guid: 25566a047a068d8408c13ef259003650, type: 2}
 --- !u!1 &2896652974510809707
 GameObject:
   m_ObjectHideFlags: 0

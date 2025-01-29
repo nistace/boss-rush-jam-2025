@@ -28,7 +28,9 @@ namespace BossRushJam25.UI {
          ActiveHealthBars.Clear();
       }
 
-      private void HandleAnyContentHealthChanged(GridHexContent gridHexContent, HealthSystem gridHexContentHealth) {
+      private void HandleAnyContentHealthChanged(GridHexContent gridHexContent, HealthSystem gridHexContentHealth, int healthDelta) {
+         if (!gridHexContent.Type.CanDisplayHealthBar) return;
+
          if (ActiveHealthBars.TryGetValue(gridHexContent, out var barUi)) {
             if (gridHexContentHealth.Empty || gridHexContentHealth.Full) {
                PooledHealthBarUis.Enqueue(barUi);

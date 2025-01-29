@@ -1,9 +1,10 @@
+using BossRushJam25.Health;
 using UnityEngine;
 
 namespace BossRushJam25.Character.AI.Actions.ActionTriggers
 {
-    [CreateAssetMenu(fileName = "AttackNearestBattery", menuName = "ActionTriggers/AttackNearestBattery")]
-    public class AttackNearestBattery : AActionTrigger
+    [CreateAssetMenu(fileName = nameof(AttackNearestDamageable), menuName = "ActionTriggers/" + nameof(AttackNearestDamageable))]
+    public class AttackNearestDamageable : AActionTrigger
     {
         //TODO: make SO for each condition type to make it modular throughout all triggers
         [SerializeField] private float minHealthRatio = 0.5f;
@@ -17,12 +18,12 @@ namespace BossRushJam25.Character.AI.Actions.ActionTriggers
                 return false;
             }
 
-            if(character.BatteryDetector.NearestBatteryHex == null)
+            if(!character.DamageableHexDetector.TryGetNearestDamageableHex(character.transform.position, character.DamageInfo.DamageType.AsFlags(), out var nearestDamageableHex))
             {
                 return false;
             }
 
-            action = new AttackMeleeAction(character, character.BatteryDetector.NearestBatteryHex, priority);
+            action = new AttackMeleeAction(character, nearestDamageableHex, priority);
 
             return true;
         }

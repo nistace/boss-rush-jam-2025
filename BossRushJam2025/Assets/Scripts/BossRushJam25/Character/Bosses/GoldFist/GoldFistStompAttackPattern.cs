@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using BossRushJam25.Health;
 using BossRushJam25.HexGrid;
 using UnityEngine;
@@ -11,6 +12,7 @@ namespace BossRushJam25.Character.Bosses.GoldFist {
       [SerializeField] protected int damage = 8;
       [SerializeField] protected float delayAfterDamageDealt = .5f;
       [SerializeField] protected int ringRadius = 1;
+      [SerializeField] protected GridHexContent fistHexContentPrefab;
 
       private static readonly int hitAnimParam = Animator.StringToHash("Hit");
       private static readonly int raiseAnimParam = Animator.StringToHash("Raise");
@@ -20,6 +22,7 @@ namespace BossRushJam25.Character.Bosses.GoldFist {
 
       public void HitAnimEvent() => HitDone = true;
       public void RaisedAnimEvent() => FistRaised = true;
+      private HashSet<GridHexContent> FistAsHexContents { get; } = new HashSet<GridHexContent>();
 
       protected override IEnumerator Play() {
          HitDone = false;
@@ -46,6 +49,7 @@ namespace BossRushJam25.Character.Bosses.GoldFist {
 
          if (InterruptAsap) yield break;
 
+         AddFistAsHexContents();
          FistRaised = false;
          DealDamageOnAffectedHexes();
          AffectedHexesManager.HideAllAffectedHexes();
@@ -54,12 +58,45 @@ namespace BossRushJam25.Character.Bosses.GoldFist {
             yield return null;
          }
 
-         if (InterruptAsap) yield break;
+         if (InterruptAsap) {
+            RemoveFistAsHexContents();
+            yield break;
+         }
 
          animator.SetTrigger(raiseAnimParam);
 
          while (!InterruptAsap && !FistRaised) {
             yield return null;
+         }
+
+         RemoveFistAsHexContents();
+      }
+
+      private void RemoveFistAsHexContents() {
+         foreach (var fistAsHexContent in FistAsHexContents) {
+            fistAsHexContent.gameObject.SetActive(false);
+            var hex = fistAsHexContent.GetComponentInParent<GridHex>();
+            if (hex) {
+               hex.RemoveContent(fistAsHexContent);
+            }
+            fistAsHexContent.transform.SetParent(transform);
+         }
+      }
+
+      private void AddFistAsHexContents() {
+         var hexes = EvaluateTargetedHexes().Select(t => HexGridController.Instance.TryGetHex(t, out var hex) ? hex : null).Where(t => t).ToArray();
+
+         while (FistAsHexContents.Count < hexes.Length) {
+            FistAsHexContents.Add(Instantiate(fistHexContentPrefab, Vector3.zero, Quaternion.identity, transform));
+         }
+
+         var index = 0;
+         foreach (var fistAsHexContent in FistAsHexContents) {
+            fistAsHexContent.gameObject.SetActive(index < hexes.Length);
+            if (index < hexes.Length) {
+               hexes[index].AddContent(fistAsHexContent, true);
+            }
+            index++;
          }
       }
 
@@ -88,8 +125,7 @@ namespace BossRushJam25.Character.Bosses.GoldFist {
          return result;
       }
 
-      public override HashSet<Vector2Int> GetAffectedHexes()
-      {
+      public override HashSet<Vector2Int> GetAffectedHexes() {
          return EvaluateTargetedHexes();
       }
    }

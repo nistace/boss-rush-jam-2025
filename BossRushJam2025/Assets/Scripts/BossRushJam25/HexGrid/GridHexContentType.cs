@@ -10,12 +10,14 @@ namespace BossRushJam25.HexGrid {
       [SerializeField] protected bool locksHexInPlace;
       [SerializeField] protected bool isInvincible;
       [SerializeField] protected int maxHealth = 10;
+      [SerializeField] protected bool canDisplayHealthBar = true;
       [SerializeField] protected DamageTypes vulnerabilities = 0;
 
       public int MaxToSpawn => maxToSpawn;
       public int RotationStepsInHex => rotationStepsInHex;
       public bool LocksHexInPlace => locksHexInPlace;
       public bool PreventPowerUpSpawning => preventPowerUpSpawning;
+      public bool CanDisplayHealthBar => canDisplayHealthBar;
       protected DamageTypes Vulnerabilities => isInvincible ? DamageTypes.Nothing : vulnerabilities;
       public HealthSystem NewHealthSystem => new(maxHealth, Vulnerabilities);
    }

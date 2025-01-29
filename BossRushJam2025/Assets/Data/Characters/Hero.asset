@@ -21,4 +21,3 @@ MonoBehaviour:
     damageTick: 1
     damageDuration: 0
   maxAttackDistance: 1.5
-  spawnPosition: {x: 0, y: 0}

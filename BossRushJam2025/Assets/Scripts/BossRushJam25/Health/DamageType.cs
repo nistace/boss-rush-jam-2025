@@ -15,6 +15,8 @@ namespace BossRushJam25.Health {
    }
 
    public static class DamageTypeUtils {
-      public static bool Contains(this DamageTypes damageTypes, DamageType damageType) => ((int)damageTypes & (1 << (int)damageType)) > 0;
+      public static bool Contains(this DamageTypes damageTypes, DamageType damageType) => damageTypes.Overlaps(damageType.AsFlags());
+      public static bool Overlaps(this DamageTypes damageTypes, DamageTypes others) => (int)(damageTypes & others) > 0;
+      public static DamageTypes AsFlags(this DamageType damageType) => (DamageTypes)(1 << (int)damageType);
    }
 }
