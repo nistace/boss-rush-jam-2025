@@ -8,7 +8,7 @@ namespace BossRushJam25.Character.Bosses {
    public class BossPatternManager : MonoBehaviour {
       private HashSet<BossAttackPattern> AttackPatterns { get; } = new HashSet<BossAttackPattern>();
 
-      public BossAttackPattern CurrentAttack { get; set; }
+      public BossAttackPattern CurrentAttack { get; private set; }
       private UnityAction CurrentAttackCallback { get; set; }
       public bool IsExecutingAttack => CurrentAttack;
 
@@ -19,9 +19,11 @@ namespace BossRushJam25.Character.Bosses {
          }
       }
 
-      public void ExecuteNextAttack(UnityAction callback) {
+      public void ExecuteNextAttack(UnityAction callback) => ExecuteAttack(AttackPatterns.OrderBy(_ => Random.value).First(), callback);
+
+      public void ExecuteAttack(BossAttackPattern attack, UnityAction callback) {
          CurrentAttackCallback = callback;
-         CurrentAttack = AttackPatterns.OrderBy(_ => Random.value).First();
+         CurrentAttack = attack;
          CurrentAttack.OnExecuted.AddListener(HandleAttackExecuted);
          CurrentAttack.Execute();
       }
@@ -37,8 +39,7 @@ namespace BossRushJam25.Character.Bosses {
          CurrentAttack = default;
       }
 
-      public bool HasPatterns()
-      {
+      public bool HasPatterns() {
          return AttackPatterns.Count > 0;
       }
    }
