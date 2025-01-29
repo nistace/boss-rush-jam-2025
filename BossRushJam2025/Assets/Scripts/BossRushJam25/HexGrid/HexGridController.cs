@@ -37,6 +37,22 @@ namespace BossRushJam25.HexGrid {
          Instance = this;
       }
 
+      private void Update()
+      {
+         UpdateHexNavigation();
+      }
+
+      private void UpdateHexNavigation()
+      {
+         foreach(GridHex hex in Hexes.Values)
+         {
+            if(hex.IsDirty)
+            {
+               hex.UpdateHexNavigation();
+            }
+         }
+      }
+
       public Vector3 CoordinatesToWorldPosition(Vector2Int coordinates) {
          var x = coordinates.x;
          var z = coordinates.y;

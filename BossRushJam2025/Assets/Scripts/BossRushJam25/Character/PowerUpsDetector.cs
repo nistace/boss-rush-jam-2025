@@ -76,7 +76,7 @@ namespace BossRushJam25.Character
             }
         }
 
-        private void FixedUpdate()
+        private void Update()
         {
             CollectNearPowerUps();
             CheckNearestPowerUp();

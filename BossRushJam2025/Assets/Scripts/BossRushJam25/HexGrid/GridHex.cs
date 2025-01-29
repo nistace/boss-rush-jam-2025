@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using BossRushJam25.BossFights;
 using BossRushJam25.Health;
 using UnityEngine;
 using UnityEngine.AI;
@@ -20,6 +21,8 @@ namespace BossRushJam25.HexGrid {
       public Vector2Int Coordinates { get; private set; }
       public string InitialName { get; set; }
       public bool IsMoving { get; private set; }
+      public bool IsTargeted { get; private set; }
+      public bool IsDirty { get; private set; }
 
       public UnityEvent<bool> OnMovingChanged { get; } = new UnityEvent<bool>();
       public HashSet<object> SourcesLockingInPlace { get; } = new HashSet<object>();
@@ -90,9 +93,26 @@ namespace BossRushJam25.HexGrid {
          }
 
          IsMoving = isMoving;
-         navMeshObstacle.enabled = IsMoving || type.AlwaysAnObstacle;
-
+         IsTargeted = false;
+         IsDirty = true;
          OnMovingChanged.Invoke(IsMoving);
+      }
+
+      public void SetAsTargeted(bool isTargeted) {
+         if (isTargeted == IsTargeted) {
+            return;
+         }
+
+         IsTargeted = isTargeted;
+         IsDirty = true;
+      }
+
+      public void UpdateHexNavigation()
+      {
+         GridHex hero_linked_hex = BossFightInfo.Hero.HexLink.LinkedHex;
+         bool neighbour_is_hero_linked_hex = HexGridController.Instance.GetNeighbours(Coordinates).Any(neighbour => neighbour == hero_linked_hex);
+         navMeshObstacle.enabled = this != hero_linked_hex && (IsMoving || (IsTargeted && !neighbour_is_hero_linked_hex) || type.AlwaysAnObstacle);
+         IsDirty = false;
       }
 
       public void TryDamageContents(int damageDealt, DamageType damageType) {

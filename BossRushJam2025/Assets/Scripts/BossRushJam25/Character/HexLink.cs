@@ -22,9 +22,7 @@ namespace BossRushJam25.Character {
          if (HexGridController.Instance.TryGetHex(HexGridController.Instance.WorldToCoordinates(transform.position), out var hex)) {
             LinkedHex = hex;
             LinkedHex.SetLockedInPlaceBy(this, lockHex);
-
-            agent.obstacleAvoidanceType = LinkedHex.IsMoving ? ObstacleAvoidanceType.NoObstacleAvoidance : ObstacleAvoidanceType.HighQualityObstacleAvoidance;
-            agent.isStopped = LinkedHex.IsMoving;
+            // agent.obstacleAvoidanceType = LinkedHex.IsTargeted ? ObstacleAvoidanceType.NoObstacleAvoidance : ObstacleAvoidanceType.HighQualityObstacleAvoidance;
 
             LinkedHex.ParentTransformToHexContent(transform, false, false);
             if (hexHighlight) {
