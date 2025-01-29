@@ -21,6 +21,8 @@ namespace BossRushJam25.Cameras {
       protected float closestGridZPosition;
 
       private Vector3 CurrentTargetPosition { get; set; }
+      public float SqrDistanceWithTargetPosition => (transform.position - CurrentTargetPosition).sqrMagnitude;
+
       private Vector3 currentVelocity;
       private float pitchCurrentVelocity;
 
