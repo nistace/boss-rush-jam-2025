@@ -13,7 +13,7 @@ namespace BossRushJam25.Character.AI.Actions.ActionTriggers
         {
             action = null;
 
-            if(character.Health.HealthRatio < minHealthRatio)
+            if(character.Health.Ratio < minHealthRatio)
             {
                 return false;
             }

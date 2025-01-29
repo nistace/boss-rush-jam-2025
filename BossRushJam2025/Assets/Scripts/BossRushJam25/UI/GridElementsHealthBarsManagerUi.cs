@@ -37,7 +37,7 @@ namespace BossRushJam25.UI {
             }
          }
          else {
-            if (!Mathf.Approximately(gridHexContentHealth.HealthRatio, 0) && !Mathf.Approximately(gridHexContentHealth.HealthRatio, 1)) {
+            if (!Mathf.Approximately(gridHexContentHealth.Ratio, 0) && !Mathf.Approximately(gridHexContentHealth.Ratio, 1)) {
                barUi = PooledHealthBarUis.Count > 0 ? PooledHealthBarUis.Dequeue() : Instantiate(healthBarPrefab, transform);
                barUi.gameObject.SetActive(true);
                barUi.Setup(gridHexContentHealth);

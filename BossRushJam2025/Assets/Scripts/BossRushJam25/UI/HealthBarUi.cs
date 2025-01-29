@@ -17,18 +17,18 @@ namespace BossRushJam25.UI {
          ObservedHealthSystem?.OnHealthChanged.RemoveListener(HandleHealthChanged);
          ObservedHealthSystem = healthSystem;
          ObservedHealthSystem.OnHealthChanged.AddListener(HandleHealthChanged);
-         healthBarFillImage.fillAmount = healthSystem.HealthRatio;
-         healthBarDiffImage.fillAmount = healthSystem.HealthRatio;
+         healthBarFillImage.fillAmount = healthSystem.Ratio;
+         healthBarDiffImage.fillAmount = healthSystem.Ratio;
          AdjustmentStartTime = 0;
       }
 
       private void HandleHealthChanged(int newHealth, int diff) {
          if (ObservedHealthSystem == null) return;
          if (diff < 0) {
-            healthBarFillImage.fillAmount = ObservedHealthSystem.HealthRatio;
+            healthBarFillImage.fillAmount = ObservedHealthSystem.Ratio;
          }
          else {
-            healthBarDiffImage.fillAmount = ObservedHealthSystem.HealthRatio;
+            healthBarDiffImage.fillAmount = ObservedHealthSystem.Ratio;
          }
          AdjustmentStartTime = Time.time;
       }
@@ -36,8 +36,8 @@ namespace BossRushJam25.UI {
       private void Update() {
          if (ObservedHealthSystem == null) return;
          var adjustmentDelta = adjustmentOverTime.Evaluate(Time.time - AdjustmentStartTime) * Time.deltaTime;
-         healthBarFillImage.fillAmount = Mathf.MoveTowards(healthBarFillImage.fillAmount, ObservedHealthSystem.HealthRatio, adjustmentDelta);
-         healthBarDiffImage.fillAmount = Mathf.MoveTowards(healthBarDiffImage.fillAmount, ObservedHealthSystem.HealthRatio, adjustmentDelta);
+         healthBarFillImage.fillAmount = Mathf.MoveTowards(healthBarFillImage.fillAmount, ObservedHealthSystem.Ratio, adjustmentDelta);
+         healthBarDiffImage.fillAmount = Mathf.MoveTowards(healthBarDiffImage.fillAmount, ObservedHealthSystem.Ratio, adjustmentDelta);
       }
    }
 }
