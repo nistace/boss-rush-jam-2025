@@ -39,8 +39,8 @@ namespace BossRushJam25.HexGrid {
             hex.ParentTransformToHexContent(visual, true, true);
             Instance.ActiveAffectedHexes.Add(position, visual);
          }
-         else {
-            Instance.PoolVisual(Instance.ActiveAffectedHexes[position]);
+         else if (Instance.ActiveAffectedHexes.TryGetValue(position, out var existingVisual)) {
+            Instance.PoolVisual(existingVisual);
             Instance.ActiveAffectedHexes.Remove(position);
          }
       }
