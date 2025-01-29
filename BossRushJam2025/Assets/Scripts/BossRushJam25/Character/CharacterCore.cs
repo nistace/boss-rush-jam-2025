@@ -1,3 +1,4 @@
+using BossRushJam25.BossFights;
 using BossRushJam25.Character.AI;
 using BossRushJam25.Character.Heroes;
 using BossRushJam25.Health;
@@ -38,7 +39,22 @@ namespace BossRushJam25.Character
             batteryDetector.Initialize(this);
             actionsTrigger?.Initialize(this);
             bossPatternDetector?.Initialize(this);
+            navMeshAgent.enabled = BossFightInfo.IsPlaying;
         }
+
+        private void Start() 
+        {
+            BossFightInfo.OnStarted.AddListener(HandleBossFightStarted);
+            BossFightInfo.OnEnded.AddListener(HandleBossFightEnded);
+        }
+
+        private void OnDestroy() {
+            BossFightInfo.OnStarted?.RemoveListener(HandleBossFightStarted);
+            BossFightInfo.OnEnded?.RemoveListener(HandleBossFightEnded);
+        }
+
+        private void HandleBossFightStarted() => navMeshAgent.enabled = BossFightInfo.IsPlaying;
+        private void HandleBossFightEnded() => navMeshAgent.enabled = BossFightInfo.IsPlaying;
 
         public void ChangeDamageInfo(DamageInfo newDamageInfo) => DamageInfo = newDamageInfo;
     }

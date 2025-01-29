@@ -1,6 +1,7 @@
 ﻿using BossRushJam25.Character;
 using BossRushJam25.Character.Bosses;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace BossRushJam25.BossFights {
    public static class BossFightInfo {
@@ -12,6 +13,9 @@ namespace BossRushJam25.BossFights {
       public static bool IsPlaying => StartTime > 0 && EndTime < 0;
       public static bool IsOver => StartTime > 0 && EndTime > 0;
 
+      public static UnityEvent OnStarted { get; } = new UnityEvent();
+      public static UnityEvent OnEnded { get; } = new UnityEvent();
+
       public static void Setup(CharacterCore hero, BossCore boss) {
          Hero = hero;
          Boss = boss;
@@ -19,7 +23,14 @@ namespace BossRushJam25.BossFights {
          EndTime = -1;
       }
 
-      public static void StartBattle() => StartTime = Time.time;
-      public static void EndBattle() => EndTime = Time.time;
+      public static void StartBattle() {
+         StartTime = Time.time;
+         OnStarted.Invoke();
+      }
+
+      public static void EndBattle() {
+         EndTime = Time.time;
+         OnEnded.Invoke();
+      }
    }
 }

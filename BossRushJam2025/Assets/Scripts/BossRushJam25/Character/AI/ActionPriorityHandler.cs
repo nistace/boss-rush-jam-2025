@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using BossRushJam25.BossFights;
 using BossRushJam25.Character.AI.Actions;
 using BossRushJam25.Character.AI.Actions.ActionData;
 using BossRushJam25.Character.AI.Actions.ActionTriggers;
@@ -192,8 +193,9 @@ namespace BossRushJam25.Character.AI
             }
         }
 
-        private void Update()
-        {
+        private void Update() {
+            if (!BossFightInfo.IsPlaying) return;
+            
             ProcessActiveAction();
             DrawPreviews();
             CheckEvaluationTick();
