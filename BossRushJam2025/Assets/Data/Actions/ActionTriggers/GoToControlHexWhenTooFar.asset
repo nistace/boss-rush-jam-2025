@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isActive: 1
   priority: 100
-  maxDistanceWithControlHex: 3
+  maxDistanceWithControlHex: 10
   controlHexType: {fileID: 11400000, guid: 0da08814fdfec444489232d32e17523e, type: 2}
