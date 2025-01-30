@@ -74,10 +74,10 @@ namespace BossRushJam25.Character.Bosses.GoldFist {
       }
 
       private void RefreshAreaOfEffect() {
-         AffectedHexesManager.HideAllAffectedHexes();
+         AffectedHexesManager.HideAllAffectedHexes(this);
 
          foreach (var hexCoordinates in GetAffectedHexes()) {
-            AffectedHexesManager.SetAffectedHex(hexCoordinates, true);
+            AffectedHexesManager.SetAffectedHex(this, hexCoordinates, true);
          }
       }
 

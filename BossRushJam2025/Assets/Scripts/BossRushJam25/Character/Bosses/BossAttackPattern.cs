@@ -43,7 +43,7 @@ namespace BossRushJam25.Character.Bosses {
 
          IsExecuting = false;
          gameObjectToActivationDuringExecution.gameObject.SetActive(false);
-         AffectedHexesManager.HideAllAffectedHexes();
+         AffectedHexesManager.HideAllAffectedHexes(this);
 
          if (InterruptAsap) OnInterrupted.Invoke();
          else OnExecuted.Invoke();

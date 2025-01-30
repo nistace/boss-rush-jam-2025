@@ -9,6 +9,7 @@ namespace BossRushJam25.Combat {
       [SerializeField] protected GridHexContent hexContent;
       [SerializeField] protected bool active;
       [SerializeField] protected DamageInfo damageInfo = new DamageInfo();
+      [SerializeField] protected float lockAffectedHexBeforeEndOfCooldown = 1;
       [SerializeField] protected float cooldown = 4;
       [SerializeField] protected Transform rotatingPart;
       [SerializeField] protected float rotationSpeed = 60;
@@ -32,6 +33,10 @@ namespace BossRushJam25.Combat {
          CurrentCooldown = cooldown;
       }
 
+      private void OnDestroy() {
+         AffectedHexesManager.HideAllAffectedHexes(this);
+      }
+
       private void Update() {
          if (!BossFightInfo.IsPlaying) return;
          if (!active) return;
@@ -39,8 +44,10 @@ namespace BossRushJam25.Combat {
          if (DamageRunner.HasStarted) {
             DamageRunner.Continue(Time.deltaTime);
 
-            if (DamageRunner.DamageDealtThisFrame > 0) {
-               foreach (var damagedCoordinates in LaserUtils.Shoot(HexGridController.Instance.WorldToCoordinates(transform.position), TargetDirection, true, out coordinatesWhereShotIsBlocked)) {
+            AffectedHexesManager.HideAllAffectedHexes(this);
+            foreach (var damagedCoordinates in LaserUtils.Shoot(HexGridController.Instance.WorldToCoordinates(transform.position), TargetDirection, true, out coordinatesWhereShotIsBlocked)) {
+               AffectedHexesManager.SetAffectedHex(this, damagedCoordinates, true);
+               if (DamageRunner.DamageDealtThisFrame > 0) {
                   if (CombatUtils.GetHeroCoordinates() == damagedCoordinates) {
                      CombatUtils.DamageHero(damageInfo.DamageType, DamageRunner.DamageDealtThisFrame);
                   }
@@ -48,18 +55,29 @@ namespace BossRushJam25.Combat {
                      hex.TryDamageContents(DamageRunner.DamageDealtThisFrame, DamageType.Laser);
                   }
                }
+            }
 
-               if (DamageRunner.Done()) {
-                  DamageRunner.Reset();
-                  CurrentCooldown = cooldown;
-               }
+            if (DamageRunner.DamageDealtThisFrame > 0 && HexGridController.Instance.TryGetHex(coordinatesWhereShotIsBlocked, out var lastHex)) {
+               lastHex.TryDamageContents(DamageRunner.DamageDealtThisFrame, damageInfo.DamageType);
+            }
+
+            if (DamageRunner.Done()) {
+               DamageRunner.Reset();
+               AffectedHexesManager.HideAllAffectedHexes(this);
+               CurrentCooldown = cooldown;
             }
          }
          else {
             CurrentCooldown -= Time.deltaTime;
 
-            if (CurrentCooldown > 0) {
+            if (CurrentCooldown > lockAffectedHexBeforeEndOfCooldown) {
                TargetDirection = HexCoordinates.RotationToDirection(Vector3.SignedAngle(Vector3.forward, BossFightInfo.Hero.HexLink.LinkedHex.transform.position - rotatingPart.position, Vector3.up));
+            }
+            else {
+               AffectedHexesManager.HideAllAffectedHexes(this);
+               foreach (var damagedCoordinates in LaserUtils.Shoot(HexGridController.Instance.WorldToCoordinates(transform.position), TargetDirection, true, out coordinatesWhereShotIsBlocked)) {
+                  AffectedHexesManager.SetAffectedHex(this, damagedCoordinates, true);
+               }
             }
 
             var targetYawDegrees = TargetDirection.ToYawDegrees();

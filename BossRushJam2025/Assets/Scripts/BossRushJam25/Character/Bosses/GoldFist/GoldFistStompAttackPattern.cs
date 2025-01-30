@@ -39,9 +39,7 @@ namespace BossRushJam25.Character.Bosses.GoldFist {
          Animator.NextPhase();
 
          for (var castTime = 0f; !InterruptAsap && castTime < castDuration; castTime += Time.deltaTime) {
-            transform.position = Vector3.MoveTowards(transform.position,
-               HexGridController.Instance.CoordinatesToWorldPosition(CombatUtils.GetHeroCoordinates()),
-               followSpeed * Time.deltaTime);
+            transform.position = Vector3.MoveTowards(transform.position, HexGridController.Instance.CoordinatesToWorldPosition(CombatUtils.GetHeroCoordinates()), followSpeed * Time.deltaTime);
 
             RefreshAreaOfEffect();
             yield return null;
@@ -64,7 +62,7 @@ namespace BossRushJam25.Character.Bosses.GoldFist {
          AddFistAsHexContents();
          FistRaised = false;
          DealDamageOnAffectedHexes();
-         AffectedHexesManager.HideAllAffectedHexes();
+         AffectedHexesManager.HideAllAffectedHexes(this);
 
          for (var timeAfterHitDone = 0f; !InterruptAsap && timeAfterHitDone < delayAfterDamageDealt; timeAfterHitDone += Time.deltaTime) {
             yield return null;
@@ -123,9 +121,9 @@ namespace BossRushJam25.Character.Bosses.GoldFist {
       }
 
       private void RefreshAreaOfEffect() {
-         AffectedHexesManager.HideAllAffectedHexes();
+         AffectedHexesManager.HideAllAffectedHexes(this);
          foreach (var hex in EvaluateTargetedHexes()) {
-            AffectedHexesManager.SetAffectedHex(hex, true);
+            AffectedHexesManager.SetAffectedHex(this, hex, true);
          }
       }
 
