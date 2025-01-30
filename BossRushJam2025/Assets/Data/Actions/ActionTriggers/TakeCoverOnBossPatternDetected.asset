@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: TakeCoverOnBossPatternDetected
   m_EditorClassIdentifier: 
   isActive: 0
-  priority: 80
+  priority: 10

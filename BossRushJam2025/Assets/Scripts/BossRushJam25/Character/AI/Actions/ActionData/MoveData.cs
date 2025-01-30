@@ -5,8 +5,8 @@ namespace BossRushJam25.Character.AI.Actions.ActionData
     [CreateAssetMenu(fileName = "MoveData", menuName = "Actions/MoveData")]
     public class MoveData : AActionData
     {
-        [SerializeField] private int priorityPointsPerMeter = 1;
+        [SerializeField] private int priorityPointsPerSqrMeter = 1;
 
-        public int PriorityPointsPerMeter => priorityPointsPerMeter;
+        public int PriorityPointsPerSqrMeter => priorityPointsPerSqrMeter;
     }
 }

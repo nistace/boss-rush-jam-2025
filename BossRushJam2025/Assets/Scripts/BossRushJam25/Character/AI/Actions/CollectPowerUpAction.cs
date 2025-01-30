@@ -7,7 +7,7 @@ namespace BossRushJam25.Character.AI.Actions
         protected GameObject powerUp;
         protected MoveAction moveAction;
 
-        protected override EActionType Type => EActionType.CollectPowerUp;
+        protected override EActionType Type => EActionType.TakeCover;
         public override EActionStatus Status
         {
             get

@@ -84,6 +84,5 @@ namespace BossRushJam25.Character.AI.Actions
         CollectPowerUp = 2,
         Dodge = 3,
         AttackMelee = 4,
-        GoToControlHex = 5,
     }
 }

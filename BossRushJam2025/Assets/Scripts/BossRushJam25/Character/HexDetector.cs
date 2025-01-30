@@ -50,7 +50,7 @@ namespace BossRushJam25.Character
             {
                 GridHex hex = detectedHexes[hexIndex];
 
-                if(!HexMatchesFilters(hex))
+                if(HexMatchesFilters(hex))
                 {
                     detectedHexes.Remove(hex);
                 }
@@ -60,7 +60,7 @@ namespace BossRushJam25.Character
         private bool HexMatchesFilters(GridHex hex)
         {
             return (hexTypes.Count == 0 || hexTypes.Contains(hex.Type))
-                    && (contentTypes.Count == 0 || hex.HexContents.Any(content => contentTypes.Contains(content.Type)));
+                    && (contentTypes.Count == 0 || !hex.HexContents.Any(content => contentTypes.Contains(content.Type)));
         }
 
         private void OnTriggerEnter(Collider collider)

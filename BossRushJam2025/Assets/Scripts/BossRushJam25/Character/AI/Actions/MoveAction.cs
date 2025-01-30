@@ -1,6 +1,5 @@
 using BossRushJam25.Character.AI.Actions.ActionData;
 using BossRushJam25.GameControllers;
-using BossRushJam25.HexGrid;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -11,7 +10,7 @@ namespace BossRushJam25.Character.AI.Actions
         protected MoveData data;
         protected LineRenderer pathLine;
         protected NavMeshPath path = new();
-        protected EDistanceImpactOnPriority distanceImpactOnPriority;
+        protected bool distanceImpactsPriority;
 
         protected override EActionType Type => EActionType.Move;
         public Vector3 Destination { get; private set; }
@@ -32,12 +31,12 @@ namespace BossRushJam25.Character.AI.Actions
             }
         }
 
-        public MoveAction(CharacterCore character, Vector3 destination, int basePriority = 0, EDistanceImpactOnPriority distanceImpactOnPriority = EDistanceImpactOnPriority.ShortHasHighPriority) : base(character, basePriority)
+        public MoveAction(CharacterCore character, Vector3 destination, int basePriority = 0, bool distanceImpactsPriority = true) : base(character, basePriority)
         {
             data = (MoveData)base.character.ActionPriorityHandler.ActionDataMap[EActionType.Move];
 
             Destination = destination;
-            this.distanceImpactOnPriority = distanceImpactOnPriority;
+            this.distanceImpactsPriority = distanceImpactsPriority;
         }
 
         public override void Execute()
@@ -98,26 +97,9 @@ namespace BossRushJam25.Character.AI.Actions
 
             ComputePath();
 
-            float longestDistance = HexGridController.Instance.WorldGridRadius * 2;
-
-            switch (distanceImpactOnPriority)
+            if(distanceImpactsPriority)
             {
-                case EDistanceImpactOnPriority.LongHasHighPriority:
-                {
-                    Priority = Mathf.RoundToInt(Priority * ComputePathLength(path) / longestDistance * data.PriorityPointsPerMeter);
-
-                    break;
-                }
-                case EDistanceImpactOnPriority.ShortHasHighPriority:
-                {
-                    Priority = Mathf.RoundToInt(Priority * 1 - (ComputePathLength(path) / longestDistance * data.PriorityPointsPerMeter));
-
-                    break;
-                }
-                case EDistanceImpactOnPriority.None:
-                {
-                    break;
-                }
+                Priority -= (int)ComputeSqrPathLength(path) / data.PriorityPointsPerSqrMeter;
             }
         }
 
@@ -132,16 +114,16 @@ namespace BossRushJam25.Character.AI.Actions
             NavMesh.CalculatePath(source, destination, NavMesh.AllAreas, path);
         }
 
-        private static float ComputePathLength(NavMeshPath path)
+        private static float ComputeSqrPathLength(NavMeshPath path)
         {
-            float length = 0;
+            float sqrLength = 0;
 
             for(int cornerIndex = 1; cornerIndex < path.corners.Length; cornerIndex++)
             {
-                length += (path.corners[cornerIndex] - path.corners[cornerIndex - 1]).magnitude;
+                sqrLength += (path.corners[cornerIndex] - path.corners[cornerIndex - 1]).sqrMagnitude;
             }
 
-            return length;
+            return sqrLength;
         }
 
         public override string ToString()
@@ -163,12 +145,5 @@ namespace BossRushJam25.Character.AI.Actions
         {
             return Destination.GetHashCode();
         }
-    }
-
-    public enum EDistanceImpactOnPriority
-    {
-        None = 0,
-        LongHasHighPriority = 1,
-        ShortHasHighPriority = 2,
     }
 }
