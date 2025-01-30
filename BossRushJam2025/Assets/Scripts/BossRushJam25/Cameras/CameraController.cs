@@ -11,8 +11,6 @@ namespace BossRushJam25.Cameras {
       [SerializeField] protected Vector3 gamePosition;
       [SerializeField] protected float smoothVelocity;
       [SerializeField] protected float maxSpeed;
-      [SerializeField] protected Transform backgroundObject;
-      [SerializeField] protected AnimationCurve zToBackgroundYCurve;
       [SerializeField] protected float minPitch;
       [SerializeField] protected float maxPitch;
       [SerializeField] protected Transform cameraRotation;
@@ -38,7 +36,6 @@ namespace BossRushJam25.Cameras {
 
       private void Update() {
          transform.position = Vector3.SmoothDamp(transform.position, CurrentTargetPosition, ref currentVelocity, smoothVelocity, maxSpeed);
-         backgroundObject.localPosition = new Vector3(backgroundObject.localPosition.x, zToBackgroundYCurve.Evaluate(transform.position.z), backgroundObject.localPosition.z);
 
          if(BossFightInfo.Hero != null)
          {

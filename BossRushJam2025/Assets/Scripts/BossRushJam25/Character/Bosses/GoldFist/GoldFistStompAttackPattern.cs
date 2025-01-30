@@ -65,6 +65,7 @@ namespace BossRushJam25.Character.Bosses.GoldFist {
          FistRaised = false;
          DealDamageOnAffectedHexes();
          AffectedHexesManager.HideAllAffectedHexes();
+         feedbacksPlayer.PlayFeedbacks();
 
          for (var timeAfterHitDone = 0f; !InterruptAsap && timeAfterHitDone < delayAfterDamageDealt; timeAfterHitDone += Time.deltaTime) {
             yield return null;
