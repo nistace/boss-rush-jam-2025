@@ -10,6 +10,7 @@ namespace BossRushJam25.Character.AI.Actions
         protected MoveData data;
         protected LineRenderer pathLine;
         protected NavMeshPath path = new();
+        protected bool distanceImpactsPriority;
 
         protected override EActionType Type => EActionType.Move;
         public Vector3 Destination { get; private set; }
@@ -30,11 +31,12 @@ namespace BossRushJam25.Character.AI.Actions
             }
         }
 
-        public MoveAction(CharacterCore character, Vector3 destination, int basePriority = 0) : base(character, basePriority)
+        public MoveAction(CharacterCore character, Vector3 destination, int basePriority = 0, bool distanceImpactsPriority = true) : base(character, basePriority)
         {
             data = (MoveData)base.character.ActionPriorityHandler.ActionDataMap[EActionType.Move];
 
             Destination = destination;
+            this.distanceImpactsPriority = distanceImpactsPriority;
         }
 
         public override void Execute()
@@ -94,7 +96,11 @@ namespace BossRushJam25.Character.AI.Actions
             base.ComputePriority();
 
             ComputePath();
-            Priority -= (int)ComputeSqrPathLength(path) / data.PriorityPointsPerSqrMeter;
+
+            if(distanceImpactsPriority)
+            {
+                Priority -= (int)ComputeSqrPathLength(path) / data.PriorityPointsPerSqrMeter;
+            }
         }
 
         private void ComputePath()

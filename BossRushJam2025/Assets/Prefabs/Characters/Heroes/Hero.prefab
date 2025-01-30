@@ -124,7 +124,8 @@ GameObject:
   - component: {fileID: 2398727888956531791}
   - component: {fileID: 6405035993964295462}
   - component: {fileID: 3854413985686711417}
-  m_Layer: 0
+  - component: {fileID: 8726380467693108854}
+  m_Layer: 9
   m_Name: Hero
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -231,6 +232,7 @@ MonoBehaviour:
     - Key: 0
       Value: {fileID: 11400000, guid: 85a307d1617f39449a68f38112aedca6, type: 2}
   actionTriggers:
+  - {fileID: 11400000, guid: 286d599ef0fc68d4ea7ab84cdb0886d6, type: 2}
   - {fileID: 11400000, guid: 884b25917a194654bb620af916a010f8, type: 2}
   - {fileID: 11400000, guid: 877aa8bb0933ecb4495bb74631a7db09, type: 2}
   - {fileID: 11400000, guid: 5744230e845f8fa4fb2eb7153d75e0c0, type: 2}
@@ -286,6 +288,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c8d950098ca2b204284b80d97802b4db, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!136 &8726380467693108854
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4300564425374020743}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.61
+  m_Height: 2.6
+  m_Direction: 1
+  m_Center: {x: 0, y: 1, z: 0}
 --- !u!1 &5087481362050016198
 GameObject:
   m_ObjectHideFlags: 0
@@ -869,6 +894,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4357732764964653306}
+  - component: {fileID: 1123769432115928658}
+  - component: {fileID: 9138132993456523685}
   - component: {fileID: 8354294903565279185}
   m_Layer: 0
   m_Name: DamageableDetector
@@ -892,7 +919,28 @@ Transform:
   m_Children: []
   m_Father: {fileID: 5849136863364302022}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &8354294903565279185
+--- !u!135 &1123769432115928658
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6700042598419130955}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 5
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &9138132993456523685
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -901,7 +949,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 6700042598419130955}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b8491cc0ffa36b647a12f338cf53b1e2, type: 3}
+  m_Script: {fileID: 11500000, guid: c119c0be0a94abc40ad8b4e3af0446e1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   detectionRadius: 5
