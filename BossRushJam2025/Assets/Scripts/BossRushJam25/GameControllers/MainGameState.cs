@@ -27,7 +27,8 @@ namespace BossRushJam25.GameControllers {
          Hero = Object.Instantiate(GameConfig.Instance.HeroPrefab, heroSpawnPosition, Quaternion.identity);
          Boss = Object.Instantiate(GameConfig.Instance.BossPrefab);
          BossFightInfo.Setup(Hero, Boss);
-         Hero.Initialize();
+         HexContentDetector hexContentDetector = Object.FindFirstObjectByType<HexContentDetector>();
+         Hero.Initialize(hexContentDetector);
          Boss.Initialize();
 
          MainCanvas.Game.HeroHealthBar.Setup(Hero.Health);

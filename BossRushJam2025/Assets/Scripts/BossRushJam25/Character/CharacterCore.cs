@@ -1,6 +1,7 @@
 using BossRushJam25.BossFights;
 using BossRushJam25.Character.AI;
 using BossRushJam25.Character.Heroes;
+using BossRushJam25.ControlHex;
 using BossRushJam25.Health;
 using UnityEngine;
 using UnityEngine.AI;
@@ -13,29 +14,31 @@ namespace BossRushJam25.Character
         [SerializeField] protected HexLink hexLink;
         [SerializeField] protected NavMeshAgent navMeshAgent;
         [SerializeField] protected ActionPriorityHandler actionPriorityHandler;
-        [SerializeField] protected PowerUpsDetector powerUpsDetector;
-        [SerializeField] protected DamageableHexDetector damageableHexDetector;
+        [SerializeField] protected PowerUpsCollector powerUpsCollector;
+        [SerializeField] protected HexContentDetector damageableHexDetector;
         [SerializeField] protected BossPatternDetector bossPatternDetector;
         [SerializeField] protected DebugActionsTrigger actionsTrigger;
         [SerializeField] protected HeroAnimator animator;
 
+        private HexContentDetector hexContentDetector;
+
         public NavMeshAgent NavMeshAgent => navMeshAgent;
         public HexLink HexLink => hexLink;
         public ActionPriorityHandler ActionPriorityHandler => actionPriorityHandler;
-        public PowerUpsDetector PowerUpsDetector => powerUpsDetector;
-        public DamageableHexDetector DamageableHexDetector => damageableHexDetector;
+        public HexContentDetector HexContentDetector => hexContentDetector;
         public BossPatternDetector BossPatternDetector => bossPatternDetector;
         public DamageInfo DamageInfo { get; private set; }
         public HealthSystem Health { get; private set; }
         public CharacterType Type => type;
         public HeroAnimator Animator => animator;
 
-        public void Initialize()
+        public void Initialize(HexContentDetector hexContentDetector)
         {
+            this.hexContentDetector = hexContentDetector;
             Health = new HealthSystem(type.MaxHealth, type.Vulnerabilities);
             DamageInfo = type.DamageInfo;
             actionPriorityHandler.Initialize(this);
-            powerUpsDetector.Initialize(this);
+            powerUpsCollector.Initialize(this);
             actionsTrigger?.Initialize(this);
             bossPatternDetector?.Initialize(this);
             navMeshAgent.enabled = BossFightInfo.IsPlaying;

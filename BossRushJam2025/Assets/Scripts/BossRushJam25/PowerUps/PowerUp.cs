@@ -1,5 +1,4 @@
-﻿using BossRushJam25.Character;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.Events;
 
 namespace BossRushJam25.PowerUps {
@@ -10,17 +9,8 @@ namespace BossRushJam25.PowerUps {
 
       public static UnityEvent<PowerUp> OnAnyCollected { get; } = new UnityEvent<PowerUp>();
 
-      public void Collect(CharacterCore collector) {
-         if (type.HealAmount > 0) {
-            collector.Health.Heal(type.HealAmount);
-         }
-         if (type.DamageUpAmount > 0) {
-            collector.ChangeDamageInfo(collector.DamageInfo.WithIncreasedDamage(type.DamageUpAmount));
-         }
-         if (type.DamageSpeedUpAmount > float.Epsilon) {
-            collector.ChangeDamageInfo(collector.DamageInfo.WithIncreasedSpeed(type.DamageSpeedUpAmount));
-         }
-
+      public void Destroy()
+      {
          OnAnyCollected.Invoke(this);
          Destroy(gameObject);
       }

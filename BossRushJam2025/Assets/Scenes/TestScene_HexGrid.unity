@@ -2888,7 +2888,6 @@ MonoBehaviour:
     m_ColorSpace: -1
     m_NumColorKeys: 2
     m_NumAlphaKeys: 2
-  heroSpawnHexType: {fileID: 11400000, guid: aa07d9167bebcd24792ccb82fdb53c4f, type: 2}
   coverTypes:
   - {fileID: 11400000, guid: 0727135848fead74e90a9dbe595130b4, type: 2}
 --- !u!224 &1604926321 stripped

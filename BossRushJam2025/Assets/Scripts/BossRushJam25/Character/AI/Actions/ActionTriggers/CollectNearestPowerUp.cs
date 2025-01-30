@@ -9,12 +9,12 @@ namespace BossRushJam25.Character.AI.Actions.ActionTriggers
         {
             action = null;
 
-            if(character.PowerUpsDetector.NearestPowerUp == null)
+            if (!character.HexContentDetector.TryGetNearestPowerUp(character.transform.position, out var nearestPowerUp))
             {
                 return false;
             }
 
-            action = new CollectPowerUpAction(character, character.PowerUpsDetector.NearestPowerUp.gameObject, priority);
+            action = new CollectPowerUpAction(character, nearestPowerUp, priority);
 
             return true;
         }

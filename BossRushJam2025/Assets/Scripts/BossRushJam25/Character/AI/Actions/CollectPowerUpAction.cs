@@ -1,10 +1,11 @@
+using BossRushJam25.PowerUps;
 using UnityEngine;
 
 namespace BossRushJam25.Character.AI.Actions
 {
     public class CollectPowerUpAction : AAction
     {
-        protected GameObject powerUp;
+        protected PowerUp powerUp;
         protected MoveAction moveAction;
 
         protected override EActionType Type => EActionType.TakeCover;
@@ -21,7 +22,7 @@ namespace BossRushJam25.Character.AI.Actions
             }
         }
 
-        public CollectPowerUpAction(CharacterCore character, GameObject powerUp, int basePriority = 0) : base(character, basePriority)
+        public CollectPowerUpAction(CharacterCore character, PowerUp powerUp, int basePriority = 0) : base(character, basePriority)
         {
             this.powerUp = powerUp;
             moveAction = new(base.character, powerUp.transform.position);
