@@ -80,9 +80,13 @@ namespace BossRushJam25.Combat {
                }
             }
 
+            var currentYawDegrees = Vector3.SignedAngle(Vector3.forward, rotatingPart.forward, Vector3.up);
             var targetYawDegrees = TargetDirection.ToYawDegrees();
 
-            rotatingPart.rotation = Quaternion.Euler(0, Mathf.MoveTowards(Vector3.SignedAngle(Vector3.forward, rotatingPart.forward, Vector3.up), targetYawDegrees, Time.deltaTime * rotationSpeed), 0);
+            if (Mathf.Abs(targetYawDegrees + 360 - currentYawDegrees) < Mathf.Abs(targetYawDegrees - currentYawDegrees)) targetYawDegrees += 360;
+            if (Mathf.Abs(targetYawDegrees - 360 - currentYawDegrees) < Mathf.Abs(targetYawDegrees - currentYawDegrees)) targetYawDegrees -= 360;
+
+            rotatingPart.rotation = Quaternion.Euler(0, Mathf.MoveTowards(currentYawDegrees, targetYawDegrees, Time.deltaTime * rotationSpeed), 0);
 
             if (CurrentCooldown < 0 && Mathf.Abs(targetYawDegrees - Vector3.SignedAngle(Vector3.forward, rotatingPart.forward, Vector3.up)) < 2) {
                DamageRunner.Continue(Time.deltaTime);
