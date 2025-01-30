@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spawnZOffset: 0
   healAmount: 0
-  damageUpAmount: 1
+  damageUpAmount: 3
   damageSpeedUpAmount: 0

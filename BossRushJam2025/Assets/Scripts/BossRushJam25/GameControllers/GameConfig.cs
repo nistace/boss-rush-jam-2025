@@ -15,7 +15,6 @@ namespace BossRushJam25.GameControllers {
       [SerializeField] protected BossCore bossPrefab;
       [SerializeField] protected LineRenderer pathLinePrefab;
       [SerializeField] protected Gradient actionPreviewsGradient;
-      [SerializeField] protected GridHexType heroSpawnHexType;
       [SerializeField] protected List<GridHexContentType> coverTypes;
 
       public PowerUpsManager PowerUpsManager => powerUpsManager;
@@ -24,7 +23,6 @@ namespace BossRushJam25.GameControllers {
       public BossCore BossPrefab => bossPrefab;
       public LineRenderer PathLinePrefab => pathLinePrefab;
       public Gradient ActionPreviewsGradient => actionPreviewsGradient;
-      public GridHexType HeroSpawnHexType => heroSpawnHexType;
       public List<GridHexContentType> CoverTypes => coverTypes;
 
       private void Awake() {

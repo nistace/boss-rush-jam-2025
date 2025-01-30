@@ -14,5 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxToSpawn: 4
   rotationStepsInHex: 6
+  preventPowerUpSpawning: 1
+  locksHexInPlace: 0
+  isInvincible: 0
   maxHealth: 1
+  canDisplayHealthBar: 1
   vulnerabilities: 0
+  obstacleForDamageTypes: 0

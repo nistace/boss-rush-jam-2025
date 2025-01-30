@@ -22,10 +22,13 @@ namespace BossRushJam25.HexGrid {
 
       private float InnerRadius { get; set; }
       public int GridRadius => gridRadius;
+      public float WorldRadius => gridRadius * hexRadius * 2;
       public ICollection<GridHex> AllHexes => Hexes.Values;
-      public Dictionary<GridHexType, GridHex> RequiredHexes = new();
+      public GridHex HeroSpawnHex { get; private set; }
+      public GridHex ControlHex { get; private set; }
 
       public static Vector2Int Center => Vector2Int.zero;
+      public static Vector3 WorldCenter => Vector3.zero;
       public static UnityEvent OnBuilt { get; } = new UnityEvent();
       public static UnityEvent<HexGridPreset> OnBuiltWithPreset { get; } = new UnityEvent<HexGridPreset>();
       public static UnityEvent OnClearingGrid { get; } = new UnityEvent();
@@ -38,17 +41,13 @@ namespace BossRushJam25.HexGrid {
          Instance = this;
       }
 
-      private void Update()
-      {
+      private void Update() {
          UpdateHexNavigation();
       }
 
-      private void UpdateHexNavigation()
-      {
-         foreach(GridHex hex in Hexes.Values)
-         {
-            if(hex.IsDirty)
-            {
+      private void UpdateHexNavigation() {
+         foreach (GridHex hex in Hexes.Values) {
+            if (hex.IsDirty) {
                hex.UpdateHexNavigation();
             }
          }
@@ -124,8 +123,7 @@ namespace BossRushJam25.HexGrid {
                hex = hex.Neighbour(direction);
             }
             direction = rotateDirectionFunc(direction);
-         }
-         while (direction != initialDirection);
+         } while (direction != initialDirection);
 
          return result;
       }
@@ -260,17 +258,14 @@ namespace BossRushJam25.HexGrid {
          }
 
          Hexes.Clear();
-         RequiredHexes.Clear();
       }
 
       public void Build(HexGridPreset preset) {
          ClearGrid();
          RefreshInnerRadius();
 
-         foreach (var requiredClearHex in preset.GetRequiredHexes()) {
-            GridHex requiredHex = InstantiateHex(requiredClearHex.Value, requiredClearHex.Key);
-            RequiredHexes.Add(requiredClearHex.Key.HexPrefab.Type, requiredHex);
-         }
+         HeroSpawnHex = InstantiateHex(preset.HeroSpawnPosition, preset.HeroSpawnHexPreset);
+         ControlHex = InstantiateHex(preset.HeroControlHexPosition, preset.HeroControlHexPreset);
 
          var randomHexesQueue = GenerateRandomQueueOfMissingHexes();
 
@@ -366,5 +361,7 @@ namespace BossRushJam25.HexGrid {
             hex.SetLockedInPlaceRenderingEnabled(enabled);
          }
       }
+
+      public Vector3 GetPeripheralPosition(Vector3 forward) => WorldCenter - forward * WorldRadius;
    }
 }

@@ -82,7 +82,6 @@ namespace BossRushJam25.HexGrid.Glyphs {
       private void RecalculateGlyphs() {
          foreach (var candidateOrigin in OriginGlyphChunks) {
             if (TryFindCompleteGlyphWithOrigin(candidateOrigin, out var glyph, out var chunksInGlyph)) {
-               AvailableGlyphs.Remove(glyph);
                ActivatingGlyphs.Add(glyph, new ActivatingGlyphInfo(candidateOrigin, chunksInGlyph, Time.time));
 
                foreach (var activatingChunk in chunksInGlyph) {
@@ -153,6 +152,9 @@ namespace BossRushJam25.HexGrid.Glyphs {
                }
                powerUpsManager.SpawnPowerUp(spawnHex, activatingGlyph.Key.PowerUpToSpawn);
                activatedGlyphs.Add(activatingGlyph.Key);
+               foreach (var chunk in activatingGlyph.Value.allChunks) {
+                  chunk.ScheduleDeletion();
+               }
             }
          }
 

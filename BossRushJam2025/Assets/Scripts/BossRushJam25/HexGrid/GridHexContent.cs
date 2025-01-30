@@ -7,21 +7,26 @@ namespace BossRushJam25.HexGrid {
       [SerializeField] protected GridHexContentType type;
 
       public GridHexContentType Type => type;
+      private bool Initialized { get; set; }
       public HealthSystem HealthSystem { get; private set; }
 
-      public static UnityEvent<GridHexContent, HealthSystem> OnAnyContentHealthChanged { get; } = new UnityEvent<GridHexContent, HealthSystem>();
+      public static UnityEvent<GridHexContent, HealthSystem, int> OnAnyContentHealthChanged { get; } = new UnityEvent<GridHexContent, HealthSystem, int>();
 
-      public void Start() {
+      public void Start() => Initialize();
+
+      public void Initialize() {
+         if (Initialized) return;
          HealthSystem = Type.NewHealthSystem;
          HealthSystem.OnHealthChanged.AddListener(HandleHealthChanged);
+         Initialized = true;
       }
 
       private void OnDestroy() {
          HealthSystem.OnHealthChanged.RemoveListener(HandleHealthChanged);
       }
 
-      private void HandleHealthChanged(int newValue, int damageDelta) => OnAnyContentHealthChanged.Invoke(this, HealthSystem);
+      private void HandleHealthChanged(int newValue, int damageDelta) => OnAnyContentHealthChanged.Invoke(this, HealthSystem, damageDelta);
       public void TryDamage(int damageDealt, DamageType damageType) => HealthSystem.Damage(damageDealt, damageType);
-      public bool IsDamageable(DamageType damageType) => HealthSystem.Vulnerabilities.Contains(damageType);
+      public bool IsDamageable(DamageTypes damageTypes) => HealthSystem.Vulnerabilities.Overlaps(damageTypes);
    }
 }

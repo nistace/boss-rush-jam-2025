@@ -4,8 +4,8 @@ using BossRushJam25.Health;
 using BossRushJam25.HexGrid;
 using UnityEngine;
 
-namespace BossRushJam25.Character.Bosses {
-   public static class BossAttackPatternUtils {
+namespace BossRushJam25.Combat {
+   public static class CombatUtils {
       public static Vector2Int GetRandomHexGridBorderVertex() => HexGridController.Instance.GetBorderVertices().OrderBy(_ => Random.value).FirstOrDefault();
 
       public static Vector2Int GetHeroCoordinates() => HexGridController.Instance.WorldToCoordinates(BossFightInfo.Hero.transform.position);

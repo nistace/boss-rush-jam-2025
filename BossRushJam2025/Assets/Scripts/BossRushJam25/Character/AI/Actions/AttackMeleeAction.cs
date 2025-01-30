@@ -1,6 +1,7 @@
 using System;
 using BossRushJam25.BossFights;
 using BossRushJam25.Character.Bosses;
+using BossRushJam25.Health;
 using BossRushJam25.HexGrid;
 using UnityEngine;
 
@@ -17,7 +18,7 @@ namespace BossRushJam25.Character.AI.Actions
 
         public AttackMeleeAction(CharacterCore character, GridHex targetHex, int basePriority = 0) : base(character, basePriority)
         {
-            if(!targetHex.ContentsAreDamageable(character.Type.DamageInfo.DamageType))
+            if(!targetHex.ContentsAreDamageable(character.Type.DamageInfo.DamageType.AsFlags()))
             {
                 Debug.Log("Nothing is attackable on this hex tile");
 
@@ -62,7 +63,7 @@ namespace BossRushJam25.Character.AI.Actions
 
             if(targetBossPattern == null
                 && targetHex != null
-                && !targetHex.ContentsAreDamageable(character.Type.DamageInfo.DamageType)
+                && !targetHex.ContentsAreDamageable(character.Type.DamageInfo.DamageType.AsFlags())
                 )
             {
                 status = EActionStatus.Finished;

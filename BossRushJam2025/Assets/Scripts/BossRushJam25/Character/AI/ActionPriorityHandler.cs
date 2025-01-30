@@ -233,8 +233,8 @@ namespace BossRushJam25.Character.AI
             }
         }
 
-        private void OnDrawGizmos()
-        {
+        private void OnDrawGizmos() {
+            if (!BossFightInfo.IsPlaying) return;
             foreach(AAction action in viableActions)
             {
                 action.DrawGizmos();

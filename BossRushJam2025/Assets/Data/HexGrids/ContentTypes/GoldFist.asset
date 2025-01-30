@@ -9,9 +9,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 58525f95d46053849a95723fe7933671, type: 3}
-  m_Name: AttackNearestBattery
+  m_Script: {fileID: 11500000, guid: 9ac717a7dd5e4e5190dd4bf1ef4fc1fd, type: 3}
+  m_Name: GoldFist
   m_EditorClassIdentifier: 
-  isActive: 1
-  priority: 5
-  minHealthRatio: 0.5
+  maxToSpawn: 1
+  rotationStepsInHex: 1
+  preventPowerUpSpawning: 1
+  locksHexInPlace: 1
+  isInvincible: 0
+  maxHealth: 9999999
+  canDisplayHealthBar: 0
+  vulnerabilities: 1

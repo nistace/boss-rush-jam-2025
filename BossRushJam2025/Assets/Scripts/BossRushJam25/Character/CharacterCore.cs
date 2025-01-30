@@ -14,7 +14,7 @@ namespace BossRushJam25.Character
         [SerializeField] protected NavMeshAgent navMeshAgent;
         [SerializeField] protected ActionPriorityHandler actionPriorityHandler;
         [SerializeField] protected PowerUpsDetector powerUpsDetector;
-        [SerializeField] protected HexDetector batteryDetector;
+        [SerializeField] protected DamageableHexDetector damageableHexDetector;
         [SerializeField] protected BossPatternDetector bossPatternDetector;
         [SerializeField] protected DebugActionsTrigger actionsTrigger;
         [SerializeField] protected HeroAnimator animator;
@@ -23,7 +23,7 @@ namespace BossRushJam25.Character
         public HexLink HexLink => hexLink;
         public ActionPriorityHandler ActionPriorityHandler => actionPriorityHandler;
         public PowerUpsDetector PowerUpsDetector => powerUpsDetector;
-        public HexDetector BatteryDetector => batteryDetector;
+        public DamageableHexDetector DamageableHexDetector => damageableHexDetector;
         public BossPatternDetector BossPatternDetector => bossPatternDetector;
         public DamageInfo DamageInfo { get; private set; }
         public HealthSystem Health { get; private set; }

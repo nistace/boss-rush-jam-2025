@@ -1,26 +1,26 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
+using BossRushJam25.Character.Bosses.GoldFist;
 using BossRushJam25.HexGrid;
 using UnityEngine;
 using UnityEngine.Events;
 
 namespace BossRushJam25.Character.Bosses {
-   [RequireComponent(typeof(Animator))]
    public abstract class BossAttackPattern : MonoBehaviour {
-      [SerializeField] protected Animator animator;
+      [SerializeField] private GoldFistAnimator animator;
       [SerializeField] protected GameObject gameObjectToActivationDuringExecution;
 
       public bool IsExecuting { get; private set; }
       protected bool InterruptAsap { get; private set; }
-      public bool IsAttackable { get; private set; }
+      protected GoldFistAnimator Animator => animator;
+      public bool IsAttackable => false;
 
       private UnityEvent OnExecuting { get; } = new UnityEvent();
       public UnityEvent OnExecuted { get; } = new UnityEvent();
       public UnityEvent OnInterrupted { get; } = new UnityEvent();
 
       private void Reset() {
-         animator = GetComponent<Animator>();
+         animator = transform.root.GetComponentInChildren<GoldFistAnimator>();
       }
 
       private void Start() {
@@ -33,6 +33,7 @@ namespace BossRushJam25.Character.Bosses {
       }
 
       private IEnumerator DoExecution() {
+         animator.Target = transform;
          gameObjectToActivationDuringExecution.gameObject.SetActive(true);
          IsExecuting = true;
          InterruptAsap = false;
@@ -48,6 +49,7 @@ namespace BossRushJam25.Character.Bosses {
          else OnExecuted.Invoke();
 
          InterruptAsap = false;
+         animator.Target = null;
       }
 
       protected abstract IEnumerator Play();

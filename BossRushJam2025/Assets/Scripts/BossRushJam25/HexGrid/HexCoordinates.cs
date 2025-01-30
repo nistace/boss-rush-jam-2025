@@ -52,6 +52,29 @@ namespace BossRushJam25.HexGrid {
          _ => throw new ArgumentOutOfRangeException(nameof(direction), direction, null)
       };
 
+      public static EDirection RotationToDirection(float signedAngleWithForward) {
+         while (signedAngleWithForward < 0) signedAngleWithForward += 360f;
+         signedAngleWithForward %= 360;
+         return signedAngleWithForward switch {
+            < 60 => EDirection.UpRight,
+            < 120 => EDirection.Right,
+            < 180 => EDirection.DownRight,
+            < 240 => EDirection.DownLeft,
+            < 300 => EDirection.Left,
+            _ => EDirection.UpLeft
+         };
+      }
+
+      public static float ToYawDegrees(this EDirection direction) => direction switch {
+         EDirection.Left => -90,
+         EDirection.UpLeft => -30,
+         EDirection.UpRight => 30,
+         EDirection.Right => 90,
+         EDirection.DownRight => 150,
+         EDirection.DownLeft => -150,
+         _ => throw new ArgumentOutOfRangeException(nameof(direction), direction, null)
+      };
+
       public static Vector2Int Left(this Vector2Int coordinates, int steps = 1) => new Vector2Int(coordinates.x - steps, coordinates.y);
       public static Vector2Int Right(this Vector2Int coordinates, int steps = 1) => new Vector2Int(coordinates.x + steps, coordinates.y);
       public static Vector2Int UpLeft(this Vector2Int coordinates, int steps = 1) => new Vector2Int(coordinates.x + Mathf.Abs(coordinates.y % 2) - (steps + 1) / 2, coordinates.y + steps);
