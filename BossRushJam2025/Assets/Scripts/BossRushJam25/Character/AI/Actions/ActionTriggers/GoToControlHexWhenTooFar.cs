@@ -9,6 +9,8 @@ namespace BossRushJam25.Character.AI.Actions.ActionTriggers
         [SerializeField] private float maxDistanceWithControlHex;
         [SerializeField] private GridHexType controlHexType;
 
+        public float MaxDistanceWithControlHex => maxDistanceWithControlHex;
+
         public override bool TryGet(out AAction action)
         {
             action = null;
