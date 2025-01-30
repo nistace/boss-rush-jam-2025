@@ -187,6 +187,8 @@ MonoBehaviour:
   fistContentType: {fileID: 11400000, guid: 359b6518478f2e643b27a8c05e43ae23, type: 2}
   patternManager: {fileID: 721333850165358362}
   defaultPatternSequence:
+  - {fileID: 2696566176842927287}
+  - {fileID: 2696566176842927287}
   - {fileID: 7475422502048948632}
   activeBatteryPatternSequence:
   - {fileID: 2696566176842927287}

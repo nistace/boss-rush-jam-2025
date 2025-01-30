@@ -36,5 +36,12 @@ namespace BossRushJam25.HexGrid.Glyphs {
             GlyphMaterial.SetColor(emissiveColorShaderId, Color.magenta * Progress * 100);
          }
       }
+
+      public void ScheduleDeletion() {
+         foreach (var glyphRenderer in glyphRenderers) {
+            Destroy(glyphRenderer.gameObject, .3f);
+            Destroy(this);
+         }
+      }
    }
 }
