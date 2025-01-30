@@ -17,9 +17,6 @@ namespace BossRushJam25.Cameras {
       [SerializeField] protected float maxPitch;
       [SerializeField] protected Transform cameraRotation;
 
-      protected float farthestGridZPosition;
-      protected float closestGridZPosition;
-
       private Vector3 CurrentTargetPosition { get; set; }
       public float SqrDistanceWithTargetPosition => (transform.position - CurrentTargetPosition).sqrMagnitude;
 
@@ -30,18 +27,14 @@ namespace BossRushJam25.Cameras {
          Instance = this;
       }
 
-      private void Start()
-      {
-         farthestGridZPosition = HexGridController.Instance.CoordinatesToWorldPosition(new(0, HexGridController.Instance.GridRadius)).z;
-         closestGridZPosition = -farthestGridZPosition;
-      }
-
       private void Update() {
          transform.position = Vector3.SmoothDamp(transform.position, CurrentTargetPosition, ref currentVelocity, smoothVelocity, maxSpeed);
          backgroundObject.localPosition = new Vector3(backgroundObject.localPosition.x, zToBackgroundYCurve.Evaluate(transform.position.z), backgroundObject.localPosition.z);
 
          if(BossFightInfo.Hero != null)
          {
+            float farthestGridZPosition = HexGridController.Instance.WorldGridRadius;
+            float closestGridZPosition = -farthestGridZPosition;
             float targetedPitch = math.remap(farthestGridZPosition, closestGridZPosition, maxPitch, minPitch, BossFightInfo.Hero.transform.position.z);
             cameraRotation.localEulerAngles = new(Mathf.SmoothDampAngle(cameraRotation.localEulerAngles.x, targetedPitch, ref pitchCurrentVelocity, smoothVelocity), cameraRotation.localEulerAngles.y, cameraRotation.localEulerAngles.z);
          }

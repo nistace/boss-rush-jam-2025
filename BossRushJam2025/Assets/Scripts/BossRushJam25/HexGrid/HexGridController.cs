@@ -21,7 +21,7 @@ namespace BossRushJam25.HexGrid {
       private Dictionary<Vector2Int, GridHex> Hexes { get; } = new Dictionary<Vector2Int, GridHex>();
 
       private float InnerRadius { get; set; }
-      public int GridRadius => gridRadius;
+      public float WorldGridRadius => CoordinatesToWorldPosition(new(gridRadius, 0)).x;
       public ICollection<GridHex> AllHexes => Hexes.Values;
       public Dictionary<GridHexType, GridHex> RequiredHexes = new();
 

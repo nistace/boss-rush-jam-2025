@@ -2,29 +2,15 @@ using UnityEngine;
 
 namespace BossRushJam25.Character.AI.Actions
 {
-    public class CollectPowerUpAction : AAction
+    public class GoToControlHexAction : AAction
     {
-        protected GameObject powerUp;
         protected MoveAction moveAction;
 
-        protected override EActionType Type => EActionType.CollectPowerUp;
-        public override EActionStatus Status
-        {
-            get
-            {
-                if (status == EActionStatus.Started && moveAction.Status == EActionStatus.Finished)
-                {
-                    status = EActionStatus.Finished;
-                }
+        protected override EActionType Type => EActionType.GoToControlHex;
 
-                return status;
-            }
-        }
-
-        public CollectPowerUpAction(CharacterCore character, GameObject powerUp, int basePriority = 0) : base(character, basePriority)
+        public GoToControlHexAction(CharacterCore character, Vector3 controlHexPosition, int basePriority = 0) : base(character, basePriority)
         {
-            this.powerUp = powerUp;
-            moveAction = new(base.character, powerUp.transform.position);
+            moveAction = new(base.character, controlHexPosition, basePriority, distanceImpactOnPriority: EDistanceImpactOnPriority.LongHasHighPriority);
         }
 
         public override void Execute()
@@ -72,29 +58,29 @@ namespace BossRushJam25.Character.AI.Actions
         {
             base.ComputePriority();
 
-            moveAction.ComputePriority();
+            //moveAction.ComputePriority();
 
-            Priority += moveAction.Priority;
+            //Priority += moveAction.Priority;
         }
 
         public override string ToString()
         {
-            return base.ToString() + $"Collect power up at: {moveAction.Destination}";
+            return base.ToString() + $"Move to control hex at: {moveAction.Destination}";
         }
 
         public override bool Equals(object obj)
         {
-            if (obj == null || obj is not CollectPowerUpAction action)
+            if (obj == null || obj is not GoToControlHexAction action)
             {
                 return false;
             }
 
-            return action.powerUp == powerUp;
+            return action.moveAction == moveAction;
         }
 
         public override int GetHashCode()
         {
-            return powerUp.GetHashCode();
+            return moveAction.GetHashCode();
         }
     }
 }

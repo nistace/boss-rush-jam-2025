@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: AttackNearestBattery
   m_EditorClassIdentifier: 
   isActive: 1
-  priority: 5
+  priority: 40
   minHealthRatio: 0.5
