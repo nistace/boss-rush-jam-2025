@@ -10,7 +10,7 @@ public class ControlArea : MonoBehaviour
 
     private void Awake()
     {
-        transform.localScale = new Vector3(goToControlHexTrigger.MaxDistanceWithControlHex, 1f, goToControlHexTrigger.MaxDistanceWithControlHex);
+        transform.localScale = new Vector3(goToControlHexTrigger.MaxDistanceWithControlHex * 2, 1f, goToControlHexTrigger.MaxDistanceWithControlHex * 2);
     }
 
     private void OnTriggerEnter(Collider collider)
