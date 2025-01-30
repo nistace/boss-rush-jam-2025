@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using BossRushJam25.Combat;
 using BossRushJam25.Health;
 using BossRushJam25.HexGrid;
 using UnityEngine;
@@ -27,11 +28,11 @@ namespace BossRushJam25.Character.Bosses.GoldFist {
          HitDone = false;
          FistRaised = false;
 
-         transform.position = HexGridController.Instance.CoordinatesToWorldPosition(BossAttackPatternUtils.GetHeroCoordinates());
+         transform.position = HexGridController.Instance.CoordinatesToWorldPosition(CombatUtils.GetHeroCoordinates());
          transform.forward = transform.position - Animator.transform.position;
 
          while (!InterruptAsap && !Animator.IsAtTarget) {
-            transform.position = HexGridController.Instance.CoordinatesToWorldPosition(BossAttackPatternUtils.GetHeroCoordinates());
+            transform.position = HexGridController.Instance.CoordinatesToWorldPosition(CombatUtils.GetHeroCoordinates());
             yield return null;
          }
 
@@ -39,7 +40,7 @@ namespace BossRushJam25.Character.Bosses.GoldFist {
 
          for (var castTime = 0f; !InterruptAsap && castTime < castDuration; castTime += Time.deltaTime) {
             transform.position = Vector3.MoveTowards(transform.position,
-               HexGridController.Instance.CoordinatesToWorldPosition(BossAttackPatternUtils.GetHeroCoordinates()),
+               HexGridController.Instance.CoordinatesToWorldPosition(CombatUtils.GetHeroCoordinates()),
                followSpeed * Time.deltaTime);
 
             RefreshAreaOfEffect();
@@ -116,8 +117,8 @@ namespace BossRushJam25.Character.Bosses.GoldFist {
       }
 
       private void DealDamageOnAffectedHexes() {
-         if (EvaluateTargetedHexes().Contains(BossAttackPatternUtils.GetHeroCoordinates())) {
-            BossAttackPatternUtils.DamageHero(DamageType.Physical, damage);
+         if (EvaluateTargetedHexes().Contains(CombatUtils.GetHeroCoordinates())) {
+            CombatUtils.DamageHero(DamageType.Physical, damage);
          }
       }
 

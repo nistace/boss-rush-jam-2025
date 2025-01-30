@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using BossRushJam25.Combat;
 using BossRushJam25.HexGrid;
 using BossRushJam25.HexGrid.Glyphs;
 using BossRushJam25.PowerUps;
@@ -11,7 +12,7 @@ namespace BossRushJam25.Character.Bosses.GoldFist {
    public class GoldFistSpawnTurretAndBatteryAttackPattern : BossAttackPattern {
       [SerializeField] protected float movementSpeed = 1;
       [SerializeField] protected GridHexContent batteryPrefab;
-      [SerializeField] protected GridHexContent turretPrefab;
+      [SerializeField] protected Turret turretPrefab;
       [SerializeField] protected GridHexType[] spawnableHexTypes;
 
       public UnityEvent<GridHexContent> OnBatterySpawned { get; } = new UnityEvent<GridHexContent>();
@@ -26,7 +27,7 @@ namespace BossRushJam25.Character.Bosses.GoldFist {
       }
 
       private GridHexContent CurrentExecutionBattery { get; set; }
-      private GridHexContent CurrentExecutionTurret { get; set; }
+      private Turret CurrentExecutionTurret { get; set; }
       private Phase CurrentPhase { get; set; }
 
       protected override IEnumerator Play() {
@@ -113,8 +114,9 @@ namespace BossRushJam25.Character.Bosses.GoldFist {
          }
 
          Animator.AnchoredObject = default;
-         spawns.turretHex.AddContent(CurrentExecutionTurret, true);
+         spawns.turretHex.AddContent(CurrentExecutionTurret.HexContent, true);
          CurrentExecutionTurret.gameObject.SetActive(true);
+         CurrentExecutionTurret.Active = true;
 
          spawns.batteryHex.SetLockedInPlaceBy(this, false);
          spawns.turretHex.SetLockedInPlaceBy(this, false);
@@ -130,7 +132,7 @@ namespace BossRushJam25.Character.Bosses.GoldFist {
          // todo improve algo to get two hexes
          var twoHexes = HexGridController.Instance.AllHexes
             .Where(t => t.HexContents.Count == 0
-                        && t.Coordinates != BossAttackPatternUtils.GetHeroCoordinates()
+                        && t.Coordinates != CombatUtils.GetHeroCoordinates()
                         && spawnableHexTypes.Contains(t.Type)
                         && !t.GetComponent<GlyphChunk>()
                         && !t.GetComponentInChildren<PowerUp>()

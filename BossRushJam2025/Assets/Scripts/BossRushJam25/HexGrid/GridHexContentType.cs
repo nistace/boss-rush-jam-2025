@@ -12,6 +12,7 @@ namespace BossRushJam25.HexGrid {
       [SerializeField] protected int maxHealth = 10;
       [SerializeField] protected bool canDisplayHealthBar = true;
       [SerializeField] protected DamageTypes vulnerabilities = 0;
+      [SerializeField] protected DamageTypes obstacleForDamageTypes = (DamageTypes)~0;
 
       public int MaxToSpawn => maxToSpawn;
       public int RotationStepsInHex => rotationStepsInHex;
@@ -20,5 +21,6 @@ namespace BossRushJam25.HexGrid {
       public bool CanDisplayHealthBar => canDisplayHealthBar;
       protected DamageTypes Vulnerabilities => isInvincible ? DamageTypes.Nothing : vulnerabilities;
       public HealthSystem NewHealthSystem => new(maxHealth, Vulnerabilities);
+      public DamageTypes ObstacleForDamageTypes => obstacleForDamageTypes;
    }
 }

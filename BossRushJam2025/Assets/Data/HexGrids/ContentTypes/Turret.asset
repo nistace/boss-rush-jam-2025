@@ -10,14 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9ac717a7dd5e4e5190dd4bf1ef4fc1fd, type: 3}
-  m_Name: GuardRail
+  m_Name: Turret
   m_EditorClassIdentifier: 
-  maxToSpawn: 4
-  rotationStepsInHex: 6
+  maxToSpawn: 1
+  rotationStepsInHex: 1
   preventPowerUpSpawning: 1
-  locksHexInPlace: 0
+  locksHexInPlace: 1
   isInvincible: 0
-  maxHealth: 1
+  maxHealth: 50
   canDisplayHealthBar: 1
-  vulnerabilities: 0
-  obstacleForDamageTypes: 0
+  vulnerabilities: 1
+  obstacleForDamageTypes: -1
