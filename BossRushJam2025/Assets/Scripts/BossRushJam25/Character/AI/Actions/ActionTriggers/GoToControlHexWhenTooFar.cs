@@ -7,7 +7,6 @@ namespace BossRushJam25.Character.AI.Actions.ActionTriggers
     public class GoToControlHexWhenTooFar : AActionTrigger
     {
         [SerializeField] private float maxDistanceWithControlHex;
-        [SerializeField] private GridHexType controlHexType;
 
         public float MaxDistanceWithControlHex => maxDistanceWithControlHex;
 
@@ -15,7 +14,7 @@ namespace BossRushJam25.Character.AI.Actions.ActionTriggers
         {
             action = null;
 
-            Vector3 controlHexPosition = HexGridController.Instance.RequiredHexes[controlHexType].transform.position;
+            Vector3 controlHexPosition = HexGridController.Instance.ControlHex.transform.position;
 
             float sqrDistanceWithControlHex = (controlHexPosition - character.transform.position).sqrMagnitude;
 

@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: -4768754773489207537}
   - component: {fileID: 3584324377285687204}
   - component: {fileID: 7552829642282126787}
-  m_Layer: 9
+  m_Layer: 10
   m_Name: HexBattery
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -93,7 +93,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7867868336081237641}
-  m_Layer: 9
+  m_Layer: 10
   m_Name: BaseTile_Metal
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -178,7 +178,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 4f8c11beb658c5c488d376e0fa98fb1c, type: 3}
       propertyPath: m_Layer
-      value: 9
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 4f8c11beb658c5c488d376e0fa98fb1c, type: 3}
       propertyPath: m_StaticEditorFlags

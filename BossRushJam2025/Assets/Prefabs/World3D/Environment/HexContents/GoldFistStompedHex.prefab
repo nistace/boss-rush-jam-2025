@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 3584324377285687204}
   - component: {fileID: 7552829642282126787}
   - component: {fileID: 1710317181198249037}
-  m_Layer: 9
+  m_Layer: 10
   m_Name: GoldFistStompedHex
   m_TagString: Untagged
   m_Icon: {fileID: 0}
