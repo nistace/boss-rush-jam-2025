@@ -105,7 +105,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   animator: {fileID: 4524794885145023861}
   gameObjectToActivationDuringExecution: {fileID: 2896652974510809707}
-  feedbacksPlayer: {fileID: 0}
+  feedbacksPlayer: {fileID: 8395042498355215986}
   followSpeed: 0.5
   castDuration: 4
   damage: 8
