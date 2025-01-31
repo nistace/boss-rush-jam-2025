@@ -28,7 +28,7 @@ namespace BossRushJam25.ControlHex
                 character.ChangeDamageInfo(character.DamageInfo.WithIncreasedSpeed(powerUp.Type.DamageSpeedUpAmount));
             }
 
-            powerUp.Destroy();
+            powerUp.Collect();
         }
 
         private void OnTriggerEnter(Collider collider)
