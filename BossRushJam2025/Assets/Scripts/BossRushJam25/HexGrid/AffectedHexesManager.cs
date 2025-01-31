@@ -28,7 +28,8 @@ namespace BossRushJam25.HexGrid {
 
       public static void HideAllAffectedHexes(Object fromSource) {
          var hexesToHide = new HashSet<Vector2Int>();
-         foreach (var affectedHexPerSource in Instance.AffectedHexesPerSource.Where(affectedHexPerSource => affectedHexPerSource.Value.Remove(fromSource) && affectedHexPerSource.Value.Count == 0)) {
+         foreach (var affectedHexPerSource in Instance.AffectedHexesPerSource.Where(affectedHexPerSource =>
+            affectedHexPerSource.Value.Remove(fromSource) && affectedHexPerSource.Value.Count == 0)) {
             hexesToHide.Add(affectedHexPerSource.Key);
          }
 
@@ -89,6 +90,8 @@ namespace BossRushJam25.HexGrid {
 
       private void PoolVisual(Transform transform) {
          if (!transform) return;
+         if (!Instance || !Instance.transform) return;
+         
          transform.SetParent(Instance.transform);
          transform.gameObject.SetActive(false);
          Pool.Enqueue(transform);

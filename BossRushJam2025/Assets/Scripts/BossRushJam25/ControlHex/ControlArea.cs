@@ -21,7 +21,7 @@ namespace BossRushJam25.ControlHex {
          }
       }
 
-      private void OnValidate() {
+      private void OnValidate() { 
          transform.localScale = new Vector3(ControlRadius * 2, 1f, ControlRadius * 2);
       }
    }

@@ -32,7 +32,7 @@ namespace BossRushJam25.ControlHex {
             .FirstOrDefault();
       }
 
-      private void OnDrawGizmosSelected() {
+      private void OnDrawGizmosSelected() { 
          Gizmos.color = Color.red;
          Gizmos.DrawWireSphere(transform.position, detectionRadius);
       }
