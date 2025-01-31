@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using BossRushJam25.Character.Bosses.GoldFist;
 using BossRushJam25.HexGrid;
+using MoreMountains.Feedbacks;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -9,6 +10,7 @@ namespace BossRushJam25.Character.Bosses {
    public abstract class BossAttackPattern : MonoBehaviour {
       [SerializeField] private GoldFistAnimator animator;
       [SerializeField] protected GameObject gameObjectToActivationDuringExecution;
+      [SerializeField] protected MMF_Player feedbacksPlayer;
 
       public bool IsExecuting { get; private set; }
       protected bool InterruptAsap { get; private set; }
