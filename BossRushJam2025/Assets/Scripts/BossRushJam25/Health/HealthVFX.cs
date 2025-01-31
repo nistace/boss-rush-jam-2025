@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class HealthVFX : MonoBehaviour
 {
-    [SerializeField] private MMF_Player feedbacksPlayer;
+    [SerializeField] private MMF_Player lowHealthFeedbacksPlayer;
+    [SerializeField] private MMF_Player hitFeedbacksPlayer;
     [SerializeField] private float lowHealthThreshold01;
 
     private HealthSystem health;
@@ -17,25 +18,35 @@ public class HealthVFX : MonoBehaviour
 
     private void HealthSystem_OnHealthChanged(int current, int damageDelta)
     {
+        TriggerHitFeedbacks(damageDelta);
+        RefreshLowHealthFeedbacks();
+    }
+
+    private void TriggerHitFeedbacks(int damageDelta)
+    {
+        if(!hitFeedbacksPlayer.IsPlaying)
+        {
+            hitFeedbacksPlayer.PlayFeedbacks(position: Vector3.zero, feedbacksIntensity: Mathf.Max(1f, damageDelta));
+        }
+    }
+    private void RefreshLowHealthFeedbacks()
+    {
         if(health.Current == 0)
         {
-            feedbacksPlayer.StopFeedbacks();
-
-            return;
+            lowHealthFeedbacksPlayer.StopFeedbacks();
         }
-
-        if(health.Ratio < lowHealthThreshold01)
+        else if(health.Ratio < lowHealthThreshold01)
         {
-            if(!feedbacksPlayer.IsPlaying)
+            if(!lowHealthFeedbacksPlayer.IsPlaying)
             {
-                feedbacksPlayer.PlayFeedbacks();
+                lowHealthFeedbacksPlayer.PlayFeedbacks();
             }
         }
         else
         {
-            if(feedbacksPlayer.IsPlaying)
+            if(lowHealthFeedbacksPlayer.IsPlaying)
             {
-                feedbacksPlayer.StopFeedbacks();
+                lowHealthFeedbacksPlayer.StopFeedbacks();
             }
         }
     }

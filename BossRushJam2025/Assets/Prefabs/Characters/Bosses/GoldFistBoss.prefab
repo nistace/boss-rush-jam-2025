@@ -249,7 +249,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &7980898661107650160
 Transform:
   m_ObjectHideFlags: 0
@@ -486,7 +486,7 @@ MonoBehaviour:
           m_RotationOrder: 4
         RemapIntensityZero: 0
         RemapIntensityOne: 1
-        RelativeIntensity: 0
+        RelativeIntensity: 1
         InterpolateColor: 0
         ColorCurve:
           serializedVersion: 2
@@ -1521,7 +1521,7 @@ MonoBehaviour:
     - rid: 6856056044071682128
       type: {class: MMF_PlayerControl, ns: MoreMountains.Feedbacks, asm: MoreMountains.Tools}
       data:
-        Active: 1
+        Active: 0
         UniqueID: -1162141445
         Label: MMF Player Control
         OriginalLabel: MMF Player Control
@@ -1599,7 +1599,7 @@ MonoBehaviour:
     - rid: 6856056044071682137
       type: {class: MMF_PlayerControl, ns: MoreMountains.Feedbacks, asm: MoreMountains.Tools}
       data:
-        Active: 1
+        Active: 0
         UniqueID: 637640378
         Label: MMF Player Control
         OriginalLabel: MMF Player Control
