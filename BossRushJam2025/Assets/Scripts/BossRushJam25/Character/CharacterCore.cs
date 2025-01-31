@@ -16,6 +16,7 @@ namespace BossRushJam25.Character {
       [SerializeField] protected BossPatternDetector bossPatternDetector;
       [SerializeField] protected DebugActionsTrigger actionsTrigger;
       [SerializeField] protected HeroAnimator animator;
+      [SerializeField] protected HealthVFX healthVFX;
 
       public NavMeshAgent NavMeshAgent => navMeshAgent;
       public HexLink HexLink => hexLink;
@@ -35,6 +36,7 @@ namespace BossRushJam25.Character {
          powerUpsCollector.Initialize(this);
          actionsTrigger?.Initialize(this);
          bossPatternDetector?.Initialize(this);
+         healthVFX?.Initialize(Health);
          navMeshAgent.enabled = BossFightInfo.IsPlaying;
       }
 
