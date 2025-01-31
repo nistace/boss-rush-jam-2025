@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: CollectNearestPowerUp
   m_EditorClassIdentifier: 
   isActive: 1
-  priority: 0
+  priority: 200

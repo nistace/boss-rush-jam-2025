@@ -6,58 +6,51 @@ using BossRushJam25.Health;
 using UnityEngine;
 using UnityEngine.AI;
 
-namespace BossRushJam25.Character
-{
-    public class CharacterCore : MonoBehaviour
-    {
-        [SerializeField] protected CharacterType type;
-        [SerializeField] protected HexLink hexLink;
-        [SerializeField] protected NavMeshAgent navMeshAgent;
-        [SerializeField] protected ActionPriorityHandler actionPriorityHandler;
-        [SerializeField] protected PowerUpsCollector powerUpsCollector;
-        [SerializeField] protected HexContentDetector damageableHexDetector;
-        [SerializeField] protected BossPatternDetector bossPatternDetector;
-        [SerializeField] protected DebugActionsTrigger actionsTrigger;
-        [SerializeField] protected HeroAnimator animator;
+namespace BossRushJam25.Character {
+   public class CharacterCore : MonoBehaviour {
+      [SerializeField] protected CharacterType type;
+      [SerializeField] protected HexLink hexLink;
+      [SerializeField] protected NavMeshAgent navMeshAgent;
+      [SerializeField] protected ActionPriorityHandler actionPriorityHandler;
+      [SerializeField] protected PowerUpsCollector powerUpsCollector;
+      [SerializeField] protected BossPatternDetector bossPatternDetector;
+      [SerializeField] protected DebugActionsTrigger actionsTrigger;
+      [SerializeField] protected HeroAnimator animator;
 
-        private HexContentDetector hexContentDetector;
+      public NavMeshAgent NavMeshAgent => navMeshAgent;
+      public HexLink HexLink => hexLink;
+      public ActionPriorityHandler ActionPriorityHandler => actionPriorityHandler;
+      public BossPatternDetector BossPatternDetector => bossPatternDetector;
+      public DamageInfo DamageInfo { get; private set; }
+      public HealthSystem Health { get; private set; }
+      public CharacterType Type => type;
+      public HeroAnimator Animator => animator;
+      public HexContentDetector HexContentDetector { get; private set; }
 
-        public NavMeshAgent NavMeshAgent => navMeshAgent;
-        public HexLink HexLink => hexLink;
-        public ActionPriorityHandler ActionPriorityHandler => actionPriorityHandler;
-        public HexContentDetector HexContentDetector => hexContentDetector;
-        public BossPatternDetector BossPatternDetector => bossPatternDetector;
-        public DamageInfo DamageInfo { get; private set; }
-        public HealthSystem Health { get; private set; }
-        public CharacterType Type => type;
-        public HeroAnimator Animator => animator;
+      public void Initialize(HexContentDetector contentDetector) {
+         Health = new HealthSystem(type.MaxHealth, type.Vulnerabilities);
+         DamageInfo = type.DamageInfo;
+         HexContentDetector = contentDetector;
+         actionPriorityHandler.Initialize(this);
+         powerUpsCollector.Initialize(this);
+         actionsTrigger?.Initialize(this);
+         bossPatternDetector?.Initialize(this);
+         navMeshAgent.enabled = BossFightInfo.IsPlaying;
+      }
 
-        public void Initialize(HexContentDetector hexContentDetector)
-        {
-            this.hexContentDetector = hexContentDetector;
-            Health = new HealthSystem(type.MaxHealth, type.Vulnerabilities);
-            DamageInfo = type.DamageInfo;
-            actionPriorityHandler.Initialize(this);
-            powerUpsCollector.Initialize(this);
-            actionsTrigger?.Initialize(this);
-            bossPatternDetector?.Initialize(this);
-            navMeshAgent.enabled = BossFightInfo.IsPlaying;
-        }
+      private void Start() {
+         BossFightInfo.OnStarted.AddListener(HandleBossFightStarted);
+         BossFightInfo.OnEnded.AddListener(HandleBossFightEnded);
+      }
 
-        private void Start()
-        {
-            BossFightInfo.OnStarted.AddListener(HandleBossFightStarted);
-            BossFightInfo.OnEnded.AddListener(HandleBossFightEnded);
-        }
+      private void OnDestroy() {
+         BossFightInfo.OnStarted?.RemoveListener(HandleBossFightStarted);
+         BossFightInfo.OnEnded?.RemoveListener(HandleBossFightEnded);
+      }
 
-        private void OnDestroy() {
-            BossFightInfo.OnStarted?.RemoveListener(HandleBossFightStarted);
-            BossFightInfo.OnEnded?.RemoveListener(HandleBossFightEnded);
-        }
+      private void HandleBossFightStarted() => navMeshAgent.enabled = BossFightInfo.IsPlaying;
+      private void HandleBossFightEnded() => navMeshAgent.enabled = BossFightInfo.IsPlaying;
 
-        private void HandleBossFightStarted() => navMeshAgent.enabled = BossFightInfo.IsPlaying;
-        private void HandleBossFightEnded() => navMeshAgent.enabled = BossFightInfo.IsPlaying;
-
-        public void ChangeDamageInfo(DamageInfo newDamageInfo) => DamageInfo = newDamageInfo;
-    }
+      public void ChangeDamageInfo(DamageInfo newDamageInfo) => DamageInfo = newDamageInfo;
+   }
 }

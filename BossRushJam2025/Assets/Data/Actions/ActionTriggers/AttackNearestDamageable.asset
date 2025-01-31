@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: AttackNearestDamageable
   m_EditorClassIdentifier: 
   isActive: 1
-  priority: 5
+  priority: 220
   minHealthRatio: 0

@@ -13,6 +13,5 @@ MonoBehaviour:
   m_Name: GoToControlHexWhenTooFar
   m_EditorClassIdentifier: 
   isActive: 1
-  priority: 100
-  maxDistanceWithControlHex: 5
-  controlHexType: {fileID: 11400000, guid: 0da08814fdfec444489232d32e17523e, type: 2}
+  priority: 0
+  maxDistanceWithControlHex: 1.732051

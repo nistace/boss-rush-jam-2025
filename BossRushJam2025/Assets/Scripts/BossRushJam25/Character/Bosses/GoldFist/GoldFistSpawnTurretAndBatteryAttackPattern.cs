@@ -46,8 +46,8 @@ namespace BossRushJam25.Character.Bosses.GoldFist {
          spawns.batteryHex.SetLockedInPlaceBy(this, true);
          spawns.turretHex.SetLockedInPlaceBy(this, true);
 
-         AffectedHexesManager.SetAffectedHex(spawns.batteryHex.Coordinates, true);
-         AffectedHexesManager.SetAffectedHex(spawns.turretHex.Coordinates, true);
+         AffectedHexesManager.SetAffectedHex(this, spawns.batteryHex.Coordinates, true);
+         AffectedHexesManager.SetAffectedHex(this, spawns.turretHex.Coordinates, true);
 
          transform.position = spawns.batteryHex.transform.position;
          transform.forward = transform.position - Animator.transform.position;

@@ -2,6 +2,7 @@
 using BossRushJam25.Cameras;
 using BossRushJam25.Character;
 using BossRushJam25.Character.Bosses;
+using BossRushJam25.ControlHex;
 using BossRushJam25.HexGrid;
 using BossRushJam25.Inputs;
 using BossRushJam25.SpinStrategies;
@@ -27,8 +28,7 @@ namespace BossRushJam25.GameControllers {
          Hero = Object.Instantiate(GameConfig.Instance.HeroPrefab, heroSpawnPosition, Quaternion.identity);
          Boss = Object.Instantiate(GameConfig.Instance.BossPrefab);
          BossFightInfo.Setup(Hero, Boss);
-         HexContentDetector hexContentDetector = Object.FindFirstObjectByType<HexContentDetector>();
-         Hero.Initialize(hexContentDetector);
+         Hero.Initialize(HexGridController.Instance.ControlHex.GetComponentInChildren<HexContentDetector>());
          Boss.Initialize();
 
          MainCanvas.Game.HeroHealthBar.Setup(Hero.Health);
