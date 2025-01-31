@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using BossRushJam25.Combat;
 using BossRushJam25.Health;
 using BossRushJam25.HexGrid;
+using MoreMountains.FeedbacksForThirdParty;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -45,6 +46,9 @@ namespace BossRushJam25.Character.Bosses.GoldFist {
 
          IsShooting = true;
          Animator.NextPhase();
+         feedbacksPlayer.DurationMultiplier = damageInfo.DamageDuration;
+         feedbacksPlayer.GetFeedbackOfType<MMF_CinemachineImpulse>().m_ImpulseDefinition.TimeEnvelope.SustainTime = damageInfo.DamageDuration;
+         feedbacksPlayer.PlayFeedbacks();
 
          for (var damageRunner = new DamageRunner(damageInfo); !damageRunner.Done(); damageRunner.Continue(Time.deltaTime)) {
             RefreshAreaOfEffect();
