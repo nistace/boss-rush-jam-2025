@@ -552,7 +552,7 @@ MonoBehaviour:
     - rid: 6856056031395184859
       type: {class: MMF_Vignette_HDRP, ns: MoreMountains.FeedbacksForThirdParty, asm: MoreMountains.Tools}
       data:
-        Active: 1
+        Active: 0
         UniqueID: 718375645
         Label: Vignette HDRP
         OriginalLabel: Vignette HDRP
@@ -1317,7 +1317,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   lowHealthFeedbacksPlayer: {fileID: 4928035670015814668}
   hitFeedbacksPlayer: {fileID: 6709787373396961403}
-  lowHealthThreshold01: 0.9
+  lowHealthThreshold01: 0.2
 --- !u!1 &5087481362050016198
 GameObject:
   m_ObjectHideFlags: 0
