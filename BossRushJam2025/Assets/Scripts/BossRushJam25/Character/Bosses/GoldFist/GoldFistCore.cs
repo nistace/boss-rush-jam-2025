@@ -45,8 +45,14 @@ namespace BossRushJam25.Character.Bosses.GoldFist {
          NextAttackIndex = 0;
          TimeBeforeNextPattern = delayBeforeFirstAttack;
          core.Health.OnHealthChanged.AddListener(HandleBossHealthChanged);
+         BossFightInfo.OnEnded.AddListener(HandleBossFightEnded);
          spawnBatteryPattern.OnBatterySpawned.AddListener(HandleBatterySpawned);
          GridHexContent.OnAnyContentHealthChanged.AddListener(HandleAnyContentHealthChanged);
+      }
+
+      private void HandleBossFightEnded() {
+         if (patternManager.CurrentAttack) patternManager.CurrentAttack.Interrupt();
+         GetComponentInChildren<GoldFistAnimator>().EndBattle(!core.Health.Empty);
       }
 
       private void HandleAnyContentHealthChanged(GridHexContent content, HealthSystem health, int healthDelta) {
@@ -73,7 +79,7 @@ namespace BossRushJam25.Character.Bosses.GoldFist {
          if (newHealth > NextSpawnBatteryHealthThreshold) return;
 
          if (patternManager.CurrentAttack) patternManager.CurrentAttack.Interrupt();
-         TimeBeforeNextPattern = 0;
+         TimeBeforeNextPattern = 2;
       }
 
       private void Update() {

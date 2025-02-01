@@ -1,4 +1,5 @@
-﻿using BossRushJam25.HexGrid;
+﻿using BossRushJam25.BossFights;
+using BossRushJam25.HexGrid;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -16,6 +17,8 @@ namespace BossRushJam25.Character.Bosses.GoldFist {
       private static readonly int movingAnimParam = Animator.StringToHash("Moving");
       private static readonly int cancelAllAnimParam = Animator.StringToHash("CancelAll");
       private static readonly int nextPhaseAnimParam = Animator.StringToHash("NextPhase");
+      private static readonly int victoriousAnimParam = Animator.StringToHash("Victorious");
+      private static readonly int battleEndedAnimParam = Animator.StringToHash("BattleEnded");
 
       public enum AttackAnimation {
          None = 0,
@@ -25,7 +28,15 @@ namespace BossRushJam25.Character.Bosses.GoldFist {
       }
 
       public Transform Target { get; set; }
-      private Vector3 TargetPosition => Target ? Target.position : HexGridController.Instance.GetPeripheralPosition(transform.forward);
+
+      private Vector3 TargetPosition {
+         get {
+            if (BossFightInfo.IsOver) return Vector3.zero;
+            if (Target) return Target.position;
+            return HexGridController.Instance.GetPeripheralPosition(transform.forward);
+         }
+      }
+
       public Transform AnchoredObject { get; set; }
       public bool IsAtTarget => !Target || (transform.position - TargetPosition).sqrMagnitude < targetDistanceWithTarget * targetDistanceWithTarget;
       public UnityEvent OnKeyPointReached { get; } = new UnityEvent();
@@ -39,6 +50,8 @@ namespace BossRushJam25.Character.Bosses.GoldFist {
       private void Start() {
          transform.forward = Vector3.back;
          transform.position = TargetPosition;
+
+         animator.SetBool(battleEndedAnimParam, false);
       }
 
       private void Update() {
@@ -63,6 +76,11 @@ namespace BossRushJam25.Character.Bosses.GoldFist {
       public void EndAttack() => animator.SetTrigger(cancelAllAnimParam);
 
       public void KeyPointAnimEvent() => OnKeyPointReached.Invoke();
+
+      public void EndBattle(bool victorious) {
+         animator.SetBool(victoriousAnimParam, victorious);
+         animator.SetBool(battleEndedAnimParam, true);
+      }
 
       private void OnDrawGizmos() {
          if (objectAnchorBone) {
