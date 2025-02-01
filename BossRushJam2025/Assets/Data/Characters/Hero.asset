@@ -13,10 +13,10 @@ MonoBehaviour:
   m_Name: Hero
   m_EditorClassIdentifier: 
   isInvincible: 0
-  maxHealth: 20
+  maxHealth: 40
   vulnerabilities: -1
   damageInfo:
-    damage: 20
+    damage: 3
     damageType: 3
     damageTick: 1
     damageDuration: 0

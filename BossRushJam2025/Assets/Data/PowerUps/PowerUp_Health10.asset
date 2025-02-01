@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: PowerUp_Health10
   m_EditorClassIdentifier: 
   spawnZOffset: 0
-  healAmount: 10
+  healAmount: 20
   damageUpAmount: 0
   damageSpeedUpAmount: 0
