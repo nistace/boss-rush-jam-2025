@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 3061385118137334479}
   - component: {fileID: 1719680516458143134}
   - component: {fileID: 4124134229138081643}
+  - component: {fileID: 6932040339457704861}
   m_Layer: 10
   m_Name: HexTurret
   m_TagString: Untagged
@@ -106,6 +107,7 @@ MonoBehaviour:
     damageType: 1
     damageTick: 0.2
     damageDuration: 3
+  lockAffectedHexBeforeEndOfCooldown: 1
   cooldown: 4
   rotatingPart: {fileID: 2057047563140630572}
   rotationSpeed: 60
@@ -145,6 +147,27 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   animator: {fileID: 1719680516458143134}
   turret: {fileID: 3061385118137334479}
+--- !u!135 &6932040339457704861
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3532006029568338481}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 1
+  m_Center: {x: 0, y: 0.76, z: 0}
 --- !u!1 &6052531910021918347
 GameObject:
   m_ObjectHideFlags: 0
