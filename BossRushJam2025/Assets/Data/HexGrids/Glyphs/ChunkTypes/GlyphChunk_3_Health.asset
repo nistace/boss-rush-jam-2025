@@ -9,10 +9,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c49b7cb4e09f460e81078705abfac454, type: 3}
-  m_Name: PowerUp_Damage1
+  m_Script: {fileID: 11500000, guid: beaf2a37715a4ad4907d5f3f0ea643a5, type: 3}
+  m_Name: GlyphChunk_3_Health
   m_EditorClassIdentifier: 
-  spawnZOffset: 0
-  healAmount: 0
-  damageUpAmount: 5
-  damageSpeedUpAmount: 0

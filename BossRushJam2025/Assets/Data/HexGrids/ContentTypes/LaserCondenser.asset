@@ -19,7 +19,7 @@ MonoBehaviour:
   isInvincible: 0
   maxHealth: 16
   canDisplayHealthBar: 1
-  vulnerabilities: 5
+  vulnerabilities: 0
   absorbedDamages: 2
   obstacleForDamageTypes: -1
   canBeObstacleForLaserWhenParallel: 1

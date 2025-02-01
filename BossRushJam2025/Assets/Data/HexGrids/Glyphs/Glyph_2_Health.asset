@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d67ac51dd9d6487aa921bad60e69d820, type: 3}
+  m_Name: Glyph_2_Health
+  m_EditorClassIdentifier: 
+  originGlyphChunk: {fileID: 4966646679731647644, guid: 5e388017ec9c64e4cb8175201e142264, type: 3}
+  spawnOffsetWithOrigin: {x: 0, y: 0, z: 0}
+  otherGlyphParts:
+  - glyphChunk: {fileID: 4966646679731647644, guid: 5e388017ec9c64e4cb8175201e142264, type: 3}
+    offsetWithOrigin: {x: -1.7320508, y: 0, z: 0}
+    rotationWithOrigin: -180
