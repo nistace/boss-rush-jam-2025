@@ -88,7 +88,7 @@ namespace BossRushJam25.Character.Bosses.GoldFist {
          }
       }
 
-      public override HashSet<Vector2Int> GetAffectedHexes() => LaserUtils.Shoot(Origin, Direction, false, out coordinatesWhereShotIsBlocked);
+      public override HashSet<Vector2Int> GetAffectedHexes() => LaserUtils.Shoot(Origin, Direction, damageInfo.DamageType, false, out coordinatesWhereShotIsBlocked);
 
       private HexCoordinates.EDirection EvaluateBestDirectionToShoot(Vector2Int targetCoordinates, out Vector2Int originForDirection) {
          var bestDirection = HexCoordinates.EDirection.Right;
@@ -97,7 +97,7 @@ namespace BossRushJam25.Character.Bosses.GoldFist {
          foreach (var direction in ((HexCoordinates.EDirection[])Enum.GetValues(typeof(HexCoordinates.EDirection))).OrderBy(_ => Random.value)) {
             var directionScore = 0;
             var originForThisDirection = CombatUtils.GetHexOnBorder(targetCoordinates, direction.Opposite());
-            var shotHexes = LaserUtils.Shoot(originForThisDirection, direction, false, out var blockingCoordinates);
+            var shotHexes = LaserUtils.Shoot(originForThisDirection, direction, damageInfo.DamageType, false, out var blockingCoordinates);
             foreach (var shotHexCoordinates in shotHexes.Union(new[] { blockingCoordinates })) {
                directionScore++;
                if (HexGridController.Instance.TryGetHex(shotHexCoordinates, out var shotHex)) {

@@ -5,14 +5,17 @@ using UnityEngine.Events;
 namespace BossRushJam25.HexGrid {
    public class GridHexContent : MonoBehaviour {
       [SerializeField] protected GridHexContentType type;
+      [SerializeField] protected Transform directionTransform;
 
       public GridHexContentType Type => type;
+      public Transform DirectionTransform => directionTransform;
       private bool Initialized { get; set; }
       public HealthSystem HealthSystem { get; private set; }
       public static UnityEvent<GridHexContent, HealthSystem, int> OnAnyContentHealthChanged { get; } = new UnityEvent<GridHexContent, HealthSystem, int>();
       public UnityEvent<DamageType, int> OnDamageAbsorbed { get; } = new UnityEvent<DamageType, int>();
 
       public void Start() => Initialize();
+      private void Reset() => directionTransform = transform;
 
       public void Initialize() {
          if (Initialized) return;

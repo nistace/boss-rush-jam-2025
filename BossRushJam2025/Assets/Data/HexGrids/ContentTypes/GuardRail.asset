@@ -20,4 +20,6 @@ MonoBehaviour:
   maxHealth: 1
   canDisplayHealthBar: 1
   vulnerabilities: 0
+  absorbedDamages: 0
   obstacleForDamageTypes: 0
+  canBeObstacleForLaserWhenParallel: 1

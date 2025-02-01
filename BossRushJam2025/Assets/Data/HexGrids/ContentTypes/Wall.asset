@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Wall
   m_EditorClassIdentifier: 
   maxToSpawn: 1
-  rotationStepsInHex: 3
+  rotationStepsInHex: 1
   preventPowerUpSpawning: 1
   locksHexInPlace: 0
   isInvincible: 0
@@ -22,3 +22,4 @@ MonoBehaviour:
   vulnerabilities: 1
   absorbedDamages: 0
   obstacleForDamageTypes: -1
+  canBeObstacleForLaserWhenParallel: 0
