@@ -16,6 +16,10 @@ PrefabInstance:
       propertyPath: type
       value: 
       objectReference: {fileID: 11400000, guid: ed2eb02835e7b9a4fa5669bb682b118a, type: 2}
+    - target: {fileID: 2291728260019508305, guid: 10b31b09c8861f74b810adac8484f8c7, type: 3}
+      propertyPath: type.damageUpAmount
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 3509264129195374934, guid: 10b31b09c8861f74b810adac8484f8c7, type: 3}
       propertyPath: m_LocalScale.x
       value: 100
@@ -90,7 +94,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7395046468507608522, guid: 10b31b09c8861f74b810adac8484f8c7, type: 3}
       propertyPath: m_Name
-      value: PowerUp_Damage
+      value: PowerUp_Damage_2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

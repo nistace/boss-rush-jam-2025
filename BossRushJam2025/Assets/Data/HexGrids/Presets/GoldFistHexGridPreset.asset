@@ -21,15 +21,24 @@ MonoBehaviour:
     hexPrefab: {fileID: 6811911467666851820, guid: 5387d539bb711fa40b48932c854a0a35, type: 3}
     contentPrefab: {fileID: 0}
   glyphs:
-  - definition: {fileID: 11400000, guid: 179b343bba4dd684fa9e57d3e1e076ed, type: 2}
+  - definition: {fileID: 11400000, guid: 439fd7937e6c3804db678d4b28f5a889, type: 2}
     castingTime: 3
     powerUpToSpawn: {fileID: 289316297623735088, guid: a492c4ce90511ee44a6a5f614ef11e82, type: 3}
-  - definition: {fileID: 11400000, guid: bedfd6194d9c3d34bac901ccb7ea6326, type: 2}
+  - definition: {fileID: 11400000, guid: dd0e615faecc42a4f97a601166bca2b7, type: 2}
     castingTime: 3
-    powerUpToSpawn: {fileID: 289316297623735088, guid: a492c4ce90511ee44a6a5f614ef11e82, type: 3}
-  - definition: {fileID: 11400000, guid: efeb7020e9ef90c44b0678dbcdfd628a, type: 2}
+    powerUpToSpawn: {fileID: 289316297623735088, guid: 730c821e2062be541b4a4a4736aebf1e, type: 3}
+  - definition: {fileID: 11400000, guid: c700850dc7514014b94ca3bc710e97e8, type: 2}
     castingTime: 3
     powerUpToSpawn: {fileID: 289316297623735088, guid: 383ec63dfb1404d4d94e0b86f773701a, type: 3}
+  - definition: {fileID: 11400000, guid: baecab3ace009d1478613b0082670f0e, type: 2}
+    castingTime: 3
+    powerUpToSpawn: {fileID: 289316297623735088, guid: 39b4b242a844cfc43a2269133d299c2c, type: 3}
+  - definition: {fileID: 11400000, guid: 16a1e5e61f5a7014b89c89d886bc7fc6, type: 2}
+    castingTime: 3
+    powerUpToSpawn: {fileID: 289316297623735088, guid: 1a27fa54d80897646a544d3b0bf343a6, type: 3}
+  - definition: {fileID: 11400000, guid: d5115c921317f2148b15119197ade937, type: 2}
+    castingTime: 3
+    powerUpToSpawn: {fileID: 289316297623735088, guid: 3173903d11d073640997f45db1d47ab7, type: 3}
   presets:
   - gridHexPreset:
       hexPrefab: {fileID: 6811911467666851820, guid: af1925ec07f0f904694c16f2b291fd77, type: 3}

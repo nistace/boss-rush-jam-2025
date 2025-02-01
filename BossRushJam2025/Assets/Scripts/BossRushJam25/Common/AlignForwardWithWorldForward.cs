@@ -1,10 +1,7 @@
 using UnityEngine;
 
-public class AlignForwardWithWorldForward : MonoBehaviour {
-   [SerializeField] protected float blobg;
-
-   private void Update() {
-      Debug.Log(blobg);
-      transform.rotation = Quaternion.identity;
+namespace BossRushJam25.Common {
+   public class AlignForwardWithWorldForward : MonoBehaviour {
+      private void Update() => transform.rotation = Quaternion.identity;
    }
 }
