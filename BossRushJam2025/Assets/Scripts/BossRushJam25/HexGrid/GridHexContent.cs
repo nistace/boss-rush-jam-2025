@@ -9,8 +9,8 @@ namespace BossRushJam25.HexGrid {
       public GridHexContentType Type => type;
       private bool Initialized { get; set; }
       public HealthSystem HealthSystem { get; private set; }
-
       public static UnityEvent<GridHexContent, HealthSystem, int> OnAnyContentHealthChanged { get; } = new UnityEvent<GridHexContent, HealthSystem, int>();
+      public UnityEvent<DamageType, int> OnDamageAbsorbed { get; } = new UnityEvent<DamageType, int>();
 
       public void Start() => Initialize();
 
@@ -26,7 +26,16 @@ namespace BossRushJam25.HexGrid {
       }
 
       private void HandleHealthChanged(int newValue, int damageDelta) => OnAnyContentHealthChanged.Invoke(this, HealthSystem, damageDelta);
-      public void TryDamage(int damageDealt, DamageType damageType) => HealthSystem.Damage(damageDealt, damageType);
+
+      public void TryDamage(int damageDealt, DamageType damageType) {
+         if (type.AbsorbedDamages.Contains(damageType)) {
+            OnDamageAbsorbed.Invoke(damageType, damageDealt);
+            return;
+         }
+
+         HealthSystem.Damage(damageDealt, damageType);
+      }
+
       public bool IsDamageable(DamageTypes damageTypes) => HealthSystem.Vulnerabilities.Overlaps(damageTypes);
    }
 }

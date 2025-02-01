@@ -4,12 +4,16 @@ namespace BossRushJam25.Health {
    public enum DamageType {
       Physical = 0,
       Laser = 1,
+      OverclockedLaser = 2,
+      HeroSword = 3,
    }
 
    [Flags]
    public enum DamageTypes {
       Physical = 1 << DamageType.Physical,
       Laser = 1 << DamageType.Laser,
+      OverclockedLaser = 1 << DamageType.OverclockedLaser,
+      HeroSword = 1 << DamageType.HeroSword,
       Nothing = 0,
       Everything = ~0
    }
