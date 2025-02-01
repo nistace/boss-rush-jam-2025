@@ -60,5 +60,10 @@ namespace BossRushJam25.SpinStrategies {
             }
          }
       }
+
+      public void Reset() {
+         IsInteracting = false;
+         IsHoveringOverTile = false;
+      }
    }
 }

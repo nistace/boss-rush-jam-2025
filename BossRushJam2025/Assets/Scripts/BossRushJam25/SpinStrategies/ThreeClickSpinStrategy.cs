@@ -98,5 +98,10 @@ namespace BossRushJam25.SpinStrategies {
             HexGridController.Instance.SetHighlightedHexAt(Center, centerHighlight);
          }
       }
+
+      public void Reset() {
+         CurrentStep = EStep.SelectOrigin;
+         HoveringOverHex = false;
+      }
    }
 }

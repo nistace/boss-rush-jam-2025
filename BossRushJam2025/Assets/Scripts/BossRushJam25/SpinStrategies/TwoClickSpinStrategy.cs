@@ -251,5 +251,10 @@ namespace BossRushJam25.SpinStrategies {
 
          return false;
       }
+      
+      public void Reset() {
+         CurrentStep = EStep.SelectOrigin;
+         HoveringOverHex = false;
+      }
    }
 }

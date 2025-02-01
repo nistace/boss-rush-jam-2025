@@ -36,6 +36,7 @@ namespace BossRushJam25.GameControllers {
 
          CameraController.Instance.MoveToGamePosition(false);
          SpinStrategy = GameConfig.Instance.SpinStrategy.GetComponent<ISpinStrategy>();
+         SpinStrategy.Reset();
 
          MainCanvas.Show<GameUi>(false, HandleUiShown);
       }

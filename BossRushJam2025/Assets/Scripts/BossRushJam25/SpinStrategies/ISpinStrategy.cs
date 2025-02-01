@@ -3,5 +3,6 @@ namespace BossRushJam25.SpinStrategies {
       void Enable();
       void Disable();
       void Tick();
+      void Reset();
    }
 }
