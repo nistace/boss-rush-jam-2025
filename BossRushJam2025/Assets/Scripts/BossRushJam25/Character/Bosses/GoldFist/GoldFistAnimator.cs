@@ -27,7 +27,7 @@ namespace BossRushJam25.Character.Bosses.GoldFist {
       public Transform Target { get; set; }
       private Vector3 TargetPosition => Target ? Target.position : HexGridController.Instance.GetPeripheralPosition(transform.forward);
       public Transform AnchoredObject { get; set; }
-      public bool IsAtTarget => !Target || (transform.position - Target.position).sqrMagnitude < targetDistanceWithTarget * targetDistanceWithTarget;
+      public bool IsAtTarget => !Target || (transform.position - TargetPosition).sqrMagnitude < targetDistanceWithTarget * targetDistanceWithTarget;
       public UnityEvent OnKeyPointReached { get; } = new UnityEvent();
 
       private Vector3 velocity;
