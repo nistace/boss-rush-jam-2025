@@ -39,15 +39,9 @@ namespace BossRushJam25.HexGrid {
       }
 
       public static void HideAllAffectedHexes() {
-         foreach (var activeAffectedHex in Instance.ActiveAffectedHexes) {
-            Instance.PoolVisual(activeAffectedHex.Value);
-            if (HexGridController.Instance.TryGetHex(activeAffectedHex.Key, out var hex)) {
-               hex.SetAsTargeted(false);
-            }
+         foreach (var activeAffectedHex in Instance.ActiveAffectedHexes.Keys.ToArray()) {
+            Instance.UnTargetFromAllSourcesAtPosition(activeAffectedHex);
          }
-
-         Instance.ActiveAffectedHexes.Clear();
-         Instance.AffectedHexesPerSource.Clear();
       }
 
       private void UnTargetFromAllSourcesAtPosition(Vector2Int position) {
