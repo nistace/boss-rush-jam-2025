@@ -1,4 +1,5 @@
-﻿using BossRushJam25.BossFights;
+﻿using System.Collections.Generic;
+using BossRushJam25.BossFights;
 using BossRushJam25.Health;
 using BossRushJam25.HexGrid;
 using UnityEngine;
@@ -45,7 +46,7 @@ namespace BossRushJam25.Combat {
             DamageRunner.Continue(Time.deltaTime);
 
             AffectedHexesManager.HideAllAffectedHexes(this);
-            foreach (var damagedCoordinates in LaserUtils.Shoot(HexGridController.Instance.WorldToCoordinates(transform.position), TargetDirection, true, out coordinatesWhereShotIsBlocked)) {
+            foreach (var damagedCoordinates in SimulateShooting()) {
                AffectedHexesManager.SetAffectedHex(this, damagedCoordinates, true);
                if (DamageRunner.DamageDealtThisFrame > 0) {
                   if (CombatUtils.GetHeroCoordinates() == damagedCoordinates) {
@@ -75,7 +76,7 @@ namespace BossRushJam25.Combat {
             }
             else {
                AffectedHexesManager.HideAllAffectedHexes(this);
-               foreach (var damagedCoordinates in LaserUtils.Shoot(HexGridController.Instance.WorldToCoordinates(transform.position), TargetDirection, true, out coordinatesWhereShotIsBlocked)) {
+               foreach (var damagedCoordinates in SimulateShooting()) {
                   AffectedHexesManager.SetAffectedHex(this, damagedCoordinates, true);
                }
             }
@@ -93,5 +94,11 @@ namespace BossRushJam25.Combat {
             }
          }
       }
+
+      private HashSet<Vector2Int> SimulateShooting() => LaserUtils.Shoot(HexGridController.Instance.WorldToCoordinates(transform.position),
+         TargetDirection,
+         damageInfo.DamageType,
+         true,
+         out coordinatesWhereShotIsBlocked);
    }
 }

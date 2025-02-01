@@ -22,3 +22,4 @@ MonoBehaviour:
   vulnerabilities: 5
   absorbedDamages: 2
   obstacleForDamageTypes: -1
+  canBeObstacleForLaserWhenParallel: 1

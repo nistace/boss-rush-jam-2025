@@ -52,6 +52,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   type: {fileID: 11400000, guid: f5659fd46367dcd4baff29c611f0f5bc, type: 2}
+  directionTransform: {fileID: 183572189358326632}
 --- !u!208 &3584324377285687204
 NavMeshObstacle:
   m_ObjectHideFlags: 0

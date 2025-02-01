@@ -42,7 +42,7 @@ namespace BossRushJam25.Combat {
 
             LastShotTime = Time.time;
             var coordinates = HexGridController.Instance.WorldToCoordinates(transform.position);
-            foreach (var damagedCoordinates in LaserUtils.Shoot(coordinates, HexCoordinates.RotationToDirection(shootOrigin), true, out coordinatesWhereShotIsBlocked)) {
+            foreach (var damagedCoordinates in LaserUtils.Shoot(coordinates, HexCoordinates.RotationToDirection(shootOrigin), outputDamageType, true, out coordinatesWhereShotIsBlocked)) {
                if (CombatUtils.GetHeroCoordinates() == damagedCoordinates) {
                   CombatUtils.DamageHero(outputDamageType, damageToDeal);
                }
@@ -63,7 +63,7 @@ namespace BossRushJam25.Combat {
          AffectingAnyHex = IsShooting;
          if (IsShooting) {
             var coordinates = HexGridController.Instance.WorldToCoordinates(transform.position);
-            foreach (var damagedCoordinates in LaserUtils.Shoot(coordinates, HexCoordinates.RotationToDirection(shootOrigin), true, out coordinatesWhereShotIsBlocked)) {
+            foreach (var damagedCoordinates in LaserUtils.Shoot(coordinates, HexCoordinates.RotationToDirection(shootOrigin), outputDamageType, true, out coordinatesWhereShotIsBlocked)) {
                AffectedHexesManager.SetAffectedHex(this, damagedCoordinates, true);
             }
          }

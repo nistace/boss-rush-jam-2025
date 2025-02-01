@@ -85,6 +85,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   type: {fileID: 11400000, guid: 6baec08fad1edd040b3527f74c9f7224, type: 2}
+  directionTransform: {fileID: 8793259866559873234}
 --- !u!114 &5558840158689506000
 MonoBehaviour:
   m_ObjectHideFlags: 0
