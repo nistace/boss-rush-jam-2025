@@ -1,13 +1,14 @@
+using System;
 using UnityEngine;
 
-namespace BossRushJam25.ControlHex {
+namespace BossRushJam25.ControlHexes {
    public class ControlArea : MonoBehaviour {
-      [SerializeField] protected HexContentDetector contentDetector;
+      [SerializeField] protected ControlHex hex;
       [SerializeField] private MeshRenderer meshRenderer;
       [SerializeField] private Color colorWhenHeroInside;
       [SerializeField] private Color colorWhenHeroOutside;
 
-      public float ControlRadius => contentDetector.DetectionRadius;
+      public float ControlRadius => hex.Detector.DetectionRadius;
 
       private void OnTriggerEnter(Collider collider) {
          if (collider.gameObject.layer == LayerMask.NameToLayer("Hero")) {
@@ -21,8 +22,12 @@ namespace BossRushJam25.ControlHex {
          }
       }
 
-      private void OnValidate() { 
+      private void OnValidate() {
          transform.localScale = new Vector3(ControlRadius * 2, 1f, ControlRadius * 2);
+      }
+
+      private void Update() {
+         meshRenderer.enabled = hex.Active;
       }
    }
 }

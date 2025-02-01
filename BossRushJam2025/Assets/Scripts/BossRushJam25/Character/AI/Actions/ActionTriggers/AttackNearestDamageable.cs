@@ -18,7 +18,7 @@ namespace BossRushJam25.Character.AI.Actions.ActionTriggers
                 return false;
             }
 
-            if(!character.HexContentDetector.TryGetNearestDamageableHex(character.transform.position, character.DamageInfo.DamageType.AsFlags(), out var nearestDamageableHex))
+            if(!character.GetCurrentDetector().TryGetNearestDamageableHex(character.transform.position, character.DamageInfo.DamageType.AsFlags(), out var nearestDamageableHex))
             {
                 return false;
             }

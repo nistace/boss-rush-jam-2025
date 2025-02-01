@@ -1,8 +1,9 @@
 using BossRushJam25.BossFights;
 using BossRushJam25.Character.AI;
 using BossRushJam25.Character.Heroes;
-using BossRushJam25.ControlHex;
+using BossRushJam25.ControlHexes;
 using BossRushJam25.Health;
+using BossRushJam25.HexGrid;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -13,6 +14,7 @@ namespace BossRushJam25.Character {
       [SerializeField] protected NavMeshAgent navMeshAgent;
       [SerializeField] protected ActionPriorityHandler actionPriorityHandler;
       [SerializeField] protected PowerUpsCollector powerUpsCollector;
+      [SerializeField] protected HexContentDetector selfDetector;
       [SerializeField] protected BossPatternDetector bossPatternDetector;
       [SerializeField] protected DebugActionsTrigger actionsTrigger;
       [SerializeField] protected HeroAnimator animator;
@@ -26,12 +28,10 @@ namespace BossRushJam25.Character {
       public HealthSystem Health { get; private set; }
       public CharacterType Type => type;
       public HeroAnimator Animator => animator;
-      public HexContentDetector HexContentDetector { get; private set; }
 
-      public void Initialize(HexContentDetector contentDetector) {
+      public void Initialize() {
          Health = new HealthSystem(type.MaxHealth, type.Vulnerabilities);
          DamageInfo = type.DamageInfo;
-         HexContentDetector = contentDetector;
          actionPriorityHandler.Initialize(this);
          powerUpsCollector.Initialize(this);
          actionsTrigger?.Initialize(this);
@@ -54,5 +54,10 @@ namespace BossRushJam25.Character {
       private void HandleBossFightEnded() => navMeshAgent.enabled = BossFightInfo.IsPlaying;
 
       public void ChangeDamageInfo(DamageInfo newDamageInfo) => DamageInfo = newDamageInfo;
+
+      public HexContentDetector GetCurrentDetector() {
+         if (HexGridController.Instance.ControlHex.Active) return HexGridController.Instance.ControlHex.Detector;
+         return selfDetector;
+      }
    }
 }

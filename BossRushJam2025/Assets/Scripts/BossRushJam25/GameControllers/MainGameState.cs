@@ -2,7 +2,6 @@
 using BossRushJam25.Cameras;
 using BossRushJam25.Character;
 using BossRushJam25.Character.Bosses;
-using BossRushJam25.ControlHex;
 using BossRushJam25.HexGrid;
 using BossRushJam25.Inputs;
 using BossRushJam25.SpinStrategies;
@@ -29,7 +28,7 @@ namespace BossRushJam25.GameControllers {
          Hero = Object.Instantiate(GameConfig.Instance.HeroPrefab, heroSpawnPosition, Quaternion.identity);
          Boss = Object.Instantiate(GameConfig.Instance.BossPrefab);
          BossFightInfo.Setup(Hero, Boss);
-         Hero.Initialize(HexGridController.Instance.ControlHex.GetComponentInChildren<HexContentDetector>());
+         Hero.Initialize();
          Boss.Initialize();
 
          MainCanvas.Game.HeroHealthBar.Setup(Hero.Health);
@@ -47,8 +46,21 @@ namespace BossRushJam25.GameControllers {
          GameInputs.Controls.Player.Enable();
          GameInputs.Controls.Player.DamageHero.performed += HandleDamageHeroPerformed;
          GameInputs.Controls.Player.DamageBoss.performed += HandleDamageBossPerformed;
+         GameInputs.Controls.Player.ToggleControlHex.performed += HandleToggleControlHexPerformed;
+         MainCanvas.Game.ControlHexToggle.OnClicked.AddListener(HandleControlHexToggleClicked);
+
          Hero.Health.OnHealthChanged.AddListener(HandleHeroHealthChanged);
          Boss.Health.OnHealthChanged.AddListener(HandleBossHealthChanged);
+      }
+
+      private void HandleToggleControlHexPerformed(InputAction.CallbackContext obj) => ToggleControlHexActive();
+
+      private static void HandleControlHexToggleClicked() => ToggleControlHexActive();
+
+      private static void ToggleControlHexActive() {
+         if (!HexGridController.Instance) return;
+         if (!HexGridController.Instance.ControlHex) return;
+         HexGridController.Instance.ControlHex.SetActive(!HexGridController.Instance.ControlHex.Active);
       }
 
       private void HandleDamageHeroPerformed(InputAction.CallbackContext obj) => Hero.Health.DamagePure(1);
@@ -72,6 +84,7 @@ namespace BossRushJam25.GameControllers {
          GameInputs.Controls.Player.Disable();
          GameInputs.Controls.Player.DamageHero.performed -= HandleDamageHeroPerformed;
          GameInputs.Controls.Player.DamageBoss.performed -= HandleDamageBossPerformed;
+         MainCanvas.Game.ControlHexToggle.OnClicked.RemoveListener(HandleControlHexToggleClicked);
 
          if (Hero != null) {
             Hero.Health.OnHealthChanged.RemoveListener(HandleHeroHealthChanged);

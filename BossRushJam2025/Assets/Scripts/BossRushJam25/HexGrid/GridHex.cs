@@ -55,21 +55,21 @@ namespace BossRushJam25.HexGrid {
          name = $"{InitialName}@{coordinates.x:00}{coordinates.y:00}";
       }
 
-      public void Setup(GridHexContent contentInfo) {
+      public void Setup(GridHexContent contentToSpawn) {
          var rotationSteps = Mathf.Max(type.RotationSteps, 1);
          var rotation = Random.Range(0, Mathf.Max(type.RotationSteps, 1)) * 360f / rotationSteps;
          transform.rotation = Quaternion.Euler(0, rotation, 0);
 
-         SetupContent(contentInfo);
+         SpawnContent(contentToSpawn);
       }
 
-      private void SetupContent(GridHexContent contentInfo) {
-         if (!contentInfo) return;
+      public void SpawnContent(GridHexContent contentPrefab) {
+         if (!contentPrefab) return;
 
-         var rotationOptionsCount = Mathf.Max(contentInfo.Type.RotationStepsInHex, 1);
+         var rotationOptionsCount = Mathf.Max(contentPrefab.Type.RotationStepsInHex, 1);
          var rotationPerStep = 360f / rotationOptionsCount;
-         foreach (var rotationStep in Enumerable.Range(0, rotationOptionsCount).OrderBy(_ => Random.value).Take(contentInfo.Type.MaxToSpawn)) {
-            var newContent = Instantiate(contentInfo, hexContentParent);
+         foreach (var rotationStep in Enumerable.Range(0, rotationOptionsCount).OrderBy(_ => Random.value).Take(contentPrefab.Type.MaxToSpawn)) {
+            var newContent = Instantiate(contentPrefab, hexContentParent);
             newContent.transform.localRotation = Quaternion.Euler(0, rotationPerStep * rotationStep, 0);
             Contents.Add(newContent);
             SetLockedInPlaceBy(newContent, newContent.Type.LocksHexInPlace);

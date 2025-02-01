@@ -9,7 +9,7 @@ namespace BossRushJam25.Character.AI.Actions.ActionTriggers
         {
             action = null;
 
-            if (!character.HexContentDetector.TryGetNearestPowerUp(character.transform.position, out var nearestPowerUp))
+            if (!character.GetCurrentDetector().TryGetNearestPowerUp(character.transform.position, out var nearestPowerUp))
             {
                 return false;
             }

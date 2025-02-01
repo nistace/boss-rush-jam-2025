@@ -4,7 +4,7 @@ using BossRushJam25.HexGrid;
 using BossRushJam25.PowerUps;
 using UnityEngine;
 
-namespace BossRushJam25.ControlHex {
+namespace BossRushJam25.ControlHexes {
    public class HexContentDetector : MonoBehaviour {
       [SerializeField] protected float detectionRadius = 10f;
       [SerializeField] protected LayerMask detectionLayerMask = ~0;
@@ -32,7 +32,7 @@ namespace BossRushJam25.ControlHex {
             .FirstOrDefault();
       }
 
-      private void OnDrawGizmosSelected() { 
+      private void OnDrawGizmosSelected() {
          Gizmos.color = Color.red;
          Gizmos.DrawWireSphere(transform.position, detectionRadius);
       }

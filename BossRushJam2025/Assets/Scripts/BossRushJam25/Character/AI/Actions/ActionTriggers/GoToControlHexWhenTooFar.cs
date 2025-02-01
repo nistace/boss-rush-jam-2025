@@ -11,6 +11,8 @@ namespace BossRushJam25.Character.AI.Actions.ActionTriggers {
       public override bool TryGet(out AAction action) {
          action = null;
 
+         if (!HexGridController.Instance.ControlHex.Active) return false;
+
          Vector3 controlHexPosition = HexGridController.Instance.ControlHex.transform.position;
 
          float sqrDistanceWithControlHex = (controlHexPosition - character.transform.position).sqrMagnitude;

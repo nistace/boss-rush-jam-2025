@@ -300,6 +300,57 @@ MonoBehaviour:
         RemapColorZero: 0
         RemapColorOne: 1
         TargetColor: {r: 0.6320754, g: 0, b: 0, a: 1}
+--- !u!1 &689400900574869454
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5247647555324690859}
+  - component: {fileID: 8750980510437053839}
+  m_Layer: 9
+  m_Name: Detector
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5247647555324690859
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 689400900574869454}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5849136863364302022}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8750980510437053839
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 689400900574869454}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b8491cc0ffa36b647a12f338cf53b1e2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  detectionRadius: 5
+  detectionLayerMask:
+    serializedVersion: 2
+    m_Bits: 1024
+  powerUpLayerMask:
+    serializedVersion: 2
+    m_Bits: 256
 --- !u!1 &785107721077850585
 GameObject:
   m_ObjectHideFlags: 0
@@ -747,6 +798,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1303483181607472677}
+  - {fileID: 5247647555324690859}
   - {fileID: 8374499867108967277}
   - {fileID: 1965005867052186366}
   - {fileID: 162627105340338868}
@@ -770,6 +822,7 @@ MonoBehaviour:
   navMeshAgent: {fileID: 4036202868100558749}
   actionPriorityHandler: {fileID: 8323066234089659036}
   powerUpsCollector: {fileID: 3891580909208782781}
+  selfDetector: {fileID: 8750980510437053839}
   bossPatternDetector: {fileID: 3854413985686711417}
   actionsTrigger: {fileID: 2398727888956531791}
   animator: {fileID: 1753004295836447033}

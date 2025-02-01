@@ -73,6 +73,15 @@ namespace BossRushJam25.Inputs
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""ToggleControlHex"",
+                    ""type"": ""Button"",
+                    ""id"": ""7b13f898-c281-436f-9ffa-194797a6b71b"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -141,6 +150,17 @@ namespace BossRushJam25.Inputs
                     ""action"": ""Cancel"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""0ec605b9-459b-43b0-b3bc-64d6d13d72a8"",
+                    ""path"": ""<Keyboard>/space"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ToggleControlHex"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -154,6 +174,7 @@ namespace BossRushJam25.Inputs
             m_Player_Cancel = m_Player.FindAction("Cancel", throwIfNotFound: true);
             m_Player_DamageHero = m_Player.FindAction("DamageHero", throwIfNotFound: true);
             m_Player_DamageBoss = m_Player.FindAction("DamageBoss", throwIfNotFound: true);
+            m_Player_ToggleControlHex = m_Player.FindAction("ToggleControlHex", throwIfNotFound: true);
         }
 
         ~@Controls()
@@ -225,6 +246,7 @@ namespace BossRushJam25.Inputs
         private readonly InputAction m_Player_Cancel;
         private readonly InputAction m_Player_DamageHero;
         private readonly InputAction m_Player_DamageBoss;
+        private readonly InputAction m_Player_ToggleControlHex;
         public struct PlayerActions
         {
             private @Controls m_Wrapper;
@@ -234,6 +256,7 @@ namespace BossRushJam25.Inputs
             public InputAction @Cancel => m_Wrapper.m_Player_Cancel;
             public InputAction @DamageHero => m_Wrapper.m_Player_DamageHero;
             public InputAction @DamageBoss => m_Wrapper.m_Player_DamageBoss;
+            public InputAction @ToggleControlHex => m_Wrapper.m_Player_ToggleControlHex;
             public InputActionMap Get() { return m_Wrapper.m_Player; }
             public void Enable() { Get().Enable(); }
             public void Disable() { Get().Disable(); }
@@ -258,6 +281,9 @@ namespace BossRushJam25.Inputs
                 @DamageBoss.started += instance.OnDamageBoss;
                 @DamageBoss.performed += instance.OnDamageBoss;
                 @DamageBoss.canceled += instance.OnDamageBoss;
+                @ToggleControlHex.started += instance.OnToggleControlHex;
+                @ToggleControlHex.performed += instance.OnToggleControlHex;
+                @ToggleControlHex.canceled += instance.OnToggleControlHex;
             }
 
             private void UnregisterCallbacks(IPlayerActions instance)
@@ -277,6 +303,9 @@ namespace BossRushJam25.Inputs
                 @DamageBoss.started -= instance.OnDamageBoss;
                 @DamageBoss.performed -= instance.OnDamageBoss;
                 @DamageBoss.canceled -= instance.OnDamageBoss;
+                @ToggleControlHex.started -= instance.OnToggleControlHex;
+                @ToggleControlHex.performed -= instance.OnToggleControlHex;
+                @ToggleControlHex.canceled -= instance.OnToggleControlHex;
             }
 
             public void RemoveCallbacks(IPlayerActions instance)
@@ -301,6 +330,7 @@ namespace BossRushJam25.Inputs
             void OnCancel(InputAction.CallbackContext context);
             void OnDamageHero(InputAction.CallbackContext context);
             void OnDamageBoss(InputAction.CallbackContext context);
+            void OnToggleControlHex(InputAction.CallbackContext context);
         }
     }
 }

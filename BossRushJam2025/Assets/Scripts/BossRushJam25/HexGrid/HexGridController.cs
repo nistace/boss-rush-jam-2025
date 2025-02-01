@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using BossRushJam25.ControlHexes;
 using Unity.AI.Navigation;
 using UnityEngine;
 using UnityEngine.AI;
@@ -25,7 +26,7 @@ namespace BossRushJam25.HexGrid {
       public float WorldRadius => gridRadius * hexRadius * 2;
       public ICollection<GridHex> AllHexes => Hexes.Values;
       public GridHex HeroSpawnHex { get; private set; }
-      public GridHex ControlHex { get; private set; }
+      public ControlHex ControlHex { get; private set; }
 
       public static Vector2Int Center => Vector2Int.zero;
       public static Vector3 WorldCenter => Vector3.zero;
@@ -110,9 +111,7 @@ namespace BossRushJam25.HexGrid {
       public static IReadOnlyList<Vector2Int> GetRingClockwiseCoordinates(Vector2Int center, int radius) => GetRingCoordinates(center, radius, t => t.RotateClockwise());
       public static IReadOnlyList<Vector2Int> GetRingAntiClockwiseCoordinates(Vector2Int center, int radius) => GetRingCoordinates(center, radius, t => t.RotateAntiClockwise());
 
-      public static IReadOnlyList<Vector2Int> GetRingCoordinates(Vector2Int center,
-         int ringRadius,
-         Func<HexCoordinates.EDirection, HexCoordinates.EDirection> rotateDirectionFunc) {
+      public static IReadOnlyList<Vector2Int> GetRingCoordinates(Vector2Int center, int ringRadius, Func<HexCoordinates.EDirection, HexCoordinates.EDirection> rotateDirectionFunc) {
          var result = new List<Vector2Int>();
          var hex = center.Left(ringRadius);
          var initialDirection = rotateDirectionFunc(rotateDirectionFunc(HexCoordinates.EDirection.Left));
@@ -265,7 +264,7 @@ namespace BossRushJam25.HexGrid {
          RefreshInnerRadius();
 
          HeroSpawnHex = InstantiateHex(preset.HeroSpawnPosition, preset.HeroSpawnHexPreset);
-         ControlHex = InstantiateHex(preset.HeroControlHexPosition, preset.HeroControlHexPreset);
+         ControlHex = InstantiateHex(preset.HeroControlHexPosition, preset.HeroControlHexPreset).GetComponent<ControlHex>();
 
          var randomHexesQueue = GenerateRandomQueueOfMissingHexes();
 
