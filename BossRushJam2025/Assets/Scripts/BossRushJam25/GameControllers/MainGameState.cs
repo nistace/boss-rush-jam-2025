@@ -40,6 +40,8 @@ namespace BossRushJam25.GameControllers {
          SpinStrategy.Reset();
 
          MainCanvas.Show<GameUi>(false, HandleUiShown);
+
+         SoundManager.Instance.PlayMusic(volumeRatio: 1f);
       }
 
       private void HandleUiShown() {

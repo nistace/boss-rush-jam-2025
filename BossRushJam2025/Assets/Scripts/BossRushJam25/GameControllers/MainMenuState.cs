@@ -9,6 +9,7 @@ namespace BossRushJam25.GameControllers {
       public override void Enable() {
          CameraController.Instance.MoveToMenuPosition(false);
          MainCanvas.Show<MainMenuUi>(false, HandleUiShown);
+         SoundManager.Instance.PlayMusic(volumeRatio: 0.3f);
       }
 
       private static void HandleUiShown() {

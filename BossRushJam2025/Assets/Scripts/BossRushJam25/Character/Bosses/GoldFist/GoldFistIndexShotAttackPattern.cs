@@ -61,6 +61,7 @@ namespace BossRushJam25.Character.Bosses.GoldFist {
 
          IsShooting = false;
          Animator.EndAttack();
+         feedbacksPlayer.StopFeedbacks();
       }
 
       private void DealDamageOnAffectedHexes(int damageDealt) {
