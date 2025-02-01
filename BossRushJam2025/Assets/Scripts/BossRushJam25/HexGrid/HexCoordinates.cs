@@ -52,6 +52,8 @@ namespace BossRushJam25.HexGrid {
          _ => throw new ArgumentOutOfRangeException(nameof(direction), direction, null)
       };
 
+      public static EDirection RotationToDirection(Transform transform) => RotationToDirection(Vector3.SignedAngle(Vector3.forward, transform.forward, Vector3.up));
+
       public static EDirection RotationToDirection(float signedAngleWithForward) {
          while (signedAngleWithForward < 0) signedAngleWithForward += 360f;
          signedAngleWithForward %= 360;
