@@ -22,7 +22,7 @@ namespace BossRushJam25.HexGrid {
       }
 
       private void OnDestroy() {
-         HealthSystem.OnHealthChanged.RemoveListener(HandleHealthChanged);
+         HealthSystem?.OnHealthChanged.RemoveListener(HandleHealthChanged);
       }
 
       private void HandleHealthChanged(int newValue, int damageDelta) => OnAnyContentHealthChanged.Invoke(this, HealthSystem, damageDelta);
