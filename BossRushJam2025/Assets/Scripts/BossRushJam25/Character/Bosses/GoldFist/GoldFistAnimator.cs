@@ -63,5 +63,19 @@ namespace BossRushJam25.Character.Bosses.GoldFist {
       public void EndAttack() => animator.SetTrigger(cancelAllAnimParam);
 
       public void KeyPointAnimEvent() => OnKeyPointReached.Invoke();
+
+      private void OnDrawGizmos() {
+         if (objectAnchorBone) {
+            Gizmos.matrix = objectAnchorBone.localToWorldMatrix;
+            Gizmos.color = Color.magenta;
+            Gizmos.DrawSphere(Vector3.zero, .1f);
+            Gizmos.color = Color.blue;
+            Gizmos.DrawLine(Vector3.zero, Vector3.forward * .3f);
+            Gizmos.color = Color.red;
+            Gizmos.DrawLine(Vector3.zero, Vector3.right * .3f);
+            Gizmos.color = Color.green;
+            Gizmos.DrawLine(Vector3.zero, Vector3.up * .3f);
+         }
+      }
    }
 }
