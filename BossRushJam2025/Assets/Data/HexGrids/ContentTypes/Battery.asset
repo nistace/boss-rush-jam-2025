@@ -19,5 +19,6 @@ MonoBehaviour:
   isInvincible: 0
   maxHealth: 50
   canDisplayHealthBar: 1
-  vulnerabilities: 2
+  vulnerabilities: 4
+  absorbedDamages: 0
   obstacleForDamageTypes: -1

@@ -17,7 +17,7 @@ MonoBehaviour:
   vulnerabilities: -1
   damageInfo:
     damage: 20
-    damageType: 0
+    damageType: 3
     damageTick: 1
     damageDuration: 0
   maxAttackDistance: 1.5

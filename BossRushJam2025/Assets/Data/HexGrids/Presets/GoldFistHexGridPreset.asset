@@ -43,6 +43,10 @@ MonoBehaviour:
       hexPrefab: {fileID: 6811911467666851820, guid: af1925ec07f0f904694c16f2b291fd77, type: 3}
       contentPrefab: {fileID: -4768754773489207537, guid: f73739c560fa8e041b60323f2f43e63f, type: 3}
     amount: 0
+  - gridHexPreset:
+      hexPrefab: {fileID: 6811911467666851820, guid: af1925ec07f0f904694c16f2b291fd77, type: 3}
+      contentPrefab: {fileID: -4768754773489207537, guid: e747f68d0c533d94ca4c29c403386506, type: 3}
+    amount: 1
   fillerPreset:
     hexPrefab: {fileID: 6811911467666851820, guid: af1925ec07f0f904694c16f2b291fd77, type: 3}
     contentPrefab: {fileID: 0}
