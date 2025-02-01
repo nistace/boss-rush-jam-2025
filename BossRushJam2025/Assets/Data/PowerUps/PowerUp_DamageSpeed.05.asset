@@ -15,4 +15,4 @@ MonoBehaviour:
   spawnZOffset: 0
   healAmount: 0
   damageUpAmount: 0
-  damageSpeedUpAmount: 0.05
+  damageSpeedUpAmount: 0.2

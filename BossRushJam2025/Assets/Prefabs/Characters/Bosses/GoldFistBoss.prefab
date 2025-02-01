@@ -49,14 +49,14 @@ MonoBehaviour:
   animator: {fileID: 4524794885145023861}
   gameObjectToActivationDuringExecution: {fileID: 8529339843037879533}
   feedbacksPlayer: {fileID: 8789640375503809793}
-  castDuration: 4
+  castDuration: 5
   obstacles:
   - {fileID: 11400000, guid: 0727135848fead74e90a9dbe595130b4, type: 2}
   - {fileID: 11400000, guid: 3f2c9c3b253a7de47a6c3313627ec346, type: 2}
   damageInfo:
     damage: 1
     damageType: 1
-    damageTick: 0.1
+    damageTick: 0.2
     damageDuration: 3
   contentTypeCostOfShooting:
     KeyValueList:
@@ -117,10 +117,10 @@ MonoBehaviour:
   animator: {fileID: 4524794885145023861}
   gameObjectToActivationDuringExecution: {fileID: 2896652974510809707}
   feedbacksPlayer: {fileID: 8395042498355215986}
-  followSpeed: 0.5
-  castDuration: 4
-  damage: 8
-  delayAfterDamageDealt: 5
+  followSpeed: 0.4
+  castDuration: 5
+  damage: 10
+  delayAfterDamageDealt: 6
   ringRadius: 1
   fistHexContentPrefab: {fileID: -4768754773489207537, guid: 82a614672ca64ca4993284e8be5ddc27, type: 3}
 --- !u!1 &1655740231146867200
@@ -209,13 +209,13 @@ MonoBehaviour:
   spawnBatteryPattern: {fileID: 6214996212632573773}
   damageTakenByDestroyedBattery: 20
   batteryAndTurretHealthThreshold: 50
-  delayBeforeFirstAttack: 5
+  delayBeforeFirstAttack: 4
   delayBetweenAttacksOverTime:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 5
+      value: 6
       inSlope: 0
       outSlope: 0
       tangentMode: 34
@@ -224,7 +224,7 @@ MonoBehaviour:
       outWeight: 0.33333334
     - serializedVersion: 3
       time: 300
-      value: 5
+      value: 6
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -234,8 +234,8 @@ MonoBehaviour:
     - serializedVersion: 3
       time: 900
       value: 0
-      inSlope: -0.008333334
-      outSlope: -0.008333334
+      inSlope: -0.01
+      outSlope: -0.01
       tangentMode: 34
       weightedMode: 0
       inWeight: 0.33333334

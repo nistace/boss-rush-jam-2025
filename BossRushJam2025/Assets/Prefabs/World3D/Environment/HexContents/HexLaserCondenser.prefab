@@ -99,7 +99,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hexContent: {fileID: -4768754773489207537}
   shootOrigin: {fileID: 8793259866559873234}
-  damageMultiplier: 1
+  damageMultiplier: 1.3
   inputDamageTypes: 2
   outputDamageType: 2
   shootingTime: 0.5

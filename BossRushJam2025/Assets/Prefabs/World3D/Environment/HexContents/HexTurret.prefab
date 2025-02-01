@@ -105,7 +105,7 @@ MonoBehaviour:
   damageInfo:
     damage: 1
     damageType: 1
-    damageTick: 0.2
+    damageTick: 0.3
     damageDuration: 3
   lockAffectedHexBeforeEndOfCooldown: 1
   cooldown: 4

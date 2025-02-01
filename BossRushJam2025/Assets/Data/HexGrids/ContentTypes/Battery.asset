@@ -17,7 +17,7 @@ MonoBehaviour:
   preventPowerUpSpawning: 1
   locksHexInPlace: 1
   isInvincible: 0
-  maxHealth: 50
+  maxHealth: 60
   canDisplayHealthBar: 1
   vulnerabilities: 4
   absorbedDamages: 0
