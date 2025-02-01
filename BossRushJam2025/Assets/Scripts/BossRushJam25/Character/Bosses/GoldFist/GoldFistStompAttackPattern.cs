@@ -59,9 +59,9 @@ namespace BossRushJam25.Character.Bosses.GoldFist {
 
          if (InterruptAsap) yield break;
 
-         AddFistAsHexContents();
          FistRaised = false;
          DealDamageOnAffectedHexes();
+         AddFistAsHexContents();
          AffectedHexesManager.HideAllAffectedHexes(this);
          feedbacksPlayer.PlayFeedbacks();
 
@@ -116,8 +116,13 @@ namespace BossRushJam25.Character.Bosses.GoldFist {
       }
 
       private void DealDamageOnAffectedHexes() {
-         if (EvaluateTargetedHexes().Contains(CombatUtils.GetHeroCoordinates())) {
-            CombatUtils.DamageHero(DamageType.Physical, damage);
+         foreach (var targetedHex in EvaluateTargetedHexes()) {
+            if (HexGridController.Instance.TryGetHex(targetedHex, out var hex)) {
+               hex.TryDamageContents(damage, DamageType.Physical);
+            }
+            if (targetedHex == CombatUtils.GetHeroCoordinates()) {
+               CombatUtils.DamageHero(DamageType.Physical, damage);
+            }
          }
       }
 
