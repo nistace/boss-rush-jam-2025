@@ -3,6 +3,7 @@ using BossRushJam25.Character.AI;
 using BossRushJam25.Character.Heroes;
 using BossRushJam25.ControlHexes;
 using BossRushJam25.Health;
+using MoreMountains.Feedbacks;
 using BossRushJam25.HexGrid;
 using UnityEngine;
 using UnityEngine.AI;
@@ -19,6 +20,7 @@ namespace BossRushJam25.Character {
       [SerializeField] protected DebugActionsTrigger actionsTrigger;
       [SerializeField] protected HeroAnimator animator;
       [SerializeField] protected HealthVFX healthVFX;
+      [SerializeField] protected MMF_Player attackFeedbacks;
 
       public NavMeshAgent NavMeshAgent => navMeshAgent;
       public HexLink HexLink => hexLink;
@@ -28,6 +30,7 @@ namespace BossRushJam25.Character {
       public HealthSystem Health { get; private set; }
       public CharacterType Type => type;
       public HeroAnimator Animator => animator;
+      public MMF_Player AttackFeedbacks => attackFeedbacks;
 
       public void Initialize() {
          Health = new HealthSystem(type.MaxHealth, type.Vulnerabilities);

@@ -132,6 +132,8 @@ namespace BossRushJam25.Character.AI.Actions
             {
                 BossFightInfo.Hero.Health.Damage(character.Type.DamageInfo.Damage, character.Type.DamageInfo.DamageType);
             }
+
+            character.AttackFeedbacks.PlayFeedbacks();
         }
 
         private bool TargetIsInRange()

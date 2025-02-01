@@ -39,6 +39,8 @@ namespace BossRushJam25.GameControllers {
          SpinStrategy.Reset();
 
          MainCanvas.Show<GameUi>(false, HandleUiShown);
+
+         SoundManager.Instance.PlayMusic(volumeRatio: 1f);
       }
 
       private void HandleUiShown() {
@@ -84,6 +86,7 @@ namespace BossRushJam25.GameControllers {
          GameInputs.Controls.Player.Disable();
          GameInputs.Controls.Player.DamageHero.performed -= HandleDamageHeroPerformed;
          GameInputs.Controls.Player.DamageBoss.performed -= HandleDamageBossPerformed;
+         GameInputs.Controls.Player.ToggleControlHex.performed -= HandleToggleControlHexPerformed;
          MainCanvas.Game.ControlHexToggle.OnClicked.RemoveListener(HandleControlHexToggleClicked);
 
          if (Hero != null) {
