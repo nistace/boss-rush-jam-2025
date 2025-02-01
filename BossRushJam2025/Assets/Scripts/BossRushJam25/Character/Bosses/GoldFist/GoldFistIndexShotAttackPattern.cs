@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using BossRushJam25.Combat;
 using BossRushJam25.Health;
 using BossRushJam25.HexGrid;
 using MoreMountains.FeedbacksForThirdParty;
 using UnityEngine;
+using Utils;
 using Random = UnityEngine.Random;
 
 namespace BossRushJam25.Character.Bosses.GoldFist {
@@ -13,6 +15,7 @@ namespace BossRushJam25.Character.Bosses.GoldFist {
       [SerializeField] protected float castDuration = 4;
       [SerializeField] protected GridHexContentType[] obstacles;
       [SerializeField] protected DamageInfo damageInfo = new DamageInfo(1, DamageType.Laser, .1f, 5);
+      [SerializeField] protected SerializableDictionary<GridHexContentType, int> contentTypeCostOfShooting = new SerializableDictionary<GridHexContentType, int>();
       private Vector2Int coordinatesWhereShotIsBlocked;
 
       private Vector2Int Origin { get; set; }
@@ -25,11 +28,11 @@ namespace BossRushJam25.Character.Bosses.GoldFist {
 
          IsShooting = false;
          var target = CombatUtils.GetHeroCoordinates();
-         Direction = (HexCoordinates.EDirection)Random.Range(0, Enum.GetValues(typeof(HexCoordinates.EDirection)).Length);
-         Origin = CombatUtils.GetHexOnBorder(target, Direction.Opposite());
+         Direction = EvaluateBestDirectionToShoot(target, out var originForDirection);
+         Origin = originForDirection;
 
          transform.position = HexGridController.Instance.CoordinatesToWorldPosition(Origin);
-         transform.forward = HexGridController.Instance.CoordinatesToWorldPosition(target) - HexGridController.Instance.CoordinatesToWorldPosition(Origin.Neighbour(Direction));
+         transform.forward = HexGridController.Instance.CoordinatesToWorldPosition(target) - HexGridController.Instance.CoordinatesToWorldPosition(Origin.Neighbour(Direction.Opposite()));
 
          while (!InterruptAsap && !Animator.IsAtTarget) {
             yield return null;
@@ -86,5 +89,33 @@ namespace BossRushJam25.Character.Bosses.GoldFist {
       }
 
       public override HashSet<Vector2Int> GetAffectedHexes() => LaserUtils.Shoot(Origin, Direction, false, out coordinatesWhereShotIsBlocked);
+
+      private HexCoordinates.EDirection EvaluateBestDirectionToShoot(Vector2Int targetCoordinates, out Vector2Int originForDirection) {
+         var bestDirection = HexCoordinates.EDirection.Right;
+         originForDirection = default;
+         var bestDirectionScore = int.MinValue;
+         foreach (var direction in ((HexCoordinates.EDirection[])Enum.GetValues(typeof(HexCoordinates.EDirection))).OrderBy(_ => Random.value)) {
+            var directionScore = 0;
+            var originForThisDirection = CombatUtils.GetHexOnBorder(targetCoordinates, direction.Opposite());
+            var shotHexes = LaserUtils.Shoot(originForThisDirection, direction, false, out var blockingCoordinates);
+            foreach (var shotHexCoordinates in shotHexes.Union(new[] { blockingCoordinates })) {
+               directionScore++;
+               if (HexGridController.Instance.TryGetHex(shotHexCoordinates, out var shotHex)) {
+                  foreach (var shotHexContent in shotHex.HexContents) {
+                     if (contentTypeCostOfShooting.TryGetValue(shotHexContent.Type, out var cost)) {
+                        directionScore -= cost;
+                     }
+                  }
+               }
+            }
+
+            if (directionScore > bestDirectionScore) {
+               bestDirection = direction;
+               bestDirectionScore = directionScore;
+               originForDirection = originForThisDirection;
+            }
+         }
+         return bestDirection;
+      }
    }
 }

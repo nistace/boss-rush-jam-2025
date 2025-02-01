@@ -58,6 +58,16 @@ MonoBehaviour:
     damageType: 1
     damageTick: 0.1
     damageDuration: 3
+  contentTypeCostOfShooting:
+    KeyValueList:
+    - Key: {fileID: 11400000, guid: 3f2c9c3b253a7de47a6c3313627ec346, type: 2}
+      Value: 500
+    - Key: {fileID: 11400000, guid: 6baec08fad1edd040b3527f74c9f7224, type: 2}
+      Value: 50
+    - Key: {fileID: 11400000, guid: f5659fd46367dcd4baff29c611f0f5bc, type: 2}
+      Value: 300
+    - Key: {fileID: 11400000, guid: 0727135848fead74e90a9dbe595130b4, type: 2}
+      Value: 100
 --- !u!1 &1446535979329070326
 GameObject:
   m_ObjectHideFlags: 0
@@ -191,6 +201,8 @@ MonoBehaviour:
   fistContentType: {fileID: 11400000, guid: 359b6518478f2e643b27a8c05e43ae23, type: 2}
   patternManager: {fileID: 721333850165358362}
   defaultPatternSequence:
+  - {fileID: 2696566176842927287}
+  - {fileID: 2696566176842927287}
   - {fileID: 7475422502048948632}
   activeBatteryPatternSequence:
   - {fileID: 2696566176842927287}
