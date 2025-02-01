@@ -13,10 +13,7 @@ namespace BossRushJam25.PowerUps {
 
       public UnityEvent OnSetOfActivePowerUpsChanged { get; } = new UnityEvent();
 
-      public void Initialize() {
-         PowerUps.Clear();
-         SpawnPowerUpOnRandomEmptyHex(powerUpPrefab);
-      }
+      public void Initialize() => PowerUps.Clear();
 
       private void Start() {
          PowerUp.OnAnyCollected.AddListener(HandlePowerUpCollected);
