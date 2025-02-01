@@ -18,6 +18,7 @@ namespace BossRushJam25.GameControllers {
       private BossCore Boss { get; set; }
 
       public override void Enable() {
+         AffectedHexesManager.HideAllAffectedHexes();
          HexGridController.Instance.ClearGrid();
          if (Hero) Object.Destroy(Hero.gameObject);
          if (Boss) Object.Destroy(Boss.gameObject);
