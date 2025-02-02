@@ -46,8 +46,8 @@ namespace BossRushJam25.GameControllers {
       private void HandleUiShown() {
          SpinStrategy.Enable();
          GameInputs.Controls.Player.Enable();
-         GameInputs.Controls.Player.DamageHero.performed += HandleDamageHeroPerformed;
-         GameInputs.Controls.Player.DamageBoss.performed += HandleDamageBossPerformed;
+         // GameInputs.Controls.Player.DamageHero.performed += HandleDamageHeroPerformed;
+         // GameInputs.Controls.Player.DamageBoss.performed += HandleDamageBossPerformed;
          GameInputs.Controls.Player.ToggleControlHex.performed += HandleToggleControlHexPerformed;
          MainCanvas.Game.ControlHexToggle.OnClicked.AddListener(HandleControlHexToggleClicked);
 
