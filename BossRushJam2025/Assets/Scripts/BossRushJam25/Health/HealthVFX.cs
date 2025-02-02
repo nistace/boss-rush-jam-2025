@@ -24,6 +24,11 @@ public class HealthVFX : MonoBehaviour
 
     private void TriggerHitFeedbacks(int damageDelta)
     {
+        if(damageDelta > 0)
+        {
+            return;
+        }
+
         if(!hitFeedbacksPlayer.IsPlaying)
         {
             hitFeedbacksPlayer.PlayFeedbacks(position: Vector3.zero, feedbacksIntensity: Mathf.Max(1f, damageDelta));
