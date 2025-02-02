@@ -12,6 +12,7 @@ namespace BossRushJam25.Character.AI.Actions.ActionTriggers {
          action = null;
 
          if (!HexGridController.Instance.ControlHex.Active) return false;
+         if (HexGridController.Instance.ControlHex.GridHex.IsMoving) return false;
 
          Vector3 controlHexPosition = HexGridController.Instance.ControlHex.transform.position;
 

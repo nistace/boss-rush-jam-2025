@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using BossRushJam25.HexGrid;
+using UnityEngine;
 
 namespace BossRushJam25.ControlHexes {
    public class ControlHex : MonoBehaviour {
@@ -9,10 +10,12 @@ namespace BossRushJam25.ControlHexes {
       [SerializeField] protected MeshRenderer meshRenderer;
       [SerializeField] protected Material activeMaterial;
       [SerializeField] protected Material inactiveMaterial;
+      [SerializeField] protected GridHex gridHex;
 
       public bool Active => active;
 
       public HexContentDetector Detector => detector;
+      public GridHex GridHex => gridHex;
 
       private void Reset() {
          detector = GetComponentInChildren<HexContentDetector>();
