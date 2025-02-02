@@ -17,7 +17,7 @@ namespace BossRushJam25.Character.AI.Actions
 
         public AttackMeleeAction(CharacterCore character, GridHex targetHex, int basePriority = 0) : base(character, basePriority)
         {
-            if(!targetHex.ContentsAreDamageable(character.Type.DamageInfo.DamageType.AsFlags()))
+            if(!targetHex.ContentsAreDamageable(character.DamageInfo.DamageType.AsFlags()))
             {
                 Debug.Log("Nothing is attackable on this hex tile");
 
@@ -47,7 +47,7 @@ namespace BossRushJam25.Character.AI.Actions
             base.Execute();
 
             moveAction.Execute();
-            attackTimer = character.Type.DamageInfo.DamageTick;
+            attackTimer = character.DamageInfo.DamageTick;
         }
 
         public override void Update()
@@ -56,7 +56,7 @@ namespace BossRushJam25.Character.AI.Actions
 
             if(targetBossPattern == null
                 && targetHex != null
-                && !targetHex.ContentsAreDamageable(character.Type.DamageInfo.DamageType.AsFlags())
+                && !targetHex.ContentsAreDamageable(character.DamageInfo.DamageType.AsFlags())
                 )
             {
                 status = EActionStatus.Finished;
@@ -114,10 +114,10 @@ namespace BossRushJam25.Character.AI.Actions
 
             attackTimer += Time.deltaTime;
 
-            if(attackTimer > character.Type.DamageInfo.DamageTick)
+            if(attackTimer > character.DamageInfo.DamageTick)
             {
                 DoAttack();
-                attackTimer -= character.Type.DamageInfo.DamageTick;
+                attackTimer -= character.DamageInfo.DamageTick;
             }
 
             return true;
@@ -127,12 +127,12 @@ namespace BossRushJam25.Character.AI.Actions
         {
             if(targetHex != null)
             {
-                targetHex.TryDamageContents(character.Type.DamageInfo.Damage, character.Type.DamageInfo.DamageType);
+                targetHex.TryDamageContents(character.DamageInfo.Damage, character.DamageInfo.DamageType);
             }
 
             if(targetBossPattern != null)
             {
-                BossFightInfo.Hero.Health.Damage(character.Type.DamageInfo.Damage, character.Type.DamageInfo.DamageType);
+                BossFightInfo.Hero.Health.Damage(character.DamageInfo.Damage, character.DamageInfo.DamageType);
             }
 
             character.AttackFeedbacks.PlayFeedbacks();
