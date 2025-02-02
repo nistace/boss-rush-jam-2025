@@ -26,11 +26,7 @@ namespace BossRushJam25.Character.Heroes {
          if (characterCore.NavMeshAgent.velocity.x < -float.Epsilon) heroRenderer.flipX = true;
 
          animator.SetFloat(speedAnimParam, characterCore.NavMeshAgent.velocity.magnitude / characterCore.NavMeshAgent.speed);
-
-         if(characterCore.Health != null)
-         {
-            animator.SetBool(deadAnimParam, characterCore.Health.Empty);
-         }
+         animator.SetBool(deadAnimParam, characterCore.Health.Empty);
       }
    }
 }
