@@ -1266,7 +1266,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 15d3307325842e34e8416dfdfaf729e5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  displayDebugGUI: 1
+  displayDebugGUI: 0
   drawPreviews: 1
   evaluationTickPeriod: 0.2
   maxViableActionsCount: 3
@@ -1288,7 +1288,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4300564425374020743}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 65a3ebc00d975a74698f866f719262ac, type: 3}
   m_Name: 
