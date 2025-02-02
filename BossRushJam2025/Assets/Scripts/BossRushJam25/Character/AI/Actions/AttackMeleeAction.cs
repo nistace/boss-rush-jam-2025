@@ -1,4 +1,3 @@
-using System;
 using BossRushJam25.BossFights;
 using BossRushJam25.Character.Bosses;
 using BossRushJam25.Health;
@@ -26,7 +25,7 @@ namespace BossRushJam25.Character.AI.Actions
             }
 
             this.targetHex = targetHex;
-            Vector3 attackSpot = ComputeClosestAttackSpot(targetHex.transform.position);
+            Vector3 attackSpot = HexGridController.Instance.GetClosestPointOnHexBorderFrom(character.transform.position, targetHex);
             moveAction = new(base.character, attackSpot, Priority);
         }
 
@@ -40,13 +39,9 @@ namespace BossRushJam25.Character.AI.Actions
             }
 
             this.targetBossPattern = targetBossPattern;
-            Vector3 attackSpot = ComputeClosestAttackSpot(targetBossPattern.transform.position);
+            HexGridController.Instance.TryGetHex(targetBossPattern.transform.position, out GridHex hex);
+            Vector3 attackSpot = HexGridController.Instance.GetClosestPointOnHexBorderFrom(character.transform.position, hex);
             moveAction = new(base.character, attackSpot);
-        }
-
-        private Vector3 ComputeClosestAttackSpot(Vector3 targetPosition)
-        {
-            return targetPosition;
         }
 
         public override void Execute()

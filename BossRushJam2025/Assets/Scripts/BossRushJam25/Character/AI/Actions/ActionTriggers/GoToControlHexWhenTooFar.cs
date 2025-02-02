@@ -22,7 +22,9 @@ namespace BossRushJam25.Character.AI.Actions.ActionTriggers {
             return false;
          }
 
-         action = new MoveAction(character, controlHexPosition, priority, distanceImpactsPriority: false);
+         Vector3 targetedPosition = HexGridController.Instance.GetClosestPointOnHexBorderFrom(character.transform.position, HexGridController.Instance.ControlHex.GridHex);
+
+         action = new MoveAction(character, targetedPosition, priority, distanceImpactsPriority: false);
 
          return true;
       }

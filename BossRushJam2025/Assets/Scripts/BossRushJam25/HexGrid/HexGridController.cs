@@ -362,5 +362,10 @@ namespace BossRushJam25.HexGrid {
       }
 
       public Vector3 GetPeripheralPosition(Vector3 forward) => WorldCenter - forward * WorldRadius;
+
+      public Vector3 GetClosestPointOnHexBorderFrom(Vector3 position, GridHex hex)
+      {
+         return hex.transform.position + (position - hex.transform.position).normalized * hexRadius;
+      }
    }
 }
