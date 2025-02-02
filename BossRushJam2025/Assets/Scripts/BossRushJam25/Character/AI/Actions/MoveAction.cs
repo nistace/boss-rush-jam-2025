@@ -1,5 +1,6 @@
 using BossRushJam25.Character.AI.Actions.ActionData;
 using BossRushJam25.GameControllers;
+using BossRushJam25.HexGrid;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -13,6 +14,8 @@ namespace BossRushJam25.Character.AI.Actions
         protected bool distanceImpactsPriority;
 
         protected override EActionType Type => EActionType.Move;
+        protected bool targetIsHex;
+        protected Vector2Int hexCoordinates;
         public Vector3 Destination { get; private set; }
 
         public override EActionStatus Status
@@ -31,12 +34,21 @@ namespace BossRushJam25.Character.AI.Actions
             }
         }
 
+        //HACK: only used to get close to a non accessible hex
+        public MoveAction(CharacterCore character, GridHex hex, int basePriority = 0, bool distanceImpactsPriority = true) : this(character, HexGridController.Instance.GetClosestPointOnHexBorderFrom(character.transform.position, hex), basePriority, distanceImpactsPriority)
+        {
+            //this ensures that Equals will always return true if the same hex is targeted
+            targetIsHex = true;
+            hexCoordinates = hex.Coordinates;
+        }
+
         public MoveAction(CharacterCore character, Vector3 destination, int basePriority = 0, bool distanceImpactsPriority = true) : base(character, basePriority)
         {
             data = (MoveData)base.character.ActionPriorityHandler.ActionDataMap[EActionType.Move];
 
             Destination = destination;
             this.distanceImpactsPriority = distanceImpactsPriority;
+            targetIsHex = false;
         }
 
         public override void Execute()
@@ -138,7 +150,7 @@ namespace BossRushJam25.Character.AI.Actions
                 return false;
             }
 
-            return action.Destination == Destination;
+            return action.targetIsHex == targetIsHex && (targetIsHex ? action.hexCoordinates == hexCoordinates : action.Destination == Destination);
         }
 
         public override int GetHashCode()

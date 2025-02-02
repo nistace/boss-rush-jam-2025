@@ -25,8 +25,7 @@ namespace BossRushJam25.Character.AI.Actions
             }
 
             this.targetHex = targetHex;
-            Vector3 attackSpot = HexGridController.Instance.GetClosestPointOnHexBorderFrom(character.transform.position, targetHex);
-            moveAction = new(base.character, attackSpot, Priority);
+            moveAction = new(base.character, targetHex, Priority);
         }
 
         public AttackMeleeAction(CharacterCore character, int basePriority, BossAttackPattern targetBossPattern) : base(character, basePriority)
@@ -40,8 +39,7 @@ namespace BossRushJam25.Character.AI.Actions
 
             this.targetBossPattern = targetBossPattern;
             HexGridController.Instance.TryGetHex(targetBossPattern.transform.position, out GridHex hex);
-            Vector3 attackSpot = HexGridController.Instance.GetClosestPointOnHexBorderFrom(character.transform.position, hex);
-            moveAction = new(base.character, attackSpot);
+            moveAction = new(base.character, hex);
         }
 
         public override void Execute()
