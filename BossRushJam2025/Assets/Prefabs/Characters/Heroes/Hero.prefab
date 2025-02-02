@@ -144,7 +144,7 @@ MonoBehaviour:
     - rid: 6856056031395184859
       type: {class: MMF_Vignette_HDRP, ns: MoreMountains.FeedbacksForThirdParty, asm: MoreMountains.Tools}
       data:
-        Active: 1
+        Active: 0
         UniqueID: 718375645
         Label: Vignette HDRP
         OriginalLabel: Vignette HDRP
@@ -603,7 +603,7 @@ MonoBehaviour:
     - rid: 6856056031395184859
       type: {class: MMF_Vignette_HDRP, ns: MoreMountains.FeedbacksForThirdParty, asm: MoreMountains.Tools}
       data:
-        Active: 0
+        Active: 1
         UniqueID: 718375645
         Label: Vignette HDRP
         OriginalLabel: Vignette HDRP
