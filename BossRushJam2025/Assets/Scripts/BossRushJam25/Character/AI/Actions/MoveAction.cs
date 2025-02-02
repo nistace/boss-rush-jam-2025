@@ -87,7 +87,7 @@ namespace BossRushJam25.Character.AI.Actions
 
             PathDrawer.UpdatePath(pathLine, character.transform.position, path);
 
-            Color color = GameConfig.Instance.ActionPreviewsGradient.Evaluate(priorityValue01);
+            Color color = Color.red;
             pathLine.startColor = color;
             pathLine.endColor = color;
         }

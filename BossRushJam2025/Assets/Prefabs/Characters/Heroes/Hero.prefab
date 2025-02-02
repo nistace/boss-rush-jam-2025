@@ -1269,7 +1269,7 @@ MonoBehaviour:
   displayDebugGUI: 0
   drawPreviews: 1
   evaluationTickPeriod: 0.2
-  maxViableActionsCount: 3
+  maxViableActionsCount: 1
   actionDataMap:
     KeyValueList:
     - Key: 1
