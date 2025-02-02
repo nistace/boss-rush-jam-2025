@@ -81,7 +81,16 @@ namespace BossRushJam25.Character.AI.Actions
             }
 
             bool isAttacking = TryAttack();
-            character.Animator.SetAttackParameter(isAttacking);
+
+            if(isAttacking)
+            {
+                Vector3 targetPosition = GetTargetPosition();
+                character.Animator.StartAttack(targetIsOnLeft: targetPosition.x < character.transform.position.x);
+            }
+            else
+            {
+                character.Animator.StopAttack();
+            }
         }
 
         public override void Cancel()
@@ -89,7 +98,7 @@ namespace BossRushJam25.Character.AI.Actions
             base.Cancel();
 
             moveAction.Cancel();
-            character.Animator.SetAttackParameter(false);
+            character.Animator.StopAttack();
         }
 
         public override void CleanUp()
@@ -97,7 +106,7 @@ namespace BossRushJam25.Character.AI.Actions
             base.CleanUp();
 
             moveAction.CleanUp();
-            character.Animator.SetAttackParameter(false);
+            character.Animator.StopAttack();
         }
 
         //TODO: move in BatteryDetector if we want the hero to automatically attack the batteries when only passing by
@@ -138,17 +147,7 @@ namespace BossRushJam25.Character.AI.Actions
 
         private bool TargetIsInRange()
         {
-            Vector3 targetPosition = Vector3.negativeInfinity;
-
-            if(targetHex != null)
-            {
-                targetPosition = targetHex.transform.position;
-            }
-
-            if(targetBossPattern != null)
-            {
-                targetPosition = targetBossPattern.transform.position;
-            }
+            Vector3 targetPosition = GetTargetPosition();
 
             float sqrDistance = (targetPosition - character.transform.position).sqrMagnitude;
 
@@ -200,6 +199,23 @@ namespace BossRushJam25.Character.AI.Actions
             moveAction.ComputePriority();
 
             Priority += moveAction.Priority;
+        }
+
+        private Vector3 GetTargetPosition()
+        {
+            Vector3 targetPosition = Vector3.negativeInfinity;
+
+            if (targetHex != null)
+            {
+                targetPosition = targetHex.transform.position;
+            }
+
+            if (targetBossPattern != null)
+            {
+                targetPosition = targetBossPattern.transform.position;
+            }
+
+            return targetPosition;
         }
 
         public override string ToString()
