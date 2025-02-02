@@ -1,3 +1,4 @@
+using BossRushJam25.GameControllers;
 using BossRushJam25.HexGrid;
 using UnityEngine;
 
@@ -22,7 +23,7 @@ namespace BossRushJam25.Character.AI.Actions.ActionTriggers {
             return false;
          }
 
-         action = new MoveAction(character, HexGridController.Instance.ControlHex.GridHex, priority, distanceImpactsPriority: false);
+         action = new MoveAction(character, HexGridController.Instance.ControlHex.GridHex, GameConfig.Instance.GoToControlHexActionColor, priority, distanceImpactsPriority: false);
 
          return true;
       }

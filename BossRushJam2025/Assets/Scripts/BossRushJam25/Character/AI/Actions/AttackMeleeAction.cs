@@ -1,5 +1,6 @@
 using BossRushJam25.BossFights;
 using BossRushJam25.Character.Bosses;
+using BossRushJam25.GameControllers;
 using BossRushJam25.Health;
 using BossRushJam25.HexGrid;
 using UnityEngine;
@@ -25,7 +26,7 @@ namespace BossRushJam25.Character.AI.Actions
             }
 
             this.targetHex = targetHex;
-            moveAction = new(base.character, targetHex, Priority);
+            moveAction = new(base.character, targetHex, GameConfig.Instance.AttackActionColor, Priority);
         }
 
         public AttackMeleeAction(CharacterCore character, int basePriority, BossAttackPattern targetBossPattern) : base(character, basePriority)
@@ -39,7 +40,7 @@ namespace BossRushJam25.Character.AI.Actions
 
             this.targetBossPattern = targetBossPattern;
             HexGridController.Instance.TryGetHex(targetBossPattern.transform.position, out GridHex hex);
-            moveAction = new(base.character, hex);
+            moveAction = new(base.character, hex, GameConfig.Instance.AttackActionColor);
         }
 
         public override void Execute()
@@ -147,13 +148,13 @@ namespace BossRushJam25.Character.AI.Actions
             return targetPosition != Vector3.negativeInfinity && sqrDistance < character.Type.SqrMaxAttackDistance;
         }
 
-        public override void DrawPreview(float priorityValue01)
+        public override void DrawPreview()
         {
-            base.DrawPreview(priorityValue01);
+            base.DrawPreview();
 
             if(moveAction.Status != EActionStatus.Finished)
             {
-                moveAction.DrawPreview(priorityValue01);
+                moveAction.DrawPreview();
             }
         }
 

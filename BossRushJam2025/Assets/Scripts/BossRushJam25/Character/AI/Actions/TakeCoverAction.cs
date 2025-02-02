@@ -33,7 +33,7 @@ namespace BossRushJam25.Character.AI.Actions
             data = (TakeCoverData)base.character.ActionPriorityHandler.ActionDataMap[EActionType.TakeCover];
 
             Vector3 coverPosition = FindCoverFromOpponent();
-            moveAction = new(base.character, coverPosition);
+            moveAction = new(base.character, coverPosition, Color.black);
         }
 
         public override void Execute()
@@ -61,11 +61,11 @@ namespace BossRushJam25.Character.AI.Actions
             moveAction.CleanUp();
         }
 
-        public override void DrawPreview(float priorityValue01)
+        public override void DrawPreview()
         {
-            base.DrawPreview(priorityValue01);
+            base.DrawPreview();
 
-            moveAction.DrawPreview(priorityValue01);
+            moveAction.DrawPreview();
         }
 
         public override void DrawGizmos()

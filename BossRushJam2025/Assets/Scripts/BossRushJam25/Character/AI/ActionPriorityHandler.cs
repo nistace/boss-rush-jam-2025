@@ -107,7 +107,7 @@ namespace BossRushJam25.Character.AI
 
             for(int actionIndex = 0; actionIndex < viableActions.Count; actionIndex++)
             {
-                viableActions[actionIndex].DrawPreview(priorityValue01: (float)actionIndex / (maxViableActionsCount - 1));
+                viableActions[actionIndex].DrawPreview();
             }
         }
 
@@ -195,7 +195,7 @@ namespace BossRushJam25.Character.AI
 
         private void Update() {
             if (!BossFightInfo.IsPlaying) return;
-            
+
             ProcessActiveAction();
             DrawPreviews();
             CheckEvaluationTick();

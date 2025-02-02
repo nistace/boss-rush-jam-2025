@@ -1,3 +1,5 @@
+using System;
+using BossRushJam25.GameControllers;
 using BossRushJam25.PowerUps;
 using UnityEngine;
 
@@ -25,7 +27,14 @@ namespace BossRushJam25.Character.AI.Actions
         public CollectPowerUpAction(CharacterCore character, PowerUp powerUp, int basePriority = 0) : base(character, basePriority)
         {
             this.powerUp = powerUp;
-            moveAction = new(base.character, powerUp.transform.position);
+            Color color = powerUp.Type switch
+            {
+                PowerUpType type when type.HealAmount > 0 => GameConfig.Instance.HealthPowerUpColor,
+                PowerUpType type when type.DamageUpAmount > 0 => GameConfig.Instance.DamagePowerUpColor,
+                PowerUpType type when type.DamageSpeedUpAmount > 0 => GameConfig.Instance.SpeedPowerUpColor,
+                _ => throw new NotImplementedException()
+            };
+            moveAction = new(base.character, powerUp.transform.position, color);
         }
 
         public override void Execute()
@@ -49,13 +58,13 @@ namespace BossRushJam25.Character.AI.Actions
             moveAction.CleanUp();
         }
 
-        public override void DrawPreview(float priorityValue01)
+        public override void DrawPreview()
         {
-            base.DrawPreview(priorityValue01);
+            base.DrawPreview();
 
             if (moveAction.Status != EActionStatus.Finished)
             {
-                moveAction.DrawPreview(priorityValue01);
+                moveAction.DrawPreview();
             }
         }
 

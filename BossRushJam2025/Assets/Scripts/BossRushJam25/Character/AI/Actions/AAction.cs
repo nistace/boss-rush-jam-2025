@@ -1,4 +1,5 @@
 using System;
+using UnityEngine;
 
 namespace BossRushJam25.Character.AI.Actions
 {
@@ -39,7 +40,7 @@ namespace BossRushJam25.Character.AI.Actions
 
         }
 
-        public virtual void DrawPreview(float priorityValue01)
+        public virtual void DrawPreview()
         {
 
         }

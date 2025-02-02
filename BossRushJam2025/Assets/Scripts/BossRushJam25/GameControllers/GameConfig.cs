@@ -14,6 +14,12 @@ namespace BossRushJam25.GameControllers {
       [SerializeField] protected CharacterCore heroPrefab;
       [SerializeField] protected BossCore bossPrefab;
       [SerializeField] protected LineRenderer pathLinePrefab;
+      [SerializeField] protected Color attackActionColor;
+      [SerializeField] protected Color goToControlHexActionColor;
+      [SerializeField] protected Color healthPowerUpColor;
+      [SerializeField] protected Color speedPowerUpColor;
+      [SerializeField] protected Color damagePowerUpColor;
+
       [SerializeField] protected List<GridHexContentType> coverTypes;
 
       public PowerUpsManager PowerUpsManager => powerUpsManager;
@@ -21,6 +27,11 @@ namespace BossRushJam25.GameControllers {
       public CharacterCore HeroPrefab => heroPrefab;
       public BossCore BossPrefab => bossPrefab;
       public LineRenderer PathLinePrefab => pathLinePrefab;
+      public Color AttackActionColor => attackActionColor;
+      public Color GoToControlHexActionColor => goToControlHexActionColor;
+      public Color HealthPowerUpColor => healthPowerUpColor;
+      public Color SpeedPowerUpColor => speedPowerUpColor;
+      public Color DamagePowerUpColor => damagePowerUpColor;
       public List<GridHexContentType> CoverTypes => coverTypes;
 
       private void Awake() {

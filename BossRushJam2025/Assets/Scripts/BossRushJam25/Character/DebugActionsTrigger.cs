@@ -28,7 +28,7 @@ namespace BossRushJam25.Character
                 && hit.collider.gameObject.layer == LayerMask.NameToLayer("Ground")
                 )
             {
-                character.ActionPriorityHandler.ForceAction(new MoveAction(character, hit.point));
+                character.ActionPriorityHandler.ForceAction(new MoveAction(character, hit.point, Color.black));
             }
 
             if(Input.GetKeyDown(KeyCode.Alpha2))
