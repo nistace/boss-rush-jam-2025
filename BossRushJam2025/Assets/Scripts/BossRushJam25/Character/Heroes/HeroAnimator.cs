@@ -11,8 +11,14 @@ namespace BossRushJam25.Character.Heroes {
       [SerializeField] protected SpriteRenderer heroRenderer;
       [SerializeField] protected CharacterCore characterCore;
 
-      public void SetAttackParameter(bool isAttacking) {
-         animator.SetBool(attackingAnimParam, isAttacking);
+      public void StartAttack(bool targetIsOnLeft) {
+         animator.SetBool(attackingAnimParam, true);
+         heroRenderer.flipX = targetIsOnLeft;
+      }
+
+      public void StopAttack()
+      {
+         animator.SetBool(attackingAnimParam, false);
       }
 
       private void Reset() {
